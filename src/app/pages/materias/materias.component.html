@@ -1,0 +1,83 @@
+<div class="d-flex justify-content-center"><label>Catalogo de Materias</label></div><br>
+
+<div class="container" style="margin-left: 5px;">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Agregar
+        Materia</button>
+    <table class="table table-fixed">
+        <thead>
+            <tr>
+                <th class="col-xs-3">Clave</th>
+                <th class="col-xs-3">Nombre</th>
+                <th class="col-xs-3">Creditos</th>
+                <th class="col-xs-3">Fecha</th>
+                <th class="col-xs-3">Editar</th>
+                <th class="col-xs-3">Cancelar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-xs-3">A0001</td>
+                <td class="col-xs-3">Taller de Investigación</td>
+                <td class="col-xs-3">10</td>
+                <td class="col-xs-3">20/02/2024</td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
+
+            </tr>
+            <tr>
+                <td class="col-xs-3">A0002</td>
+                <td class="col-xs-3">Metodología de Investigación</td>
+                <td class="col-xs-3">20</td>
+                <td class="col-xs-3">20/02/2024</td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Materia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Clave:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Creditos:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                 <!--    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar Materia</button>
+            </div>
+        </div>
+    </div>
+</div>

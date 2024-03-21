@@ -1,0 +1,125 @@
+<h3 style="margin-left: 5px;"><b>{{nombre}}</b></h3>
+<p style="margin-left: 5px;">Paciente ID: {{ expediente }} </p>
+<!-- <label>Index {{tabRef.selectedIndex}}</label> -->
+<mat-tab-group #tabRef (selectedTabChange)="changeSelect(tabRef.selectedIndex)">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">account_box</mat-icon>
+            Generales
+        </ng-template>
+        <app-generales></app-generales>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">healing</mat-icon>
+            Estado de Salud Física y Mental.
+        </ng-template>
+        <app-saludfisica></app-saludfisica>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">feedback</mat-icon>
+            Antecedentes
+        </ng-template>
+        <app-antecedentes></app-antecedentes>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">description</mat-icon>
+            Problemática y Objetivos
+        </ng-template>
+        <app-problematica></app-problematica>
+      
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">person_outline</mat-icon>
+            Análisis Funcional.      
+        </ng-template>
+        <app-analisisfunc></app-analisisfunc>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">chrome_reader_mode</mat-icon>
+            Evolución del Problema.     
+        </ng-template>
+        <app-evoproblema></app-evoproblema>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">compare_arrows</mat-icon>
+            Línea de vida.  
+        </ng-template>
+        <app-lineavida></app-lineavida>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">feedback</mat-icon>
+            Otras áreas a considerar. 
+        </ng-template>
+        <app-areasconsiderar></app-areasconsiderar>
+    </mat-tab>
+ 
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">assignment_ind</mat-icon>
+            Diagnóstico DSMV. 
+        </ng-template>
+        <app-diagnostico></app-diagnostico>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">assessment</mat-icon>
+            Formulación del Caso (anexar diagrama) 
+        </ng-template>
+        <app-formcaso></app-formcaso>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">send</mat-icon>
+            Enviar Pruebas
+        </ng-template>
+        <app-enviopruebas></app-enviopruebas>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">assignment_turned_in</mat-icon>
+            Objetivos y propuesta de tratamiento.
+        </ng-template>
+        <app-tratamiento></app-tratamiento>
+    </mat-tab>
+    
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+            Perfil de Ideas Irracionales.
+        </ng-template>
+        <app-ideasirracionales></app-ideasirracionales>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">group</mat-icon>
+            Sesiones
+        </ng-template>
+       <app-sesiones></app-sesiones>
+
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">folder_shared</mat-icon>
+            Informes
+        </ng-template>
+        <app-informes></app-informes>
+    </mat-tab>
+</mat-tab-group>

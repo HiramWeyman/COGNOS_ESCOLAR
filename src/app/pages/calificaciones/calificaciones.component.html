@@ -1,0 +1,103 @@
+<div class="d-flex justify-content-center"><label>Calificaciones</label></div><br>
+
+<div class="container" style="margin-left: 5px;">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Registrar Calificación</button>
+    <table class="table table-bordered table-fixed">
+        <thead>
+            <tr>
+                <th class="col-xs-3">Grupo</th>
+                <th class="col-xs-3">Docente</th>
+                <th class="col-xs-3">Clave</th>
+                <th class="col-xs-3">Nombre Materia</th>
+                <th class="col-xs-3">Creditos</th>
+                <th class="col-xs-3">Puntaje</th>
+                <th class="col-xs-3">Puntaje con letra</th>
+                <th class="col-xs-3">Alumno</th>
+                <th class="col-xs-3">Editar</th>
+                <th class="col-xs-3">Cancelar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-xs-3">1A</td>
+                <td class="col-xs-3">Castro Santos Roberto</td>
+                <td class="col-xs-3">A0001</td>
+                <td class="col-xs-3">Taller de Investigación</td>
+                <td class="col-xs-3">10</td>
+                <td class="col-xs-3">8.0</td>
+                <td class="col-xs-3">Ocho punto cero</td>
+                <td class="col-xs-3">Santana Presa Erika</td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
+
+            </tr>
+            <tr>
+                <td class="col-xs-3">1A</td>
+                <td class="col-xs-3">Samaniego Gutierrez Erika</td>
+                <td class="col-xs-3">A0002</td>
+                <td class="col-xs-3">Metodología de Investigación</td>
+                <td class="col-xs-3">20</td>
+                <td class="col-xs-3">8.0</td>
+                <td class="col-xs-3">Ocho punto cero</td>
+                <td class="col-xs-3">Santos Rocha Pedro</td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
+                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Asignar Docente-Materia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="" selected="selected">Seleccione una Asignación Docente</option>
+                            <option value="1">1A Castro Santos Roberto</option>
+                            <option value="2">1A Samaniego Gutierrez Erika</option>
+                     <!--        <option value="3">1B</option>
+                            <option value="4">2B</option> -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="" selected="selected">Seleccione Alumno</option>
+                            <option value="1">Santos Rocha Pedro</option>
+                            <option value="2">Santana Presa Erika</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Puntaje:</label>
+                        <input type="number" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Puntaje con letra:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar Calificación</button>
+            </div>
+        </div>
+    </div>
+</div>

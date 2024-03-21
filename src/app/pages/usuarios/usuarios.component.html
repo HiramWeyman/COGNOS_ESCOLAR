@@ -1,0 +1,92 @@
+<div class="d-flex justify-content-center"><label>Catalogo de Usuarios</label></div>
+
+<div class="container">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Agregar Usuario</button>
+    <table class="table table-fixed">
+      <thead>
+        <tr>
+          <th class="col-xs-3">Nombre</th>
+          <th class="col-xs-3">Email</th>
+          <th class="col-xs-3">Estatus</th>
+          <th class="col-xs-3">Editar</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-xs-3">Castro Santos Roberto</td>
+          <td class="col-xs-3">Santos@gmail.com</td>
+          <td class="col-xs-3">Activo</td>
+          <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
+        </tr>    
+        <tr>
+            <td class="col-xs-3">Samaniego Gutierrez Erika</td>
+            <td class="col-xs-3">ErikaG@gmail.com</td>
+            <td class="col-xs-3">Activo</td>
+            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">Sifuentes Vazquez Paola</td>
+            <td class="col-xs-3">VazquezP@gmail.com</td>
+            <td class="col-xs-3">Inactivo</td>
+            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Apellido Materno:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Email:</label>
+                    <input type="email" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password:</label>
+                    <input type="password" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Perfil:</label>
+                      <select class="form-control">
+                        <option value="" selected="selected">Seleccione una Opción</option>
+                        <option value="1">Gestor</option>
+                        <option value="2">Profesor</option>
+                        <option value="3">Alumno</option>
+                      </select>
+                  </div>
+               <!--    <div class="form-group">
+                      <label for="message-text" class="col-form-label">Message:</label>
+                      <textarea class="form-control" id="message-text"></textarea>
+                  </div> -->
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary">Guardar Usuario</button>
+          </div>
+      </div>
+  </div>
+</div>
+

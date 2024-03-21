@@ -1,0 +1,69 @@
+
+<div class="d-flex justify-content-center"><label>Catalogo de Ciclos</label></div>
+
+<div class="container">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Agregar
+        Ciclo</button>
+    <table class="table table-fixed">
+      <thead>
+        <tr>
+          <th class="col-xs-3">Ciclo</th>
+          <th class="col-xs-3">Estatus</th>
+          <th class="col-xs-3">Abrir/Cerrar</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-xs-3">Semestre A 2024</td>
+          <td class="col-xs-3">A</td>
+          <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Abrir/Cerrar</button></td>
+         
+        </tr>    
+        <tr>
+            <td class="col-xs-3">Semestre B 2024</td>
+            <td class="col-xs-3">C</td>
+            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Abrir/Cerrar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Ciclo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  
+                  <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Nombre:</label>
+                      <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Estatus:</label>
+                      <select class="form-control">
+                        <option value="" selected="selected">Seleccione una Opción</option>
+                        <option value="A">Abierto</option>
+                        <option value="C">Cerrado</option>
+                      </select>
+                  </div>
+               <!--    <div class="form-group">
+                      <label for="message-text" class="col-form-label">Message:</label>
+                      <textarea class="form-control" id="message-text"></textarea>
+                  </div> -->
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary">Guardar Ciclo</button>
+          </div>
+      </div>
+  </div>
+</div>
