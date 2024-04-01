@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.renderer.addClass(
+     /*    this.renderer.addClass(
             document.querySelector('app-root'),
             'register-page'
         );
@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             password: new UntypedFormControl(null, [Validators.required]),
             retypePassword: new UntypedFormControl(null, [Validators.required])
         });
-        this.usuario.usr_per_id=0;
+        this.usuario.usr_per_id=0; */
     }
 
     async registerByAuth() {
@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
     }
 
-    registro() {
+   /*  registro() {
         this.blockUI.start('Registrando...');
         this.usuario.usr_email=this.usuario.usr_email.trim();
         this.subscription = this.appService.Registro(this.usuario)
@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     text: error.error.errorMessages[0],
                     icon: 'info'});
             });
-        }
+        } */
 
  /*    async registerByGoogle() {
         this.isGoogleLoading = true;
