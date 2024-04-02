@@ -49,7 +49,7 @@ export class CiclosComponent {
     this._ciclos.GetCicloID(id).subscribe(
       cl => {
         this.ciclo = cl[0];
-        console.log(this.ciclo );
+        //console.log(this.ciclo );
         this.fecIni =this.datePipe.transform(this.ciclo.fechaInicio,"yyyy-MM-dd");
         this.ciclo.fechaInicio= this.fecIni;
         this.fecFin =this.datePipe.transform(this.ciclo.fechaFin,"yyyy-MM-dd");
@@ -98,7 +98,7 @@ export class CiclosComponent {
 
   Guardar(){
     this.blockUI.start('Guardando Usuario...');
-    console.log(this.ciclo);
+    //console.log(this.ciclo);
     if(!this.ciclo.titulo){
       this.blockUI.stop();
       swal.fire({

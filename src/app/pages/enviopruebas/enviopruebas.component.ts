@@ -1,8 +1,8 @@
 import { Pacientes } from '@/models/Pacientes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PruebasService } from '@services/enviarpruebas.service';
-import { PacientesService } from '@services/pacientes.service';
-import { SharednumberService } from '@services/sharednumber.service';
+/* import { PacientesService } from '@services/pacientes.service';
+ */import { SharednumberService } from '@services/sharednumber.service';
 import swal from 'sweetalert2';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
@@ -36,8 +36,8 @@ export class EnviopruebasComponent implements OnInit {
   constructor(
  
     private sharednumber:SharednumberService,
-    private _pac: PacientesService,
-    private _env:PruebasService
+/*     private _pac: PacientesService,
+ */    private _env:PruebasService
 
   ) { }
   ngOnInit(): void {
@@ -58,15 +58,15 @@ export class EnviopruebasComponent implements OnInit {
   }
 
   cargarPacientes() {
-    this._pac.GetPaciente(this.ExpedienteId).subscribe(
+/*     this._pac.GetPaciente(this.ExpedienteId).subscribe(
       pac => {
         this.pac = pac;
-       /*  console.log(this.pac); */
+   
        
       }, error => {
-        //console.log(error);
+      
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-      });
+      }); */
   }
 
   cargarPruebaSCL() {

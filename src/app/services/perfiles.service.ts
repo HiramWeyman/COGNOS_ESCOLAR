@@ -1,9 +1,12 @@
-import { AnalisisFU } from '@/models/AnalisisFU';
-import { SaludFM } from '@/models/SaludFM';
+
+import { Perfil } from '@/models/Perfil';
+import { PerfilIns } from '@/models/PerfilIns';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable, map } from 'rxjs';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,18 @@ export class PerfilesService {
     return this.http.get(`${environment.rutaAPI}` + 'getPerfiles');
   }
 
-  UpdateUsuarios(analisis: AnalisisFU): Observable<AnalisisFU> {
-    return this.http.patch<AnalisisFU>(`${environment.rutaAPI}` + '/AnalisisFU/'+analisis.analisis_id, analisis);
+  GetPerfilID(id:number): Observable<Perfil> {
+    return this.http.get<Perfil>(`${environment.rutaAPI}` + 'getPerfil/'+id);
+  }
+
+  UpdatePerfil(perfil: Perfil): Observable<Perfil> {
+    return this.http.patch<Perfil>(`${environment.rutaAPI}` + 'updatePerfil/'+perfil.perfilID, perfil);
+  }
+
+  GuardarPerfil(perfil: Perfil): Observable<Perfil> {
+    
+    perfil.perfilID=0;
+    console.log(perfil);
+    return this.http.post<Perfil>(`${environment.rutaAPI}`+'insertPerfil', perfil);
   }
 }

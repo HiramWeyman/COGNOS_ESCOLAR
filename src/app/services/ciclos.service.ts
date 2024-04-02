@@ -1,8 +1,6 @@
 
 import { Ciclos } from '@/models/Ciclos';
 import { CiclosIns } from '@/models/CiclosIns';
-import { Usuarios } from '@/models/Usuarios';
-import { UsuariosIns } from '@/models/UsuariosIns';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
