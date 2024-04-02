@@ -1,5 +1,4 @@
-import { AnalisisFU } from '@/models/AnalisisFU';
-import { SaludFM } from '@/models/SaludFM';
+
 import { Usuarios } from '@/models/Usuarios';
 import { UsuariosIns } from '@/models/UsuariosIns';
 import { HttpClient } from '@angular/common/http';

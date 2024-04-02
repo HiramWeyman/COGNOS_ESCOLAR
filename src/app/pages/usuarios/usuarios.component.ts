@@ -23,7 +23,7 @@ this.cargarUsuarios();
 }
 constructor(private router: Router,private _user:UsuariosService){}
 
-UsuariosService
+
 
 cargarUsuarios() {
   this._user.GetUsuarios().subscribe(
@@ -46,7 +46,6 @@ GetDatos(id:number){
       console.log(error);
       swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
     });
-  
 }
 
 Limpiar(){

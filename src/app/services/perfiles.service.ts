@@ -17,7 +17,7 @@ export class PerfilesService {
 
 
   GetPerfiles(): Observable<any> {
-    return this.http.get(`${environment.rutaAPI}` + 'getUsuarios');
+    return this.http.get(`${environment.rutaAPI}` + 'getPerfiles');
   }
 
   UpdateUsuarios(analisis: AnalisisFU): Observable<AnalisisFU> {
