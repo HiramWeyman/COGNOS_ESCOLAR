@@ -1,5 +1,5 @@
-import { Pacientes } from '@/models/Pacientes';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+/* import { Pacientes } from '@/models/Pacientes';
+ */import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PruebasService } from '@services/enviarpruebas.service';
 /* import { PacientesService } from '@services/pacientes.service';
  */import { SharednumberService } from '@services/sharednumber.service';
@@ -19,8 +19,9 @@ export class EnviopruebasComponent implements OnInit {
   UsuarioId: any;
   UsuarioNombre: any;
   Indextab:any;
-  pac: Pacientes = new Pacientes();
-  pruebascl:any;
+/*   pac: Pacientes = new Pacientes();
+ */  pruebascl:any;
+ pac:any;
   pruebascid:any;
   prueba!: File;
   habilitaSCL:boolean=false;

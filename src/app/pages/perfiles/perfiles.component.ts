@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';

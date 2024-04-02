@@ -6,9 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Login } from '@/models/Login';
 import { Observable, map } from 'rxjs';
-import { Sesion } from '@/models/Sesion';
+/* import { Sesion } from '@/models/Sesion';
 import { SesionVista } from '@/models/SesionVista';
-import { Comentarios } from '@/models/Comentarios';
+import { Comentarios } from '@/models/Comentarios'; */
 import { Envio } from '@/models/envioPruebas';
 
 @Injectable({
