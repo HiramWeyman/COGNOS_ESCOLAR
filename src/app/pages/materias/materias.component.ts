@@ -18,8 +18,7 @@ export class MateriasComponent {
   @ViewChild('myModalClose') modalClose;
   Materias:any;
   materia:Materia=new Materia();
-/*   materiaIns:materiaIns=new materiaIns();
- */  resp:any;
+  resp:any;
   fecCrea:any;
 
   ngOnInit(): void {

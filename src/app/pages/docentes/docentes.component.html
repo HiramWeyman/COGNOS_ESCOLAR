@@ -1,32 +1,22 @@
+<block-ui>
 <div class="d-flex justify-content-center"><label>Catalogo de Docentes</label></div>
 
 <div class="container">
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Agregar Docente</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Agregar Docente</button>
     <table class="table table-fixed">
       <thead>
         <tr>
           <th class="col-xs-3">Nombre</th>
-          <th class="col-xs-3">Estatus</th>
           <th class="col-xs-3">Editar</th>
-         
+          <th class="col-xs-3">Cancelar</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="col-xs-3">Castro Santos Roberto</td>
-          <td class="col-xs-3">Activo</td>
-          <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Editar</button></td>
+        <tr *ngFor="let item of Docentes">
+          <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
+          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetDocente(item.docenteID)">Editar</button></td>
+          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.docenteID)">Cancelar</button></td>
         </tr>    
-        <tr>
-            <td class="col-xs-3">Samaniego Gutierrez Erika</td>
-            <td class="col-xs-3">Activo</td>
-            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Editar</button></td>
-        </tr>
-        <tr>
-            <td class="col-xs-3">Sifuentes Vazquez Paola</td>
-            <td class="col-xs-3">Inactivo</td>
-            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Editar</button></td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -36,43 +26,49 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agregar Docente</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Docentes</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
           <div class="modal-body">
-              <form>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Apellido Materno:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                </div>
-              <!--     <div class="form-group">
-                      <label for="recipient-name" class="col-form-label">Estatus:</label>
-                      <select class="form-control">
-                        <option value="" selected="selected">Seleccione una Opción</option>
-                        <option value="A">Abierto</option>
-                        <option value="C">Cerrado</option>
-                      </select>
-                  </div> -->
-               <!--    <div class="form-group">
-                      <label for="message-text" class="col-form-label">Message:</label>
-                      <textarea class="form-control" id="message-text"></textarea>
-                  </div> -->
-              </form>
+            <ng-template [ngIf]="docente.docenteID" [ngIfElse]="elseBlock">
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
+                <input type="text" class="form-control" id="recipient-name" [(ngModel)]="docente.paterno">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Apellido Materno:</label>
+                <input type="text" class="form-control" id="recipient-name" [(ngModel)]="docente.materno">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Nombre:</label>
+                <input type="text" class="form-control" id="recipient-name" [(ngModel)]="docente.nombre">
+            </div>
+            </ng-template>
+            <ng-template #elseBlock>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Usuario Docente:</label>
+                <select class="form-control" [(ngModel)]="docenteIns.usuarioID">
+                  <option selected="selected">Seleccione una Opción</option>
+                  <option *ngFor="let item of Usuarios" [value]="item.usuarioID">
+                  {{item.paterno}} {{item.materno}} {{item.nombre}}
+                  </option>
+                </select>
+              </div>
+            </ng-template>
+              
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Guardar Docente</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+            <ng-template [ngIf]="docente.docenteID" [ngIfElse]="elseBlock2">
+              <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Docente</button>
+            </ng-template>
+            <ng-template #elseBlock2>
+              <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Docente</button>
+            </ng-template>
           </div>
       </div>
   </div>
 </div>
+</block-ui>
