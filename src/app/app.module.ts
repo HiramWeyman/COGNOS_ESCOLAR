@@ -69,6 +69,7 @@ import { TipodocumentoComponent } from './pages/tipodocumento/tipodocumento.comp
 import { DocumentoComponent } from './pages/documento/documento.component';
 import { AsignaciondocenteComponent } from './pages/asignaciondocente/asignaciondocente.component';
 import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
+import { AlumnogpoComponent } from './pages/alumnogpo/alumnogpo.component';
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -107,6 +108,7 @@ registerLocaleData(localeEn, 'en-EN');
         DocumentoComponent,
         AsignaciondocenteComponent,
         CalificacionesComponent,
+        AlumnogpoComponent,
     ],
     imports: [
         ProfabricComponentsModule,

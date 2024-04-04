@@ -23,6 +23,7 @@ import { TipodocumentoComponent } from '@pages/tipodocumento/tipodocumento.compo
 import { DocumentoComponent } from '@pages/documento/documento.component';
 import { AsignaciondocenteComponent } from '@pages/asignaciondocente/asignaciondocente.component';
 import { CalificacionesComponent } from '@pages/calificaciones/calificaciones.component';
+import { AlumnogpoComponent } from '@pages/alumnogpo/alumnogpo.component';
 
 const routes: Routes = [
     {
@@ -90,6 +91,10 @@ const routes: Routes = [
             {
                 path: 'calificacion',
                 component: CalificacionesComponent
+            },
+            {
+                path: 'alunogpo',
+                component: AlumnogpoComponent
             },
             {
                 path: '',
