@@ -1,8 +1,19 @@
 <block-ui>
-<div class="d-flex justify-content-center"><label>Catalogo de Usuarios</label></div>
+  <div class="d-flex justify-content-center"><label>Catalogo de Usuarios</label></div>
 
-<div class="container">
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="Limpiar()">Agregar Usuario</button>
+  <div class="container">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"
+      (click)="Limpiar()" style="width: 200px;">Agregar Usuario</button>
+    <br>
+    <br>
+    <div>
+      <select (change)="onTableSizeChange($event)" class="form-control" style="width: 200px;">
+        <option selected>No. de registros</option>
+        <option *ngFor="let item of tableSizes">{{item}}</option>
+      </select>
+    </div>
+ 
+  
     <table class="table table-fixed">
       <thead>
         <tr>
@@ -11,11 +22,15 @@
           <th class="col-xs-3">Estatus</th>
           <th class="col-xs-3">Editar</th>
           <th class="col-xs-3">Acciones</th>
-         
+
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Usuarios">
+        <tr *ngFor="let item of Usuarios |paginate:{
+          itemsPerPage:tableSize,
+          currentPage:page,
+          totalItems:count
+        }; let i=index">
           <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
           <td class="col-xs-3">{{item.mail}}</td>
           <td class="col-xs-3">
@@ -26,65 +41,74 @@
               <label>Inactivo</label>
             </ng-template>
           </td>
-          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" [disabled]="!item.activo" (click)="GetDatos(item.usuarioID)">Editar</button></td>
-          <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
-        </tr>    
+          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+              data-target="#exampleModal" [disabled]="!item.activo" (click)="GetDatos(item.usuarioID)">Editar</button>
+          </td>
+          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm"(click)="Delete(item.usuarioID)">Cancelar</button></td>
+        </tr>
       </tbody>
     </table>
+    <div>
+      <pagination-controls previousLabel="Ant" nextLabel="Sig" [responsive]="true"
+        (pageChange)="onTableDataChange($event)">
+      </pagination-controls>
+    </div>
   </div>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Usuarios</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Usuarios</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
+            <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.paterno">
           </div>
-          <div class="modal-body">
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
-                    <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.paterno">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Apellido Materno:</label>
-                    <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.materno">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.nombre">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Email:</label>
-                    <input type="email" class="form-control" id="recipient-name" [(ngModel)]="user.mail">
-                </div>
-                <div class="form-group"  *ngIf="!user.usuarioID">
-                    <label for="recipient-name" class="col-form-label">Password:</label>
-                    <input type="password" class="form-control" id="recipient-name" [(ngModel)]="user.password">
-                </div>
-                <div class="form-group">
-                      <label for="recipient-name" class="col-form-label">Perfil:</label>
-                      <select class="form-control" [(ngModel)]="user.perfilID">
-                        <option value="" selected="selected">Seleccione una Opción</option>
-                        <option  *ngFor="let item of Perfiles" [value]="item.perfilID">{{item.nombrePerfil}}</option>
-                      </select>
-                  </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Apellido Materno:</label>
+            <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.materno">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Nombre:</label>
+            <input type="text" class="form-control" id="recipient-name" [(ngModel)]="user.nombre">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Email:</label>
+            <input type="email" class="form-control" id="recipient-name" [(ngModel)]="user.mail">
+          </div>
+          <div class="form-group" *ngIf="!user.usuarioID">
+            <label for="recipient-name" class="col-form-label">Password:</label>
+            <input type="password" class="form-control" id="recipient-name" [(ngModel)]="user.password">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Perfil:</label>
+            <select class="form-control" [(ngModel)]="user.perfilID">
+              <option value="" selected="selected">Seleccione una Opción</option>
+              <option *ngFor="let item of Perfiles" [value]="item.perfilID">{{item.nombrePerfil}}</option>
+            </select>
+          </div>
 
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary"  data-dismiss="modal" #myModalClose>Cerrar</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
 
-              <ng-template [ngIf]="user.usuarioID" [ngIfElse]="elseBlock">
-                <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Usuario</button>
-              </ng-template>
-              <ng-template #elseBlock>
-                <button type="button" class="btn btn-primary" id="guarda" name="guarda"  (click)="Guardar()">Guardar Usuario</button>
-              </ng-template>
-              
-          </div>
+          <ng-template [ngIf]="user.usuarioID" [ngIfElse]="elseBlock">
+            <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar
+              Usuario</button>
+          </ng-template>
+          <ng-template #elseBlock>
+            <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar
+              Usuario</button>
+          </ng-template>
+
+        </div>
       </div>
+    </div>
   </div>
-</div>
 </block-ui>

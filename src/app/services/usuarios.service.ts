@@ -29,4 +29,8 @@ export class UsuariosService {
   UpdateUsuarios(user: Usuarios): Observable<Usuarios> {
     return this.http.patch<Usuarios>(`${environment.rutaAPI}` + 'updateUsuario/'+user.usuarioID, user);
   }
+
+  DeleteUsuario(id:number): Observable<Usuarios> {
+    return this.http.patch<Usuarios>(`${environment.rutaAPI}` + 'deleteUsuario/'+id, "");
+  }
 }

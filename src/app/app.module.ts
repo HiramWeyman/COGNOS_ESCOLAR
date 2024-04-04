@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 import {AppRoutingModule} from '@/app-routing.module';
 import {AppComponent} from './app.component';
 import {MainComponent} from '@modules/main/main.component';
@@ -71,6 +71,7 @@ import { AsignaciondocenteComponent } from './pages/asignaciondocente/asignacion
 import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
 import { AlumnogpoComponent } from './pages/alumnogpo/alumnogpo.component';
 
+
 registerLocaleData(localeEn, 'en-EN');
 
 @NgModule({
@@ -109,6 +110,7 @@ registerLocaleData(localeEn, 'en-EN');
         AsignaciondocenteComponent,
         CalificacionesComponent,
         AlumnogpoComponent,
+
     ],
     imports: [
         ProfabricComponentsModule,
@@ -118,6 +120,7 @@ registerLocaleData(localeEn, 'en-EN');
         FormsModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
+        NgxPaginationModule,
         AppRoutingModule,
         ReactiveFormsModule,
         MatIconModule,
