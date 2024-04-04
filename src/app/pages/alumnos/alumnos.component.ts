@@ -34,7 +34,7 @@ export class AlumnosComponent {
       this._alumno.GetAlumnos().subscribe(
         al => {
           this.Alumnos = al;
-          console.log(this.Alumnos);
+          //console.log(this.Alumnos);
         
         }, error => {
           //console.log(error);
@@ -46,7 +46,7 @@ export class AlumnosComponent {
       this._alumno.GetUsuariosEst().subscribe(
         est => {
           this.Usuarios = est;
-          console.log(this.Usuarios);
+          //console.log(this.Usuarios);
          
         }, error => {
           //console.log(error);
@@ -58,7 +58,7 @@ export class AlumnosComponent {
       this._alumno.GetAlumnoID(id).subscribe(
         mat => {
           this.alumno= mat[0];
-          console.log(this.alumno );
+          //console.log(this.alumno );
        
         }, error => {
          // console.log(error);
@@ -91,7 +91,7 @@ export class AlumnosComponent {
     } */
 
     Guardar(){
-      this.blockUI.start('Guardando docente...');
+      this.blockUI.start('Guardando Alumno...');
    
 
       if(this.alumnoIns.usuarioID==null){

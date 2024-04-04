@@ -50,6 +50,11 @@ export const MENU = [
         path: ['/asignacion']
     },
     {
+        name: 'Asignación Alumno-Gpo',
+        iconClasses: 'fas fa-user-graduate',
+        path: ['/alunogpo']
+    },
+    {
         name: 'Calificaciones',
         iconClasses: 'fas fa-file-contract',
         path: ['/calificacion']

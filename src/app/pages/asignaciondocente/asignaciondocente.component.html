@@ -1,98 +1,107 @@
-<div class="d-flex justify-content-center"><label>Asignación Docente</label></div><br>
+<block-ui>
+    <div class="d-flex justify-content-center"><label>Asignación Docente</label></div><br>
 
-<div class="container" style="margin-left: 5px;">
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Asignación Docente</button>
-    <table class="table table-fixed">
-        <thead>
-            <tr>
-                <th class="col-xs-3">Grupo</th>
-                <th class="col-xs-3">Docente</th>
-                <th class="col-xs-3">Clave</th>
-                <th class="col-xs-3">Nombre Materia</th>
-                <th class="col-xs-3">Creditos</th>
-                <th class="col-xs-3">Fecha</th>
-                <th class="col-xs-3">Editar</th>
-                <th class="col-xs-3">Cancelar</th>
+    <div class="row" style="margin-left: 5px;">
+        <div class="form-group">
+            <label>Busqueda por Grupo</label>
+            <select class="form-control" (change)="onChangeGpo($event.target.value)">
+                <option value="0" selected="selected">Seleccione Un Grupo</option>
+                <option value="0">Todos las Grupos</option>
+                <option value="1">1A</option>
+            </select>
+        </div>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="col-xs-3">1A</td>
-                <td class="col-xs-3">Castro Santos Roberto</td>
-                <td class="col-xs-3">A0001</td>
-                <td class="col-xs-3">Taller de Investigación</td>
-                <td class="col-xs-3">10</td>
-                <td class="col-xs-3">20/02/2024</td>
-                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
-                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
-
-            </tr>
-            <tr>
-                <td class="col-xs-3">1A</td>
-                <td class="col-xs-3">Samaniego Gutierrez Erika</td>
-                <td class="col-xs-3">A0002</td>
-                <td class="col-xs-3">Metodología de Investigación</td>
-                <td class="col-xs-3">20</td>
-                <td class="col-xs-3">20/02/2024</td>
-                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
-                <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm">Cancelar</button></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <div class="form-group">
+            <label>Busqueda por Materia</label>
+            <select class="form-control" (change)="onChangeMat($event.target.value)">
+                <option value="0" selected="selected">Seleccione Una Materia</option>
+                <option value="0">Todas las Materias</option>
+                <option *ngFor="let item of Materias" [value]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
+            </select>
+        </div>
 
 
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button> -->
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Asignar Docente-Materia</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option value="" selected="selected">Seleccione una Grupo</option>
-                            <option value="1">1A</option>
-                            <option value="2">2A</option>
-                            <option value="3">1B</option>
-                            <option value="4">2B</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option value="" selected="selected">Seleccione un Docente</option>
-                            <option value="1">Castro Santos Roberto</option>
-                            <option value="2">Samaniego Gutierrez Erika</option>
-                            <option value="3">Sifuentes Vazquez Paola</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option value="" selected="selected">Seleccione una Materia</option>
-                            <option value="A0001">Taller de Investigación</option>
-                            <option value="A0002">Metodología de Investigación</option>
-                         
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar Asignación</button>
+        
+    </div>
+    <div class="container" style="margin-left: 5px;">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Asignación Docente</button>
+        <table class="table table-fixed">
+            <thead>
+                <tr>
+                    <th class="col-xs-3">Grupo</th>
+                    <th class="col-xs-3">Docente</th>
+                    <th class="col-xs-3">Clave</th>
+                    <th class="col-xs-3">Nombre Materia</th>
+                    <th class="col-xs-3">Creditos</th>
+                    <th class="col-xs-3">Editar</th>
+                    <th class="col-xs-3">Cancelar</th>
+    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of AsignaDoc">
+                    <td class="col-xs-3">{{item.nombreGpo}}</td>
+                    <td class="col-xs-3">{{item.paternoDoc}} {{item.maternoDoc}} {{item.nombreDoc}}</td>
+                    <td class="col-xs-3">{{item.clave}}</td>
+                    <td class="col-xs-3">{{item.nombreMat}}</td>
+                    <td class="col-xs-3">{{item.creditos}}</td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAsigna(item.asignacionID)">Editar</button></td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.asignacionID)">Cancelar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+      </button> -->
+    
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Docente-Materia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="asignacion.grupoID">
+                                <option selected>Seleccione una Grupo</option>
+                                <option [ngValue]="1">1A</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="asignacion.docenteID">
+                                <option selected>Seleccione un Docente</option>
+                                <option *ngFor="let item of Docentes" [ngValue]="item.docenteID">{{item.paterno}} {{item.materno}} {{item.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="asignacion.materiaID">
+                                <option value="" selected="selected">Seleccione una Materia</option>
+                                <option *ngFor="let item of Materias" [ngValue]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
+                            </select>
+                        </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+                    <ng-template [ngIf]="asignacion.asignacionID" [ngIfElse]="elseBlock2">
+                      <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Asignación</button>
+                    </ng-template>
+                    <ng-template #elseBlock2>
+                      <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Asignación</button>
+                    </ng-template>
+                  </div>
             </div>
         </div>
     </div>
-</div>
+</block-ui>
