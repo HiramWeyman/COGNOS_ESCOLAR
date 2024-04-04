@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center"><label>Catalogo de Grupos</label></div>
 
 <div class="container">
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Agregar Grupo</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Agregar Grupo</button>
     <table class="table table-fixed">
       <thead>
         <tr>
@@ -25,6 +25,7 @@
               <label>Inactivo</label>
             </ng-template>
           </td>
+          <td class="col-xs-3">{{item.titulo}}</td>
           <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetGrupo(item.grupoID)">Editar</button></td>
         </tr>    
         <!-- <tr>
@@ -64,46 +65,47 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agregar Docente</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Grupos</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
           <div class="modal-body">
-              <form>
+      
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" class="form-control" id="recipient-name" [(ngModel)]="grupo.nombre">
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Descripción:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" class="form-control" id="recipient-name" [(ngModel)]="grupo.descripcion">
                 </div>
                 <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Estatus:</label>
-                      <select class="form-control">
+                      <select class="form-control" [(ngModel)]="grupo.activo">
                         <option value="" selected="selected">Seleccione una Opción</option>
-                        <option value="S">Activo</option>
-                        <option value="N">Inactivo</option>
+                        <option [value]="true">Activo</option>
+                        <option [value]="false">Inactivo</option>
                       </select>
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Ciclo:</label>
-                    <select class="form-control">
-                      <option value="" selected="selected">Seleccione una Opción</option>
-                      <option value="1">Semestre A 2024</option>
-                      <option value="2">Semestre B 2024</option>
+                    <select class="form-control" [(ngModel)]="grupo.cicloID">
+                      <option selected>Seleccione una Opción</option>
+                      <option *ngFor="let item of CiclosRec" [value]="item.cicloID">{{item.titulo}}</option>
                     </select>
                 </div>
-               <!--    <div class="form-group">
-                      <label for="message-text" class="col-form-label">Message:</label>
-                      <textarea class="form-control" id="message-text"></textarea>
-                  </div> -->
-              </form>
+
+              
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Guardar Grupo</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+            <ng-template [ngIf]="grupo.grupoID" [ngIfElse]="elseBlock">
+              <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Grupo</button>
+            </ng-template>
+            <ng-template #elseBlock>
+              <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Grupo</button>
+            </ng-template>
           </div>
       </div>
   </div>

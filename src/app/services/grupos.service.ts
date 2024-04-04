@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Observable, map } from 'rxjs';
 import { Grupo } from '@/models/Grupo';
+import { GrupoIns } from '@/models/GrupoIns';
 
 
 
@@ -27,10 +28,14 @@ export class GruposService {
     return this.http.patch<Grupo>(`${environment.rutaAPI}` + 'updateGrupo/'+grupo.grupoID, grupo);
   }
 
-  GuardarGrupo(grupo: Grupo): Observable<Grupo> {
+  GuardarGrupo(grupo: GrupoIns): Observable<GrupoIns> {
     
-    grupo.grupoID=0;
+    grupo.GrupoID=0;
     console.log(grupo);
-    return this.http.post<Grupo>(`${environment.rutaAPI}`+'insertGrupo', grupo);
+    return this.http.post<GrupoIns>(`${environment.rutaAPI}`+'insertGrupo', grupo);
+  }
+
+  DeleteGrupo(id: number): Observable<Grupo> {
+    return this.http.patch<Grupo>(`${environment.rutaAPI}` + 'updateGrupo/'+id,"");
   }
 }

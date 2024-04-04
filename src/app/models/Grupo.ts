@@ -1,6 +1,6 @@
 export class Grupo {
     grupoID :number;
-    nombreGrupo :string; 
+    nombre :string; 
     descripcion :string; 
     activo :boolean;
     cicloID : number;

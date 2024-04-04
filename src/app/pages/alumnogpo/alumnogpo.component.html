@@ -1,1 +1,111 @@
-<p>alumnogpo works!</p>
+<block-ui>
+    <div class="d-flex justify-content-center"><label>Asignación Alumno Grupo</label></div><br>
+
+    <div class="row" style="margin-left: 5px;">
+        <div class="form-group">
+            <label>Busqueda por Grupo</label>
+            <select class="form-control" (change)="onChangeGpo($event.target.value)">
+                <option value="0" selected="selected">Seleccione Un Grupo</option>
+                <option value="0">Todos las Grupos</option>
+                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
+            </select>
+        </div>
+
+     <!--    <div class="form-group">
+            <label>Busqueda por Materia</label>
+            <select class="form-control" (change)="onChangeMat($event.target.value)">
+                <option value="0" selected="selected">Seleccione Una Materia</option>
+                <option value="0">Todas las Materias</option>
+                <option *ngFor="let item of Materias" [value]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
+            </select>
+        </div> -->
+
+
+        
+    </div>
+    <div class="container" style="margin-left: 5px;">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Asignación Alumno-Gpo</button>
+        <table class="table table-fixed">
+            <thead>
+                <tr>
+                    <th class="col-xs-3">Grupo</th>
+                    <th class="col-xs-3">Descripcion</th>
+                    <th class="col-xs-3">Estudiante</th>
+          <!--           <th class="col-xs-3">Nombre Materia</th>
+                    <th class="col-xs-3">Creditos</th>
+                    <th class="col-xs-3">Editar</th>
+                    <th class="col-xs-3">Cancelar</th> -->
+    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of AsignaAlGpo">
+                    <td class="col-xs-3">{{item.grupoNombre}}</td>
+                    <td class="col-xs-3">{{item.grupoDesc}}</td>
+                    <td class="col-xs-3">{{item.estudianteNombre}}</td>
+                    
+      <!--               <td class="col-xs-3">{{item.nombreMat}}</td>
+                    <td class="col-xs-3">{{item.creditos}}</td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAsigna(item.asignacionID)">Editar</button></td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.asignacionID)">Cancelar</button></td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+      </button> -->
+    
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Alumno-Grupo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="alumnoGpo.grupoID">
+                             
+                                <option value="0" selected="selected">Seleccione Un Grupo</option>
+                                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="alumnoGpo.estudianteID">
+                                <option value="0" selected="selected">Seleccione Un Estudiante</option>
+                                <option *ngFor="let item of Alumnos" [value]="item.estudianteID">{{item.paterno}} {{item.materno}} {{item.nombre}}</option>
+                            </select>
+                        </div>
+                        <!-- <div class="form-group">
+                            <select class="form-control" [(ngModel)]="asignacion.materiaID">
+                                <option value="" selected="selected">Seleccione una Materia</option>
+                                <option *ngFor="let item of Materias" [ngValue]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
+                            </select>
+                        </div> -->
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Asignación Alumno Gpo</button>
+                <!--     <ng-template [ngIf]="asignacion.asignacionID" [ngIfElse]="elseBlock2">
+                      <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Asignación</button>
+                    </ng-template>
+                    <ng-template #elseBlock2>
+                      <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Asignación</button>
+                    </ng-template> -->
+                  </div>
+            </div>
+        </div>
+    </div>
+</block-ui>
+

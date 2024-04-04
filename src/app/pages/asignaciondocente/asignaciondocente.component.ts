@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
-
 import { AlumnoIns } from '@/models/AlumnoIns';
 import { DocenteService } from '@services/docente.service';
 import { MateriaService } from '@services/materia.service';
 import { AsignacionService } from '@services/asignacion.service';
 import { Asigna } from '@/models/Asignadocgpo';
+import { GruposService } from '@services/grupos.service';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class AsignaciondocenteComponent {
   Usuarios: any;
   Materias: any;
   Docentes: any;
+  Grupos:any;
   AsignaDoc: any;
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoIns = new AlumnoIns();
@@ -33,12 +34,14 @@ export class AsignaciondocenteComponent {
     this.cargarAsignacion();
     this.cargarDocentes();
     this.cargarMaterias();
+    this.cargarGrupos();
   }
   constructor(
     private router: Router,
     private _asignacion: AsignacionService,
     private _docente: DocenteService,
     private _materia: MateriaService,
+    private _grupo:GruposService,
     private datePipe: DatePipe) { }
 
   cargarAsignacion() {
@@ -82,6 +85,19 @@ export class AsignaciondocenteComponent {
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
+
+  cargarGrupos() {
+    this._grupo.GetGrupos().subscribe(
+      per => {
+        this.Grupos = per;
+        console.log(this.Grupos);
+       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
   ///////Busqueda de Asignacion por Materia
   onChangeMat(id: number) {
     console.log()
