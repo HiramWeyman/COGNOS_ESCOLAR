@@ -68,10 +68,7 @@
                       <label for="recipient-name" class="col-form-label">Perfil:</label>
                       <select class="form-control" [(ngModel)]="user.perfilID">
                         <option value="" selected="selected">Seleccione una Opción</option>
-                        <option value="1">Alumno</option>
-                        <option value="2">Docente</option>
-                        <option value="3">Gestor</option>
-                        <option value="4">Administrador</option>
+                        <option  *ngFor="let item of Perfiles" [value]="item.perfilID">{{item.nombrePerfil}}</option>
                       </select>
                   </div>
 

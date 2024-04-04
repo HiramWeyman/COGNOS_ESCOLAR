@@ -2,6 +2,7 @@ import { Usuarios } from '@/models/Usuarios';
 import { UsuariosIns } from '@/models/UsuariosIns';
 import { Component,OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { PerfilesService } from '@services/perfiles.service';
 import { UsuariosService } from '@services/usuarios.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import swal from 'sweetalert2';
@@ -15,13 +16,15 @@ export class UsuariosComponent {
 blockUI!: NgBlockUI;
 @ViewChild('myModalClose') modalClose;
 Usuarios:any;
+Perfiles:any;
 user:Usuarios=new Usuarios();
 userIns:UsuariosIns=new UsuariosIns();
 resp:any;
 ngOnInit(): void {
 this.cargarUsuarios();
+this.cargarPerfiles();
 }
-constructor(private router: Router,private _user:UsuariosService){}
+constructor(private router: Router,private _user:UsuariosService,private _perfil:PerfilesService){}
 
 
 
@@ -30,6 +33,18 @@ cargarUsuarios() {
     usr => {
       this.Usuarios = usr;
       console.log(this.Usuarios);
+     
+    }, error => {
+      //console.log(error);
+      swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+    });
+}
+
+cargarPerfiles() {
+  this._perfil.GetPerfiles().subscribe(
+    per => {
+      this.Perfiles = per;
+      console.log(this.Perfiles);
      
     }, error => {
       //console.log(error);
