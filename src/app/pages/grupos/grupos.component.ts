@@ -167,25 +167,37 @@ export class GruposComponent {
   }
 
   Delete(id:number){
-    this._grupo.DeleteGrupo(id).subscribe(datos => {
-    
-      if(datos){
-        this.blockUI.stop();
-        this.resp=datos;
-        swal.fire('Cancelando Grupo', `${this.resp.descripcion}`, 'success');
-        this.router.navigate(['/grupos']); 
-     
+    swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrarlo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._grupo.DeleteGrupo(id).subscribe(
+          datos => {
+            if (datos) {
+              this.blockUI.stop();
+              this.resp = datos;
+              swal.fire('Eliminando Grupo', `${this.resp.descripcion}`, 'success');
+              this.router.navigate(['/grupos']); 
+            }
+            this.ngOnInit();
+          },
+          error => {
+            this.blockUI.stop();
+            console.log(error);
+            //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+          }
+        );
       }
-      this.ngOnInit();
-  
-    },error => {
-      this.blockUI.stop();
-      console.log(error);
-      //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
     });
   }
-
-
+  
   limpiar(){
     this.grupo.grupoID=null;
     this.grupo.nombre=null;

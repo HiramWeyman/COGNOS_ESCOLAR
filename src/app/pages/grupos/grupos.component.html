@@ -10,6 +10,7 @@
           <th class="col-xs-3">Activo</th>
           <th class="col-xs-3">Ciclo</th>
           <th class="col-xs-3">Editar</th>
+          <th class="col-xs-3">Cancelar</th>
          
         </tr>
       </thead>
@@ -27,6 +28,8 @@
           </td>
           <td class="col-xs-3">{{item.titulo}}</td>
           <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetGrupo(item.grupoID)">Editar</button></td>
+          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.grupoID)">Cancelar</button></td>
+
         </tr>    
         <!-- <tr>
           <td class="col-xs-3">1A</td>
