@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Gatekeeper } from 'gatekeeper-client-sdk';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { Login } from '@/models/Login';
+import { SesionDto } from '@/models/Login';
 import { Observable, map } from 'rxjs';
 import { Usuarios } from '@/models/Usuarios';
 import { EnvioCorreo } from '@/models/EnvioCorreo';
@@ -20,24 +20,24 @@ export class AppService {
 
     public urlEndPoint = `${environment.rutaAPI}`;
 
-     getLogin(login: Login): Observable<Login[]> {
+     getLogin(login: SesionDto): Observable<SesionDto[]> {
         //console.log(login);
         // const urlEndPoint: string = `${environment.rutaAPI}/Login/`+matricula;
-        return this.http.post<Usuarios>(this.urlEndPoint + '/Usuarios/login', login).pipe(
+        return this.http.post<Usuarios>(this.urlEndPoint + 'login', login).pipe(
             // return this.http.get("/api/Login/"+matricula).pipe(
             map((response: any) => {
            /*      sessionStorage.Login = login.toString();
                 localStorage.setItem(_TOKEN, login.toString()); */
                 // sessionStorage.setItem(_TOKEN, matricula.toString());
-                //console.log(response);
-                this.username=response.result.usuario.usr_nombre.toString()+' '+response.result.usuario.usr_paterno.toString()+' '+response.result.usuario.usr_materno.toString();
-                sessionStorage.setItem('UserMail', response.result.usuario.usr_email.toString());
-                sessionStorage.setItem('UserId', response.result.usuario.usr_id);
-                sessionStorage.setItem('UserPerfil', response.result.usuario.usr_per_id);
+                console.log(response);
+                this.username=response.nombre.toString()+' '+response.paterno.toString()+' '+response.materno.toString();
+                sessionStorage.setItem('UserMail', response.mail.toString());
+                sessionStorage.setItem('UserId', response.usuarioID);
+                sessionStorage.setItem('UserPerfil', response.perfilID);
                 sessionStorage.setItem('UserName', this.username);
-                this.user = response.result.usuario.usr_email.toString();
+                this.user = response.mail.toString();
                // console.log(response);
-                console.log(response.result.usuario.usr_email);
+                console.log(response.mail);
                 console.log(this.user);
                 this.router.navigate(['/']);
                 this.toastr.success('Login exitoso');
@@ -144,7 +144,7 @@ export class AppService {
 
     async getProfile() {
         try {
-            this.user = sessionStorage.UserLogin;
+            this.user = sessionStorage.UserMail;
             
             /* this.user = await Gatekeeper.getProfile(); */
         } catch (error) {

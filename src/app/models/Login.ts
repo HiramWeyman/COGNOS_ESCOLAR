@@ -1,4 +1,5 @@
-export class Login {
-    usr_email: string;
-    usr_password: string;
+export class SesionDto {
+    Mail: string;
+    Password: string;
+
     }

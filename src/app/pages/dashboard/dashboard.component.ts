@@ -14,8 +14,8 @@ constructor(private router: Router){}
         this.name=sessionStorage.getItem('UserName'); 
         this.userId=sessionStorage.getItem('UserId'); 
         console.log(sessionStorage.getItem('UserName'));
-    /*     if(this.name==null||this.name==null){
+        if(this.name==null||this.name==null){
             this.router.navigate(['/login']);
-        } */
+        } 
     }
 }

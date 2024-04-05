@@ -8,7 +8,8 @@ import {
 import {UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {AppService} from '@services/app.service';
-import { Login } from '@/models/Login';
+import { SesionDto } from '@/models/Login';
+/* import { Login } from '@/models/Login'; */
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public isGoogleLoading = false;
     public isFacebookLoading = false;
     private subscription: Subscription;
-    public loginx: Login = new Login();
+    public loginx: SesionDto = new SesionDto();
 
     constructor(
         private renderer: Renderer2,
@@ -71,17 +72,34 @@ export class LoginComponent implements OnInit, OnDestroy {
     
         login() {
             this.isAuthLoading = true;
-            this.router.navigate(['/']);
-            this.toastr.success('Login exitoso');
-/*             console.log(this.loginx);
+       /*      this.router.navigate(['/']);
+            this.toastr.success('Login exitoso');  */
+            //console.log(this.loginx);
+            if(!this.loginx.Mail){
+                this.isAuthLoading = false;
+                swal.fire({
+                    icon: 'info',
+                    title: 'Ingrese su email'
+                });
+                return;
+            }
+
+            if(!this.loginx.Password){
+                this.isAuthLoading = false;
+                swal.fire({
+                    icon: 'info',
+                    title: 'Ingrese su password'
+                });
+                return;
+            }
             this.subscription = this.appService.getLogin(this.loginx)
                 .subscribe((data: any) => {
                     if ( data != null) {
-                        //console.log(data);
+                        console.log(data);
                         swal.fire({
                             icon: 'success',
                             title: 'Usuario Logeado',
-                            text: 'Bienvenido ' + data.result.usuario.usr_nombre,
+                            text: 'Bienvenido ' + data.nombre.toString()+' '+data.paterno.toString()+' '+data.materno.toString(),
                             timer: 2000
                         });
                         this.isAuthLoading = false;
@@ -99,13 +117,13 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.isAuthLoading = false;
                     console.log(error);
                   
-                    console.log(error.error.errorMessages);
-                    console.log(error.error.errorMessages[0]);
+                    console.log(error.error.descripcion);
+                    
                     swal.fire({
                         title: 'ERROR!!!',
-                        text: error.error.errorMessages[0],
+                        text: error.error.descripcion,
                         icon: 'error'});
-                }); */
+                }); 
             }
 
     async loginByGoogle() {
