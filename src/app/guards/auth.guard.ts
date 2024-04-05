@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     async getProfile() {
-        console.log(this.appService.user);
+        //console.log(this.appService.user);
         if(this.appService.user==null){
             this.router.navigate(['/login']);
         } 

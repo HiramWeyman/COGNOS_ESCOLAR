@@ -16,7 +16,9 @@ export class MenuSidebarComponent implements OnInit {
     public ui: Observable<UiState>;
     public user;
     public menu = MENU;
-
+    public menu2 = MENU2;
+    public menu3 = MENU3;
+    perfil:number;
     constructor(
         public appService: AppService,
         private store: Store<AppState>
@@ -24,6 +26,7 @@ export class MenuSidebarComponent implements OnInit {
 
     ngOnInit() {
         this.user =sessionStorage.getItem('UserMail'); 
+        this.perfil = Number(sessionStorage.getItem('UserPerfil'));
         /* this.user = this.appService.user; */
         this.ui = this.store.select('ui');
         this.ui.subscribe((state: UiState) => {
@@ -32,7 +35,7 @@ export class MenuSidebarComponent implements OnInit {
         this.user =sessionStorage.getItem('UserMail'); 
     }
 }
-
+//Administrador
 export const MENU = [
     {
         name: 'Dashboard',
@@ -112,3 +115,166 @@ export const MENU = [
         ]
     }
 ];
+//Alumnos y Maestros
+export const MENU2 = [
+    {
+        name: 'Dashboard',
+        iconClasses: 'fas fa-tachometer-alt',
+        path: ['/']
+    },
+   /*  {
+        name: 'Blank',
+        iconClasses: 'fas fa-file',
+        path: ['/blank']
+    } 
+    {
+        name: 'Asignación Docente',
+        iconClasses: 'fas fa-user-cog',
+        path: ['/asignacion']
+    },
+    {
+        name: 'Asignación Alumno-Gpo',
+        iconClasses: 'fas fa-user-graduate',
+        path: ['/alunogpo']
+    },
+    */
+    {
+        name: 'Calificaciones',
+        iconClasses: 'fas fa-file-contract',
+        path: ['/calificacion']
+    },
+
+  /*   {
+        name: 'Catalogos',
+        iconClasses: 'fas fa-cogs',        
+        children: [
+            {
+                name: 'Alumnos',
+                iconClasses: 'far fa-address-book',
+                path: ['/alumnos']
+            },
+            {
+                name: 'Docentes',
+                iconClasses: 'fas fa-briefcase',
+                path: ['/docentes']
+            },
+            {
+                name: 'Grupos',
+                iconClasses: 'fas fa-users',
+                path: ['/grupos']
+            },
+            {
+                name: 'Materias',
+                iconClasses: 'fas fa-book',
+                path: ['/materias']
+            },
+            {
+                name: 'Ciclos',
+                iconClasses: 'fas fa-calendar',
+                path: ['/ciclos']
+            },  
+            {
+                name: 'Perfiles',
+                iconClasses: 'fas fa-user-tie',
+                path: ['/perfil']
+            },
+            {
+                name: 'Usuarios',
+                iconClasses: 'fas fa-user-plus',
+                path: ['/usuarios']
+            },
+            {
+                name: 'Tipo Documento',
+                iconClasses: 'fas fa-file-invoice',
+                path: ['/tipodoc']
+            },
+            {
+                name: 'Documentos',
+                iconClasses: 'fas fa-file-contract',
+                path: ['/documento']
+            }, 
+        ]
+    } */
+];
+//Gestor
+export const MENU3 = [
+    {
+        name: 'Dashboard',
+        iconClasses: 'fas fa-tachometer-alt',
+        path: ['/']
+    },
+   /*  {
+        name: 'Blank',
+        iconClasses: 'fas fa-file',
+        path: ['/blank']
+    } */
+    {
+        name: 'Asignación Docente',
+        iconClasses: 'fas fa-user-cog',
+        path: ['/asignacion']
+    },
+    {
+        name: 'Asignación Alumno-Gpo',
+        iconClasses: 'fas fa-user-graduate',
+        path: ['/alunogpo']
+    },
+    
+   /*  {
+        name: 'Calificaciones',
+        iconClasses: 'fas fa-file-contract',
+        path: ['/calificacion']
+    }, */
+
+    {
+        name: 'Catalogos',
+        iconClasses: 'fas fa-cogs',        
+        children: [
+            {
+                name: 'Alumnos',
+                iconClasses: 'far fa-address-book',
+                path: ['/alumnos']
+            },
+            {
+                name: 'Docentes',
+                iconClasses: 'fas fa-briefcase',
+                path: ['/docentes']
+            },
+            {
+                name: 'Grupos',
+                iconClasses: 'fas fa-users',
+                path: ['/grupos']
+            },
+            {
+                name: 'Materias',
+                iconClasses: 'fas fa-book',
+                path: ['/materias']
+            },
+            {
+                name: 'Ciclos',
+                iconClasses: 'fas fa-calendar',
+                path: ['/ciclos']
+            },  
+            {
+                name: 'Perfiles',
+                iconClasses: 'fas fa-user-tie',
+                path: ['/perfil']
+            },
+            {
+                name: 'Usuarios',
+                iconClasses: 'fas fa-user-plus',
+                path: ['/usuarios']
+            },
+            {
+                name: 'Tipo Documento',
+                iconClasses: 'fas fa-file-invoice',
+                path: ['/tipodoc']
+            },
+            {
+                name: 'Documentos',
+                iconClasses: 'fas fa-file-contract',
+                path: ['/documento']
+            }, 
+        ]
+    } 
+];
+
