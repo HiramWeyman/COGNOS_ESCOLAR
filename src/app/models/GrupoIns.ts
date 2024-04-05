@@ -3,4 +3,5 @@ export class GrupoIns {
     Nombre :string; 
     Descripcion :string; 
     CicloID :number;
+    Activo :boolean;
 }

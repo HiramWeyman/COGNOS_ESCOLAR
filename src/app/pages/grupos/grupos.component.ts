@@ -70,14 +70,21 @@ export class GruposComponent {
       });
   }
   Actualizar(){
-    this._grupo.UpdateGrupo(this.grupo).subscribe(datos => {
-    
+   
+    this.grupoIns.GrupoID=this.grupo.grupoID;
+    this.grupoIns.Nombre=this.grupo.nombre;
+    this.grupoIns.Descripcion=this.grupo.descripcion;
+    this.grupoIns.CicloID=this.grupo.cicloID;
+    this.grupoIns.Activo=this.grupo.activo;
+    this._grupo.UpdateGrupo(this.grupoIns).subscribe(datos => {
+ 
       if(datos){
         this.blockUI.stop();
         this.resp=datos;
         swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
         this.router.navigate(['/grupos']); 
         this.limpiar();
+        this.limpiar2();
         this.modalClose.nativeElement.click();
       }
       this.ngOnInit();
@@ -147,6 +154,7 @@ export class GruposComponent {
         swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
         this.router.navigate(['/grupos']); 
         this.limpiar();
+        this.limpiar2();
         this.modalClose.nativeElement.click();
       }
       this.ngOnInit();
@@ -184,5 +192,13 @@ export class GruposComponent {
     this.grupo.descripcion=null;
     this.grupo.activo=null;
     this.grupo.cicloID=null;
+  }
+
+  limpiar2(){
+    this.grupoIns.GrupoID=null;
+    this.grupoIns.Nombre=null;
+    this.grupoIns.Descripcion=null;
+    this.grupoIns.Activo=null;
+    this.grupoIns.CicloID=null;
   }
 }

@@ -24,8 +24,8 @@ export class GruposService {
     return this.http.get<Grupo>(`${environment.rutaAPI}` + 'getGrupo/'+id);
   }
 
-  UpdateGrupo(grupo: Grupo): Observable<Grupo> {
-    return this.http.patch<Grupo>(`${environment.rutaAPI}` + 'updateGrupo/'+grupo.grupoID, grupo);
+  UpdateGrupo(grupo: GrupoIns): Observable<GrupoIns> {
+    return this.http.patch<GrupoIns>(`${environment.rutaAPI}` + 'updateGrupo/'+grupo.GrupoID, grupo);
   }
 
   GuardarGrupo(grupo: GrupoIns): Observable<GrupoIns> {

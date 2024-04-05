@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="asignacion.grupoID">
                                 <option selected>Seleccione una Grupo</option>
-                                <option [ngValue]="1">1A</option>
+                                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
                             </select>
                         </div>
     

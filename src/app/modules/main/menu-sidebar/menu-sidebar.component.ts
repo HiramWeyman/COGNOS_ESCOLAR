@@ -62,6 +62,11 @@ export const MENU = [
         iconClasses: 'fas fa-file-contract',
         path: ['/calificacion']
     },
+    {
+        name: 'Documentos',
+        iconClasses: 'fas fa-file-contract',
+        path: ['/documento']
+    }, 
 
     {
         name: 'Catalogos',
@@ -218,6 +223,11 @@ export const MENU3 = [
         iconClasses: 'fas fa-user-graduate',
         path: ['/alunogpo']
     },
+    {
+        name: 'Documentos',
+        iconClasses: 'fas fa-file-contract',
+        path: ['/documento']
+    }, 
     
    /*  {
         name: 'Calificaciones',
@@ -269,11 +279,7 @@ export const MENU3 = [
                 iconClasses: 'fas fa-file-invoice',
                 path: ['/tipodoc']
             },
-            {
-                name: 'Documentos',
-                iconClasses: 'fas fa-file-contract',
-                path: ['/documento']
-            }, 
+          
         ]
     } 
 ];
