@@ -126,6 +126,11 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }); 
             }
 
+            save(event) {
+                this.login();
+                //console.log("You entered: ", event.target.value);
+              }
+
     async loginByGoogle() {
         this.isGoogleLoading = true;
         await this.appService.loginByGoogle();
