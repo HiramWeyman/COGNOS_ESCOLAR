@@ -36,6 +36,6 @@ export class GruposService {
   }
 
   DeleteGrupo(id: number): Observable<Grupo> {
-    return this.http.patch<Grupo>(`${environment.rutaAPI}` + 'updateGrupo/'+id,"");
+    return this.http.patch<Grupo>(`${environment.rutaAPI}` + 'deleteGrupo/'+id,"");
   }
 }

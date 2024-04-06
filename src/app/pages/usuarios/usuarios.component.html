@@ -13,10 +13,10 @@
       </select>
     </div>
  
-  
     <table class="table table-fixed">
       <thead>
         <tr>
+          <th class="col-xs-3">Perfil</th> <!-- Agregar nueva columna para el emoji del perfil -->
           <th class="col-xs-3">Nombre</th>
           <th class="col-xs-3">Email</th>
           <th class="col-xs-3">Estatus</th>
@@ -31,6 +31,10 @@
           currentPage:page,
           totalItems:count
         }; let i=index">
+        <td class="col-xs-3 emoji-cell">
+          <!-- Expresión condicional para mostrar emoji dependiendo del perfil -->
+          {{ item.perfilID === 1 ? '👤' : item.perfilID === 2 ? '👩🏻‍🏫' : item.perfilID === 3 ? '👨🏽‍💻' : item.perfilID === 4 ? '👨🏽‍⚖️' : 'N/A' }}
+        </td>
           <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
           <td class="col-xs-3">{{item.mail}}</td>
           <td class="col-xs-3">
