@@ -146,22 +146,34 @@ export class AlumnosComponent {
     }
 
     Delete(id:number){
-      this._alumno.DeleteAlumno(id).subscribe(datos => {
-    
-        if(datos){
-          this.blockUI.stop();
-          this.resp=datos;
-          swal.fire('Cancelando Alumno', `${this.resp.descripcion}`, 'success');
-          this.router.navigate(['/alumnos']); 
-       
+      swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrarlo',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this._alumno.DeleteAlumno(id).subscribe(
+            datos => {
+              if (datos) {
+                this.blockUI.stop();
+                this.resp = datos;
+                swal.fire('Eliminando Alumno', `${this.resp.descripcion}`, 'success');
+                this.router.navigate(['/alumnos']); 
+              }
+              this.ngOnInit();
+            },
+            error => {
+              this.blockUI.stop();
+              console.log(error);
+              //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+            }
+          );
         }
-        this.ngOnInit();
-    
-      },error => {
-        this.blockUI.stop();
-        console.log(error);
-        //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
-      
     }
 }
