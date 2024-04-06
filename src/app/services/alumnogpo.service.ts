@@ -16,9 +16,9 @@ export class AlumnoGpoService {
   constructor(private http: HttpClient) { }
   public urlEndPoint = `${environment.rutaAPI}`;
   
-  GetAsignacionAlGpo(): Observable<any> {
+/*   GetAsignacionAlGpo(): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getAsignacioneAlumnoGpo');
-  }
+  } */
   
   GetAsignacionGpo(id:number): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocGpo/'+id);
@@ -30,6 +30,10 @@ export class AlumnoGpoService {
 
   GetAsignaID(id:number): Observable<Asigna> {
     return this.http.get<Asigna>(`${environment.rutaAPI}` + 'getAsignacionesDocID/'+id);
+  }
+
+  GetListaAlumnos(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getAsignacioneAlumnoGpo/'+id);
   }
 
   UpdateAsigna(asigna: Asigna): Observable<Asigna> {

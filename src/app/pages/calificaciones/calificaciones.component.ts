@@ -90,4 +90,23 @@ export class CalificacionesComponent {
           swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
         });
     }
+
+     ///////Busqueda de Alumno
+     onChangeAlumno(id: number) {
+    if (id == 0) {
+      this.cargarAsignacion();
+    } else {
+      this.AsignaDoc = null;
+      this._asignacion.GetAsignacionGpo(id).subscribe(
+        mat => {
+          this.AsignaDoc = mat;
+          //console.log(this.AsignaDoc);
+
+        }, error => {
+          // console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+    }
+
+  }
 }

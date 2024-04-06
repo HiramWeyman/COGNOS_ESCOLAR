@@ -1,4 +1,7 @@
 export class AlumnoGpo {
-    estudianteID:number;
-    grupoID:number;
+    AsignacionID:number;
+    GrupoID:number;
+    EstudianteID:number;
+    UsuarioCreacionID:number;
+    
 }

@@ -68,12 +68,9 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <select class="form-control">
+                        <select class="form-control" (change)="onChangeAlumno($event.target.value)">
                             <option value="" selected="selected">Seleccione una Asignación Docente</option>
-                            <option value="1">1A Castro Santos Roberto</option>
-                            <option value="2">1A Samaniego Gutierrez Erika</option>
-                     <!--        <option value="3">1B</option>
-                            <option value="4">2B</option> -->
+                            <option *ngFor="let item of AsignaDoc" [value]="item.asignacionID">{{item.nombreGpo}} {{item.nombreMat}}--{{item.paternoDoc}} {{item.maternoDoc}} {{item.nombreDoc}}</option>
                         </select>
                     </div>
 
