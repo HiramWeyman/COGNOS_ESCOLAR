@@ -15,6 +15,7 @@ import { AlumnoGpo } from '@/models/AlumnoGpo';
 import { Asigna } from '@/models/Asignadocgpo';
 import { AlumnoIns } from '@/models/AlumnoIns';
 import { AsignacionService } from '@services/asignacion.service';
+import { Calificacion } from '@/models/Calificacion';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -34,6 +35,7 @@ export class AlumnogpoComponent {
   Alumnos:any;
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
+  alumnoCal: Calificacion = new Calificacion();
   resp: any;
   fecCrea: any;
   user: any;
@@ -188,12 +190,19 @@ export class AlumnogpoComponent {
     console.log(this.alumnoIns);
     this.alumnoIns.EstudianteID=Number(this.alumnoIns.EstudianteID);
     console.log(this.alumnoIns);
+    //Modelo para Guardar Calificacion
+    this.alumnoCal.AsignacionID=this.alumnoIns.AsignacionID;
+    this.alumnoCal.EstudianteID=this.alumnoIns.EstudianteID;
+    this.alumnoCal.Puntaje=0;
+    this.alumnoCal.PuntajeLetra="";
     this._alumnoGpo.GuardarAlumnoGpo(this.alumnoIns).subscribe(datos => {
 
       if (datos) {
+
         this.blockUI.stop();
         this.resp = datos;
         swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
+        this._alumnoGpo.GuardarCalificacionTemp(this.alumnoCal).subscribe();
         this.router.navigate(['/alunogpo']);
         this.limpiar();
         this.modalClose.nativeElement.click();
@@ -215,6 +224,11 @@ export class AlumnogpoComponent {
     this.alumnoIns.AsignacionID=null;
     this.alumnoIns.GrupoID=null;
     this.alumnoIns.EstudianteID=null;
+
+    this.alumnoCal.AsignacionID=null;
+    this.alumnoCal.EstudianteID=null;
+    this.alumnoCal.Puntaje=null;
+    this.alumnoCal.PuntajeLetra=null;
    
   }
 

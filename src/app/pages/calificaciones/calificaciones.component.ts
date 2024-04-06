@@ -25,6 +25,7 @@ export class CalificacionesComponent {
   Docentes: any;
   Grupos: any;
   AsignaDoc: any;
+  Alumnos: any;
   Perfil: any;
   UserId: any;
   asignacion: Asigna = new Asigna();
@@ -35,9 +36,10 @@ export class CalificacionesComponent {
   ngOnInit(): void {
     this.Perfil = sessionStorage.UserPerfil;
     this.UserId = sessionStorage.UserId;
+    this.cargarGrupos();
     console.log(this.Perfil);
     console.log(this.UserId);
-    switch (Number(this.Perfil)) {
+ /*    switch (Number(this.Perfil)) {
       case 1: {
         //statements; 
         break;
@@ -52,7 +54,7 @@ export class CalificacionesComponent {
         break;
       }
 
-    }
+    } */
 
   }
 
@@ -65,48 +67,49 @@ export class CalificacionesComponent {
     private _calificacion:CalificacionService,
     private datePipe: DatePipe) { }
 
-    cargarAsignacion() {
-      this._asignacion.GetAsignacion().subscribe(
-        asig => {
-          this.AsignaDoc = asig;
-          //console.log(this.AsignaDoc);
-  
-  
+    cargarGrupos() {
+      this._grupo.GetGrupos().subscribe(
+        per => {
+          this.Grupos = per;
+          console.log(this.Grupos);
+         
         }, error => {
           //console.log(error);
           swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
         });
     }
 
-    cargarAsignacionProfesor() {
-      this._calificacion.GetAsignacionProfesor(Number(this.UserId)).subscribe(
-        asig => {
-          this.AsignaDoc = asig;
-          console.log(this.AsignaDoc);
-  
-  
-        }, error => {
-          //console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+    ///////Busqueda de Asignacion por grupo
+  onChangeGpo(id: number) {
+    this.AsignaDoc = null;
+    this._asignacion.GetAsignacionGpo(id).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        console.log(this.AsignaDoc);
 
-     ///////Busqueda de Alumno
-     onChangeAlumno(id: number) {
-    if (id == 0) {
-      this.cargarAsignacion();
-    } else {
-      this.AsignaDoc = null;
-      this._asignacion.GetAsignacionGpo(id).subscribe(
-        mat => {
-          this.AsignaDoc = mat;
-          //console.log(this.AsignaDoc);
-
-        }, error => {
-          // console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
 
   }
+
+  onChangeMat(id: number) {
+    this.Alumnos = null;
+    this._calificacion.GetAlumnosPorAsignacion(id).subscribe(
+      al => {
+        this.Alumnos = al;
+        console.log(this.Alumnos);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+
+  }
+
+  Califica(califica:any){
+    console.log(califica);
+  }
+  
 }

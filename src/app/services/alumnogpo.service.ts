@@ -1,6 +1,7 @@
 
 import { AlumnoGpo } from '@/models/AlumnoGpo';
 import { Asigna } from '@/models/Asignadocgpo';
+import { Calificacion } from '@/models/Calificacion';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
@@ -44,6 +45,11 @@ export class AlumnoGpoService {
    /*  asigna.asignacionID=0; */
     return this.http.post<AlumnoGpo>(`${environment.rutaAPI}`+'api/AlumnoGpo/alumnoGporegistro', asigna);
   }
+
+  GuardarCalificacionTemp(califica: Calificacion): Observable<Calificacion> {
+     califica.CalificacionID=0;
+     return this.http.post<Calificacion>(`${environment.rutaAPI}`+'calificacionregistro', califica);
+   }
 
  DeleteAsigna(id:number): Observable<Asigna> {
     return this.http.patch<Asigna>(`${environment.rutaAPI}` + 'deleteAsignacion/'+id, "");

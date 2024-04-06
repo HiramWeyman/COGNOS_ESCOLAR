@@ -19,6 +19,13 @@ export class CalificacionService {
     return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocProfesor/'+id);
   }
 
+  GetAlumnosPorAsignacion(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getAlumnosPorasignacion/'+id);
+  }
+
+
+
+
   GetAsignacionGpo(id:number): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocGpo/'+id);
   }
