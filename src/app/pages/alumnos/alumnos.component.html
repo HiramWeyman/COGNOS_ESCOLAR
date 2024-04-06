@@ -6,17 +6,19 @@
     <table class="table table-fixed">
       <thead>
         <tr>
-          <th class="col-xs-3">Nombre</th>
-          <th class="col-xs-3">Editar</th>
-          <th class="col-xs-3">Cancelar</th>
+          <th class="col-xs-2">Matrícula</th>
+          <th class="col-xs-6">Nombre</th>
+          <th class="col-xs-2">Editar</th>
+          <th class="col-xs-2">Cancelar</th>
          
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of Alumnos">
-          <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
-          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Editar</button></td>
-          <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.estudianteID)">Cancelar</button></td>
+          <td class="col-xs-2">{{item.matricula}}</td>
+          <td class="col-xs-6">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
+          <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Editar</button></td>
+          <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.estudianteID)">Cancelar</button></td>
         </tr>    
       </tbody>
     </table>
@@ -34,7 +36,12 @@
           </div>
           <div class="modal-body">
             <ng-template [ngIf]="alumno.estudianteID" [ngIfElse]="elseBlock">
-              <div class="form-group">
+              
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Matricula:</label>
+                <input type="text" class="form-control" id="recipient-name" [(ngModel)]="alumno.matricula">
+            </div>
+            <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Apellido Paterno:</label>
                 <input type="text" class="form-control" id="recipient-name" [(ngModel)]="alumno.paterno">
             </div>

@@ -6,5 +6,6 @@ export class Alumno {
     nombre:string; 
     paterno:string; 
     materno:string; 
-    mail:string; 
+    mail:string;
+    matricula:string;
 }
