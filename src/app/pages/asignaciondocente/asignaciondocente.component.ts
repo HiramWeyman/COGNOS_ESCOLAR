@@ -205,6 +205,7 @@ export class AsignaciondocenteComponent {
   }
 
   Actualizar() {
+    this.blockUI.start('Actualizando Asignación...');
     this._asignacion.UpdateAsigna(this.asignacion).subscribe(datos => {
 
       if (datos) {
@@ -235,6 +236,7 @@ export class AsignaciondocenteComponent {
   }
 
   Delete(id: number) {
+    this.blockUI.start('Cancelando Asignación...');
     this._asignacion.DeleteAsigna(id).subscribe(datos => {
 
       if (datos) {

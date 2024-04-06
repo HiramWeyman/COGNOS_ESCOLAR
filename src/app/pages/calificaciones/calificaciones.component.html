@@ -31,8 +31,7 @@
                     <th class="col-xs-3">Alumno</th>
                     <th class="col-xs-3">Calificación</th>
                     <th class="col-xs-3">Calificación con letra</th>
-      
-                    <th class="col-xs-3">Editar</th>
+                    <th class="col-xs-3">Calificar</th>
 <!--                     <th class="col-xs-3">Cancelar</th> -->
     
                 </tr>
@@ -43,64 +42,11 @@
                     <td class="col-xs-3">{{item.estudianteNombre}} </td>
                     <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;"></td>
                     <td class="col-xs-3">{{item.puntajeLetra}}</td>
-
-                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="Califica(item)">Calificar</button></td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm"  (click)="Califica(item)">Calificar</button></td>
 <!--                     <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" >Cancelar</button></td> -->
                 </tr>
             </tbody>
         </table>
     </div>
     
-    
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
-      </button> -->
-    
-    
-  <!--   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Docente-Materia</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                
-                        <div class="form-group">
-                            <select class="form-control" [(ngModel)]="asignacion.grupoID">
-                                <option selected>Seleccione una Grupo</option>
-                                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
-                            </select>
-                        </div>
-    
-                        <div class="form-group">
-                            <select class="form-control" [(ngModel)]="asignacion.docenteID">
-                                <option selected>Seleccione un Docente</option>
-                                <option *ngFor="let item of Docentes" [ngValue]="item.docenteID">{{item.paterno}} {{item.materno}} {{item.nombre}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" [(ngModel)]="asignacion.materiaID">
-                                <option value="" selected="selected">Seleccione una Materia</option>
-                                <option *ngFor="let item of Materias" [ngValue]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
-                            </select>
-                        </div>
-                   
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
-                    <ng-template [ngIf]="asignacion.asignacionID" [ngIfElse]="elseBlock2">
-                      <button type="button" class="btn btn-primary" id="act" name="act" >Actualizar Asignación</button>
-                    </ng-template>
-                    <ng-template #elseBlock2>
-                      <button type="button" class="btn btn-primary" id="guarda" name="guarda" >Guardar Asignación</button>
-                    </ng-template>
-                  </div>
-            </div>
-        </div>
-    </div> -->
 </block-ui>

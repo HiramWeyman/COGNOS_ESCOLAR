@@ -1,5 +1,6 @@
 
 import { Asigna } from '@/models/Asignadocgpo';
+import { Calificacion } from '@/models/Calificacion';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
@@ -38,8 +39,8 @@ export class CalificacionService {
     return this.http.get<Asigna>(`${environment.rutaAPI}` + 'getAsignacionesDocID/'+id);
   }
 
-  UpdateAsigna(asigna: Asigna): Observable<Asigna> {
-    return this.http.patch<Asigna>(`${environment.rutaAPI}` + 'updateAsignacion/'+asigna.asignacionID, asigna);
+  UpdateCalificacion(cal: Calificacion): Observable<Calificacion> {
+    return this.http.patch<Calificacion>(`${environment.rutaAPI}` + 'updateCalificacion/'+cal.CalificacionID, cal);
   }
 
   GuardarAsigna(asigna: Asigna): Observable<Asigna> {

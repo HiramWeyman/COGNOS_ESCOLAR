@@ -10,6 +10,7 @@ import { AsignacionService } from '@services/asignacion.service';
 import { Asigna } from '@/models/Asignadocgpo';
 import { GruposService } from '@services/grupos.service';
 import { CalificacionService } from '@services/calificacion.service';
+import { Calificacion } from '@/models/Calificacion';
 
 @Component({
   selector: 'app-calificaciones',
@@ -29,9 +30,10 @@ export class CalificacionesComponent {
   Perfil: any;
   UserId: any;
   asignacion: Asigna = new Asigna();
-  alumnoIns: AlumnoIns = new AlumnoIns();
+  CalIns: Calificacion = new Calificacion();
   resp: any;
   fecCrea: any;
+  valortemporal:number;
 
   ngOnInit(): void {
     this.Perfil = sessionStorage.UserPerfil;
@@ -95,6 +97,7 @@ export class CalificacionesComponent {
   }
 
   onChangeMat(id: number) {
+    this.valortemporal=id;
     this.Alumnos = null;
     this._calificacion.GetAlumnosPorAsignacion(id).subscribe(
       al => {
@@ -108,8 +111,46 @@ export class CalificacionesComponent {
 
   }
 
-  Califica(califica:any){
-    console.log(califica);
+  CaragarActualizacion(){
+    this._calificacion.GetAlumnosPorAsignacion(this.valortemporal).subscribe(
+      al => {
+        this.Alumnos = al;
+        console.log(this.Alumnos);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
   }
+
+  Califica(califica:any){
+    this.blockUI.start('Calificando...');
+    console.log(califica);
+    this.CalIns.EstudianteID=califica.EstudianteID;
+
+    this.CalIns.CalificacionID=califica.calificacionID;
+    this.CalIns.Puntaje=califica.puntaje;
+    this.CalIns.PuntajeLetra=califica.puntajeLetra;
+    this.CalIns.EstudianteID=califica.estudianteID;
+    this.CalIns.AsignacionID=califica.asignacionID;
+
+    this._calificacion.UpdateCalificacion(this.CalIns).subscribe(datos => {
+
+      if (datos) {
+        this.blockUI.stop();
+        this.resp = datos;
+        swal.fire('Calificando..', `${this.resp.descripcion}`, 'success');
+        this.CaragarActualizacion();
+      }
+
+
+    }, error => {
+      this.blockUI.stop();
+      console.log(error);
+      //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+    });
+  }
+
+
   
 }
