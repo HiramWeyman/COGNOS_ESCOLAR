@@ -198,7 +198,7 @@ export class AlumnogpoComponent {
         this.limpiar();
         this.modalClose.nativeElement.click();
       }
-      this.ngOnInit();
+      this.ngOnInit(); 
 
     }, error => {
       this.blockUI.stop();
