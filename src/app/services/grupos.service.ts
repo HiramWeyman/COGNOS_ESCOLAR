@@ -20,6 +20,10 @@ export class GruposService {
     return this.http.get(`${environment.rutaAPI}` + 'getGrupos');
   }
 
+  GetGruposEstudiante(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'GetGruposEstudiante/'+id);
+  }
+
   GetGrupoID(id:number): Observable<Grupo> {
     return this.http.get<Grupo>(`${environment.rutaAPI}` + 'getGrupo/'+id);
   }
