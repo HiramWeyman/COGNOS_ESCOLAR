@@ -38,6 +38,18 @@ export class CalificacionesComponent {
   ngOnInit(): void {
     this.Perfil = sessionStorage.UserPerfil;
     this.UserId = sessionStorage.UserId;
+    if(Number(this.Perfil)==1){
+      
+      this._grupo.GetGruposEstudiante(Number(this.Perfil)).subscribe(
+        per => {
+          this.Grupos = per;
+          console.log(this.Grupos);
+         
+        }, error => {
+          //console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+    }
     this.cargarGrupos();
     console.log(this.Perfil);
     console.log(this.UserId);
@@ -81,6 +93,18 @@ export class CalificacionesComponent {
         });
     }
 
+    cargarGruposEstudiante() {
+      this._grupo.GetGruposEstudiante(Number(this.Perfil)).subscribe(
+        per => {
+          this.Grupos = per;
+          console.log(this.Grupos);
+         
+        }, error => {
+          //console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+    }
+
     ///////Busqueda de Asignacion por grupo
   onChangeGpo(id: number) {
     this.AsignaDoc = null;
@@ -100,6 +124,35 @@ export class CalificacionesComponent {
     this.valortemporal=id;
     this.Alumnos = null;
     this._calificacion.GetAlumnosPorAsignacion(id).subscribe(
+      al => {
+        this.Alumnos = al;
+        console.log(this.Alumnos);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+
+  }
+
+  onChangeGpoAlumnos(id: number) {
+    this.AsignaDoc = null;
+    this._calificacion.GetMateriasAlumno(id,Number(this.UserId)).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        console.log(this.AsignaDoc);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+
+  }
+
+  onChangeMatAlumnos(id: number) {
+    this.valortemporal=id;
+    this.Alumnos = null;
+    this._calificacion.getAlumnosPorIdUsuario(id,Number(this.UserId)).subscribe(
       al => {
         this.Alumnos = al;
         console.log(this.Alumnos);

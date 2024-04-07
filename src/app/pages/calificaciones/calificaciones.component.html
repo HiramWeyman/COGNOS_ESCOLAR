@@ -2,6 +2,28 @@
     <div class="d-flex justify-content-center"><label>Calificaciones</label></div><br>
 
     <div class="row" style="margin-left: 5px;">
+        <!--Combos para estudiante-->
+        <div class="form-group" *ngIf="Perfil==1">
+            <label>Busqueda por Grupo</label>
+            <select class="form-control" (change)="onChangeGpoAlumnos($event.target.value)">
+                <option value="0" selected="selected">Seleccione Un Grupo</option>
+               <!--  <option value="0">Todos las Grupos</option> -->
+                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
+            </select>
+        </div>
+
+        <div class="form-group" *ngIf="Perfil==1">
+            <label>Busqueda por Materia</label>
+            <select class="form-control" (change)="onChangeMatAlumnos($event.target.value)">
+                <option value="0" selected="selected">Seleccione Una Materia</option>
+              <!--   <option value="0">Todas las Materias</option> -->
+                <option *ngFor="let item of AsignaDoc" [value]="item.asignacionID">{{item.nombreMat}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
+            </select>
+        </div>
+   <!-------------------------------------------------------------------------------------->
+
+
+        <!--Combos para administrador -->
         <div class="form-group" *ngIf="Perfil!=1">
             <label>Busqueda por Grupo</label>
             <select class="form-control" (change)="onChangeGpo($event.target.value)">
@@ -19,34 +41,57 @@
                 <option *ngFor="let item of AsignaDoc" [value]="item.asignacionID">{{item.nombreMat}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
             </select>
         </div>
-
-
-        
+     <!----------------------------------------------------->
     </div>
     <div class="container" style="margin-left: 5px;">
-        <table class="table table-fixed">
-            <thead>
-                <tr>
-                    <th class="col-xs-3">Grupo</th>
-                    <th class="col-xs-3">Alumno</th>
-                    <th class="col-xs-3">Calificación</th>
-                    <th class="col-xs-3">Calificación con letra</th>
-                    <th class="col-xs-3">Calificar</th>
-<!--                     <th class="col-xs-3">Cancelar</th> -->
-    
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of Alumnos">
-                    <td class="col-xs-3">{{item.grupoNombre}}</td>
-                    <td class="col-xs-3">{{item.estudianteNombre}} </td>
-                    <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;"></td>
-                    <td class="col-xs-3">{{item.puntajeLetra}}</td>
-                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm"  (click)="Califica(item)">Calificar</button></td>
-<!--                     <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" >Cancelar</button></td> -->
-                </tr>
-            </tbody>
-        </table>
+        <ng-template [ngIf]="Perfil==1" [ngIfElse]="elseBlock2">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+<!--                         <th class="col-xs-3">Grupo</th>
+ -->                    <th class="col-xs-3">Alumno</th>
+                        <th class="col-xs-3">Calificación</th>
+                        <th class="col-xs-3">Calificación con letra</th>
+
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Alumnos">
+<!--                         <td class="col-xs-3">{{item.grupoNombre}}</td>
+ -->                        <td class="col-xs-3">{{item.estudianteNombre}} </td>
+                        <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;" readonly></td>
+                        <td class="col-xs-3">{{item.puntajeLetra}}</td>
+                    </tr>
+                </tbody>
+            </table>
+          </ng-template>
+          <ng-template #elseBlock2>
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th class="col-xs-3">Grupo</th>
+                        <th class="col-xs-3">Alumno</th>
+                        <th class="col-xs-3">Calificación</th>
+                        <th class="col-xs-3">Calificación con letra</th>
+                        <th class="col-xs-3">Calificar</th>
+    <!--                     <th class="col-xs-3">Cancelar</th> -->
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Alumnos">
+                        <td class="col-xs-3">{{item.grupoNombre}}</td>
+                        <td class="col-xs-3">{{item.estudianteNombre}} </td>
+                        <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;"></td>
+                        <td class="col-xs-3">{{item.puntajeLetra}}</td>
+                        <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm"  (click)="Califica(item)">Calificar</button></td>
+    <!--                     <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" >Cancelar</button></td> -->
+                    </tr>
+                </tbody>
+            </table>
+          </ng-template>
+       
     </div>
     
 </block-ui>

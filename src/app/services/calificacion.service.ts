@@ -24,7 +24,15 @@ export class CalificacionService {
     return this.http.get(`${environment.rutaAPI}` + 'getAlumnosPorasignacion/'+id);
   }
 
+  getAlumnosPorIdUsuario(id:number,usuario:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getAlumnosPorIdUsuario/'+id+'/'+usuario);
+  }
 
+  
+
+  GetMateriasAlumno(id:number,usuario:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getMateriasAlumno/'+id+'/'+usuario);
+  }
 
 
   GetAsignacionGpo(id:number): Observable<any> {
