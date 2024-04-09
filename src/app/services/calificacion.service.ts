@@ -20,8 +20,12 @@ export class CalificacionService {
     return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocProfesor/'+id);
   }
 
-  GetAlumnosPorAsignacion(id:number): Observable<any> {
+/*   GetAlumnosPorAsignacion(id:number): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getAlumnosPorasignacion/'+id);
+  } */
+
+  GetAlumnosPorAsignacion(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getAlumnosPorMateria/'+id);
   }
 
   getAlumnosPorIdUsuario(id:number,usuario:number): Observable<any> {

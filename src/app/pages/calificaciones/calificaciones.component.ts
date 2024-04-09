@@ -39,18 +39,12 @@ export class CalificacionesComponent {
     this.Perfil = sessionStorage.UserPerfil;
     this.UserId = sessionStorage.UserId;
     if(Number(this.Perfil)==1){
-      
-      this._grupo.GetGruposEstudiante(Number(this.Perfil)).subscribe(
-        per => {
-          this.Grupos = per;
-          console.log(this.Grupos);
-         
-        }, error => {
-          //console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
+      this.cargarGruposEstudiante();
     }
-    this.cargarGrupos();
+    else{
+      this.cargarGrupos();
+    }
+    
     console.log(this.Perfil);
     console.log(this.UserId);
  /*    switch (Number(this.Perfil)) {
@@ -85,6 +79,7 @@ export class CalificacionesComponent {
       this._grupo.GetGrupos().subscribe(
         per => {
           this.Grupos = per;
+          console.log('Grupos Administrador');
           console.log(this.Grupos);
          
         }, error => {

@@ -24,7 +24,7 @@
 
 
         <!--Combos para administrador -->
-        <div class="form-group" *ngIf="Perfil!=1">
+        <div class="form-group" *ngIf="Perfil==4 ||Perfil==2">
             <label>Busqueda por Grupo</label>
             <select class="form-control" (change)="onChangeGpo($event.target.value)">
                 <option value="0" selected="selected">Seleccione Un Grupo</option>
@@ -33,7 +33,7 @@
             </select>
         </div>
 
-        <div class="form-group" *ngIf="Perfil!=1">
+        <div class="form-group" *ngIf="Perfil==4 ||Perfil==2">
             <label>Busqueda por Materia</label>
             <select class="form-control" (change)="onChangeMat($event.target.value)">
                 <option value="0" selected="selected">Seleccione Una Materia</option>
