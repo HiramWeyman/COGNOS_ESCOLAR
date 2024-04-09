@@ -235,7 +235,7 @@ export class AsignaciondocenteComponent {
 
   }
 
-  Delete(id: number) {
+  /* Delete(id: number) {
     this.blockUI.start('Cancelando Asignación...');
     this._asignacion.DeleteAsigna(id).subscribe(datos => {
 
@@ -254,5 +254,37 @@ export class AsignaciondocenteComponent {
       //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
     });
 
+  } */
+
+  Delete(id:number, docente:string, materia:string){
+    swal.fire({
+      title: '¿Deseas Eliminar?',
+      text: docente+' '+materia+'\n Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrarlo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._asignacion.DeleteAsigna(id).subscribe(
+          datos => {
+            if (datos) {
+              this.blockUI.stop();
+              this.resp = datos;
+              swal.fire('Eliminando Asignación Docente:'+docente+'-'+materia, `${this.resp.descripcion}`, 'success');
+              this.router.navigate(['/asignacion']); 
+            }
+            this.ngOnInit();
+          },
+          error => {
+            this.blockUI.stop();
+            console.log(error);
+            //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+          }
+        );
+      }
+    });
   }
 }

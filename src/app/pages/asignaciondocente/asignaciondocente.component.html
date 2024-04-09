@@ -46,7 +46,7 @@
                     <td class="col-xs-3">{{item.nombreMat}}</td>
                     <td class="col-xs-3">{{item.creditos}}</td>
                     <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAsigna(item.asignacionID)">Editar</button></td>
-                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.asignacionID)">Cancelar</button></td>
+                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.asignacionID, item.nombreDoc, item.nombreMat)">Cancelar</button></td>
                 </tr>
             </tbody>
         </table>
