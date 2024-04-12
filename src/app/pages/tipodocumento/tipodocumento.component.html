@@ -8,26 +8,20 @@
         <tr>
           <th class="col-xs-3">Nombre</th>
           <th class="col-xs-3">Estatus</th>
-          <th class="col-xs-3">Activo/Inactivo</th>
          
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="col-xs-3">INE</td>
-          <td class="col-xs-3">A</td>
-          <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
-         
-        </tr>    
-        <tr>
-            <td class="col-xs-3">CURP</td>
-            <td class="col-xs-3">A</td>
-            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
-        </tr>
-        <tr>
-            <td class="col-xs-3">Acta de nacimiento</td>
-            <td class="col-xs-3">A</td>
-            <td class="col-xs-3"><button type="button" class="btn btn-danger btn-sm">Activo/Inactivo</button></td>
+        <tr *ngFor="let item of TipoDocumento">
+          <td class="col-xs-2">{{item.nombre}}</td>
+          <td class="col-xs-3">
+            <ng-template [ngIf]="item.activo" [ngIfElse]="elseBlock">
+              <label>Activo</label>
+            </ng-template>
+            <ng-template #elseBlock>
+              <label>Inactivo</label>
+            </ng-template>
+          </td>
         </tr>
       </tbody>
     </table>
