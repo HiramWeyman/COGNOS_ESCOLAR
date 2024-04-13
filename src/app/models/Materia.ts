@@ -4,5 +4,6 @@ export class Materia {
     clave :string; 
     creditos :string;
     horas:string; 
+    semestreID :number;
     activo :boolean;
  }
