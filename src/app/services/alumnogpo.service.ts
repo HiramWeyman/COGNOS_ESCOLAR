@@ -37,6 +37,10 @@ export class AlumnoGpoService {
     return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getAsignacioneAlumnoGpo/'+id);
   }
 
+  GetTpoExamen(): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getTipoExamen');
+  }
+
   UpdateAsigna(asigna: Asigna): Observable<Asigna> {
     return this.http.patch<Asigna>(`${environment.rutaAPI}` + 'updateAsignacion/'+asigna.asignacionID, asigna);
   }
