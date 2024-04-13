@@ -36,6 +36,7 @@ export class AlumnogpoComponent {
   AsignaDoc: any;
   ListaAlumnos: any;
   Alumnos:any;
+  Docente:any;
   Actas:any;
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
@@ -56,6 +57,7 @@ export class AlumnogpoComponent {
     this.cargarGrupos();
     this.cargarCiclos();
     this.cargarTipoExamen();
+    this.cargarDocentes();
     this.user=sessionStorage.UserId;
     this.alumnoIns.UsuarioCreacionID=Number(this.user);
   }
@@ -63,6 +65,7 @@ export class AlumnogpoComponent {
     private router: Router,
     private _asignacion: AsignacionService,
     private _alumno:AlumnosService,
+    private _docente: DocenteService,
     private _alumnoGpo:AlumnoGpoService,
     private _materia: MateriaService,
     private _grupo:GruposService,
@@ -89,6 +92,19 @@ export class AlumnogpoComponent {
         this.Alumnos = al;
         console.log(this.Alumnos);
       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarDocentes() {
+    this._docente.GetDocentes().subscribe(
+      per => {
+        this.Docentes = per;
+        console.log(this.Docentes);
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -328,6 +344,16 @@ export class AlumnogpoComponent {
       swal.fire({
         title: 'Información!!!',
         text: 'Falta Ingresar un Tipo de Examen',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if (this.actaEva.DocenteID==null) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar un Sinodal',
         icon: 'info'
       });
       return;

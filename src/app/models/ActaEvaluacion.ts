@@ -3,6 +3,7 @@ export class ActaEvaluacion {
     AsignacionID:number;
     CicloID:number;
     TipoExamenID:number;
+    DocenteID:number;
     Folio:string; 
     Fecha:Date; 
 }
