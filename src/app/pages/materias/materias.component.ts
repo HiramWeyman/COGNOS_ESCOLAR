@@ -115,6 +115,16 @@ export class MateriasComponent {
       });
       return;
     }
+
+    if(this.materia.semestreID==null){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Semestre',
+        icon: 'info'
+      });
+      return;
+    }
   
 
     this._materia.GuardarMateria(this.materia).subscribe(datos => {

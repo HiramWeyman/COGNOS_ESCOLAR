@@ -16,6 +16,9 @@ import { Asigna } from '@/models/Asignadocgpo';
 import { AlumnoIns } from '@/models/AlumnoIns';
 import { AsignacionService } from '@services/asignacion.service';
 import { Calificacion } from '@/models/Calificacion';
+import { Ciclos_Service } from '@services/ciclos.service';
+import { ActaEvaluacion } from '@/models/ActaEvaluacion';
+import { ActaEvaService } from '@services/actaevaluacion.service';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -33,19 +36,28 @@ export class AlumnogpoComponent {
   AsignaDoc: any;
   ListaAlumnos: any;
   Alumnos:any;
+  Docente:any;
+  Actas:any;
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
   alumnoCal: Calificacion = new Calificacion();
+  actaEva:ActaEvaluacion=new ActaEvaluacion();
   resp: any;
-  fecCrea: any;
+  fecActa: any;
+  fecCrea:any;
   user: any;
   NumeroAlumnos:any;
   selectedOption: number;
+  Ciclos:any;
+  Examen:any;
   ngOnInit(): void {
     this.cargarAsignacion();
     this.cargarAlumnos(); 
     this.cargarMaterias(); 
     this.cargarGrupos();
+    this.cargarCiclos();
+    this.cargarTipoExamen();
+    this.cargarDocentes();
     this.user=sessionStorage.UserId;
     this.alumnoIns.UsuarioCreacionID=Number(this.user);
   }
@@ -53,9 +65,12 @@ export class AlumnogpoComponent {
     private router: Router,
     private _asignacion: AsignacionService,
     private _alumno:AlumnosService,
+    private _docente: DocenteService,
     private _alumnoGpo:AlumnoGpoService,
     private _materia: MateriaService,
     private _grupo:GruposService,
+    private _ciclos:Ciclos_Service,
+    private _actaeva:ActaEvaService,
     private datePipe: DatePipe) { }
 
   cargarAsignacion() {
@@ -77,6 +92,19 @@ export class AlumnogpoComponent {
         this.Alumnos = al;
         console.log(this.Alumnos);
       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarDocentes() {
+    this._docente.GetDocentes().subscribe(
+      per => {
+        this.Docentes = per;
+        console.log(this.Docentes);
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -110,6 +138,57 @@ export class AlumnogpoComponent {
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
+
+  cargarCiclos() {
+    this._ciclos.GetCiclos().subscribe(
+      usr => {
+        this.Ciclos = usr;
+        console.log(this.Ciclos);
+      /*   for(let i=0;i<this.Ciclos.length;i++){
+          this.fecIni =this.datePipe.transform(this.Ciclos[i].fechaInicio,"dd/MM/yyyy");
+          this.Ciclos[i].fechaInicio= this.fecIni;
+          this.fecFin =this.datePipe.transform(this.Ciclos[i].fechaFin,"dd/MM/yyyy");
+          this.Ciclos[i].fechaFin= this.fecFin;
+        } */
+        //console.log(this.Ciclos);
+       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarTipoExamen() {
+    this._alumnoGpo.GetTpoExamen().subscribe(
+      usr => {
+        this.Examen = usr;
+        console.log(this.Examen);
+    
+       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+
+  cargarActas(id:number) {
+    this._actaeva.GetActas(id).subscribe(
+      al => {
+        this.Actas = al;
+        console.log(this.Actas);
+        for(let i=0;i<this.Actas.length;i++){
+          this.fecActa =this.datePipe.transform(this.Actas[i].fecha,"dd/MM/yyyy");
+          this.Actas[i].fecha= this.fecActa;
+        } 
+        console.log(this.Actas);
+      
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+  
 
   ///////Busqueda de Asignacion por Materia
   onChangeMat(id: number) {
@@ -218,6 +297,96 @@ export class AlumnogpoComponent {
 
     });
 
+  }
+
+  Reporte(){
+  console.log('x');
+  }
+
+  GetIDAsignacion(id:number){
+    this.actaEva.AsignacionID=id;
+    this.cargarActas(id);
+  }
+  GuardarActa(){
+    this.blockUI.start('Guardando Acta de Evaluación...');
+    if (!this.actaEva.Folio) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar un Folio de Acta',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if (!this.actaEva.Fecha) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar una Fecha de Acta de Evaluación',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if (this.actaEva.CicloID==null) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar un Ciclo',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if (this.actaEva.TipoExamenID==null) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar un Tipo de Examen',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if (this.actaEva.DocenteID==null) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar un Sinodal',
+        icon: 'info'
+      });
+      return;
+    }
+    console.log(this.actaEva);
+    this.actaEva.CicloID=Number(this.actaEva.CicloID);
+    this.actaEva.TipoExamenID=Number(this.actaEva.TipoExamenID);
+    console.log(this.actaEva);
+    this._actaeva.GuardarActa(this.actaEva).subscribe(datos => {
+    var id=Number(this.actaEva.AsignacionID);
+      if (datos) {
+
+        this.blockUI.stop();
+        this.resp = datos;
+        swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
+        this.cargarActas(id);
+        this.actaEva.ActaEvaluacionID=null;
+        this.actaEva.AsignacionID=null;
+        this.actaEva.CicloID=null;
+        this.actaEva.TipoExamenID=null;
+        this.actaEva.Folio=null;
+        this.actaEva.Fecha=null;
+
+      }
+   
+    }, error => {
+      this.blockUI.stop();
+      console.log(error);
+      this.limpiar();
+      this.modalClose.nativeElement.click();
+      swal.fire({ title: 'ERROR!!!', text: error.error.descripcion, icon: 'error' });
+
+    });
   }
 
   limpiar(){

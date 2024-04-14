@@ -36,6 +36,7 @@
                     <th class="col-xs-3">Creditos</th>
                     <th class="col-xs-3">Registrar Alumno</th>
                     <th class="col-xs-3">Lista de Alumnos</th>
+                    <th class="col-xs-3">Actas de Evaluación</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,12 +46,20 @@
                     <td class="col-xs-3">{{item.clave}}</td>
                     <td class="col-xs-3">{{item.nombreMat}}</td>
                     <td class="col-xs-3">{{item.creditos}}</td>
-                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                    <td class="col-xs-3">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#exampleModal" (click)="GetAsigna(item.asignacionID,item.grupoID)">Registrar
-                            Alumno </button></td>
-                    <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            Alumno </button>
+                    </td>
+                    <td class="col-xs-3">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target=".bd-example-modal-lg" (click)="GetListaAlumnos(item.asignacionID)">Lista de
-                            Alumnos</button></td>
+                            Alumnos</button>
+                    </td>
+                    <td class="col-xs-3">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                        data-target="#exampleModal2" (click)="GetIDAsignacion(item.asignacionID)">Actas de evaluacion</button>
+                </td>
                 </tr>
             </tbody>
         </table>
@@ -130,4 +139,98 @@
             </div>
         </div>
     </div>
+
+<!--Actas de evaluacion-->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="exampleModal2" 
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><label><b>Crear Acta</b></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--Formulario Acta-->
+                <div class="row">
+                    <div class="col">
+                      <!-- Name input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example1">Folio:</label>
+                        <input type="text" id="form8Example1" class="form-control" placeholder="Ingrese Folio de Acta" [(ngModel)]="actaEva.Folio"/>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <!-- Email input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example2">Fecha:</label>
+                        <input type="date" class="form-control" id="recipient-name" [(ngModel)]="actaEva.Fecha">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  
+                  <div class="row">
+                    <div class="col">
+                      <!-- Name input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example3">Seleccione un Ciclo</label>
+                        <select class="form-control" [(ngModel)]="actaEva.CicloID">
+                            <option selected>Seleccione un Ciclo</option>
+                            <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}}</select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <!-- Name input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example4">Seleccione Tipo de Examen</label>
+                        <select class="form-control" [(ngModel)]="actaEva.TipoExamenID">
+                            <option selected>Seleccione un Tipo de Examen</option>
+                            <option *ngFor="let item of Examen" [value]="item.tipoExamenID">{{item.titulo}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Name input -->
+                        <div data-mdb-input-init class="form-outline">
+                          <label class="form-label" for="form8Example4">Seleccione Sinodal</label>
+                          <select class="form-control" [(ngModel)]="actaEva.DocenteID">
+                              <option [value]="" selected>Seleccione un Sinodal</option>
+                              <option *ngFor="let itemx of Docentes" [value]="itemx.docenteID">{{itemx.paterno}} {{itemx.materno}} {{itemx.nombre}}</option>
+                          </select>
+                        </div>
+                      </div>
+              
+                  </div>
+                  <hr />
+                  <button type="button" class="btn btn-primary btn-lg btn-block" (click)="GuardarActa()">Crear Acta de Evaluación</button>
+                  <hr />
+              
+                
+                <div class="tableFixHead">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Actas</th>
+                                <th align="right" style="text-align: right;">Acta de Evaluación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of Actas">
+                                <td>{{item.fecha}}</td>
+                                <td align="right"><button type="button" class="btn btn-danger btn-sm" (click)="Reporte()">Ver Acta de Evaluación</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 </block-ui>
