@@ -1,8 +1,9 @@
 export class CiclosIns {
 
     CicloID:number;
-    Titulo:string; 
     FechaInicio:Date;
+    Titulo:string; 
+    Periodo:string; 
     FechaFin:Date;
     Activo:boolean;
     

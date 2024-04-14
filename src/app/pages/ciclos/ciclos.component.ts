@@ -62,6 +62,7 @@ export class CiclosComponent {
 
   limpiar(){
     this.ciclo.titulo=null;
+    this.ciclo.periodo=null;
     this.ciclo.activo=null;
     this.ciclo.fechaInicio=null;
     this.ciclo.fechaFin=null;
@@ -70,6 +71,7 @@ export class CiclosComponent {
 
   limpiarIns(){
     this.cicloIns.Titulo=null;
+    this.cicloIns.Periodo=null;
     this.cicloIns.Activo=null;
     this.cicloIns.FechaInicio=null;
     this.cicloIns.FechaFin=null;
@@ -141,6 +143,7 @@ export class CiclosComponent {
   
   
     this.cicloIns.Titulo=this.ciclo.titulo;
+    this.cicloIns.Periodo=this.ciclo.periodo;
     this.cicloIns.Activo=this.ciclo.activo;
     this.cicloIns.FechaInicio=this.ciclo.fechaInicio;
     this.cicloIns.FechaFin=this.ciclo.fechaFin;
