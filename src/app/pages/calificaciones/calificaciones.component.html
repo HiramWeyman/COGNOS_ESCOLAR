@@ -8,7 +8,7 @@
             <select class="form-control" (change)="onChangeGpoAlumnos($event.target.value)">
                 <option value="0" selected="selected">Seleccione Un Grupo</option>
                <!--  <option value="0">Todos las Grupos</option> -->
-                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
+                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.nombre}}<label><b> - </b> </label>{{item.descripcion}}</option>
             </select>
         </div>
 
@@ -29,7 +29,7 @@
             <select class="form-control" (change)="onChangeGpo($event.target.value)">
                 <option value="0" selected="selected">Seleccione Un Grupo</option>
                <!--  <option value="0">Todos las Grupos</option> -->
-                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
+                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.nombre}}<label><b> - </b></label>{{item.descripcion}}</option>
             </select>
         </div>
 
