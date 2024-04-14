@@ -19,6 +19,7 @@ import { Calificacion } from '@/models/Calificacion';
 import { Ciclos_Service } from '@services/ciclos.service';
 import { ActaEvaluacion } from '@/models/ActaEvaluacion';
 import { ActaEvaService } from '@services/actaevaluacion.service';
+import { environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -299,8 +300,10 @@ export class AlumnogpoComponent {
 
   }
 
-  Reporte(){
-  console.log('x');
+
+  Reporte(id:number){
+    //console.log(id);
+    window.open(`${environment.rutaAPI}` + 'ReportActaEva/'+id);
   }
 
   GetIDAsignacion(id:number){
