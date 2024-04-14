@@ -34,6 +34,11 @@ export class CalificacionesComponent {
   resp: any;
   fecCrea: any;
   valortemporal:number;
+  tiposExamen: { id: number, nombre: string }[] = [
+    { id: 2, nombre: 'Ordinario' },
+    { id: 3, nombre: 'Extraordinario' },
+    { id: 4, nombre: 'Titulo' }
+  ];
 
   ngOnInit(): void {
     this.Perfil = sessionStorage.UserPerfil;
@@ -121,7 +126,7 @@ export class CalificacionesComponent {
     this._calificacion.GetAlumnosPorAsignacion(id).subscribe(
       al => {
         this.Alumnos = al;
-        console.log(this.Alumnos);
+        console.log("LISTA",this.Alumnos);
 
       }, error => {
         // console.log(error);
@@ -163,7 +168,7 @@ export class CalificacionesComponent {
     this._calificacion.GetAlumnosPorAsignacion(this.valortemporal).subscribe(
       al => {
         this.Alumnos = al;
-        console.log(this.Alumnos);
+        console.log("Alumnos",this.Alumnos);
 
       }, error => {
         // console.log(error);
@@ -181,6 +186,8 @@ export class CalificacionesComponent {
     this.CalIns.PuntajeLetra=califica.puntajeLetra;
     this.CalIns.EstudianteID=califica.estudianteID;
     this.CalIns.AsignacionID=califica.asignacionID;
+    this.CalIns.TipoExamenID=califica.tipoExamenID;
+    //console.log("hola",califica.tipoExamenID);
 
     this._calificacion.UpdateCalificacion(this.CalIns).subscribe(datos => {
 

@@ -3,5 +3,6 @@ export class Calificacion {
     Puntaje:number; 
     PuntajeLetra:string; 
     EstudianteID:number; 
-    AsignacionID:number; 
+    AsignacionID:number;
+    TipoExamenID:number;
 }

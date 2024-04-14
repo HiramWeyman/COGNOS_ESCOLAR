@@ -61,6 +61,7 @@
 <!--                         <td class="col-xs-3">{{item.grupoNombre}}</td>
  -->                        <td class="col-xs-3">{{item.estudianteNombre}} </td>
                         <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;" readonly></td>
+                        
                         <td class="col-xs-3">{{item.puntajeLetra}}</td>
                     </tr>
                 </tbody>
@@ -73,6 +74,7 @@
                         <th class="col-xs-3">Grupo</th>
                         <th class="col-xs-3">Alumno</th>
                         <th class="col-xs-3">Calificación</th>
+                        <th class="col-xs-3">Tipo de Examen</th>
                         <th class="col-xs-3">Calificación con letra</th>
                         <th class="col-xs-3">Calificar</th>
     <!--                     <th class="col-xs-3">Cancelar</th> -->
@@ -84,6 +86,11 @@
                         <td class="col-xs-3">{{item.grupoNombre}}</td>
                         <td class="col-xs-3">{{item.estudianteNombre}} </td>
                         <td class="col-xs-3"><input type="text" class="form-control" [(ngModel)]="item.puntaje" style="width: 100px;"></td>
+                        <td class="col-xs-3">
+                            <select class="form-control" [(ngModel)]="item.tipoExamenID" style="width: 100px;">
+                                <option *ngFor="let examen of tiposExamen" [ngValue]="examen.id" [selected]="examen.id === item.tipoExamenID">{{examen.nombre}}</option>
+                            </select>             
+                        </td>
                         <td class="col-xs-3">{{item.puntajeLetra}}</td>
                         <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm"  (click)="Califica(item)">Calificar</button></td>
     <!--                     <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" >Cancelar</button></td> -->
