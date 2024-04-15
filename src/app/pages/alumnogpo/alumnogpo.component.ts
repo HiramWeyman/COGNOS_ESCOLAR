@@ -231,6 +231,7 @@ export class AlumnogpoComponent {
 
   }
 
+  
   GetAsigna(asignacionId:number,grupoId:number){
     this.alumnoIns.AsignacionID=asignacionId;
     this.alumnoIns.GrupoID=grupoId;
@@ -306,8 +307,9 @@ export class AlumnogpoComponent {
     window.open(`${environment.rutaAPI}` + 'ReportActaEva/'+id);
   }
 
-  GetIDAsignacion(id:number){
+  GetIDAsignacion(id:number,docente:number){
     this.actaEva.AsignacionID=id;
+    this.actaEva.DocenteID=docente;
     this.cargarActas(id);
   }
   GuardarActa(){
@@ -352,7 +354,7 @@ export class AlumnogpoComponent {
       return;
     }
 
-    if (this.actaEva.DocenteID==null) {
+    if (this.actaEva.Sinodal==null) {
       this.blockUI.stop();
       swal.fire({
         title: 'Información!!!',

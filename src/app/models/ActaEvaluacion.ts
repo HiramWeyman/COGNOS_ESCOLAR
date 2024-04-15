@@ -6,5 +6,6 @@ export class ActaEvaluacion {
     DocenteID:number;
     Folio:string; 
     Fecha:Date; 
+    Sinodal:number
 }
 
