@@ -80,10 +80,10 @@ const routes: Routes = [
                 path: 'tipodoc',
                 component: TipodocumentoComponent
             },
-            {
+            /* {
                 path: 'documento',
                 component: DocumentoComponent
-            },
+            }, */
             {
                 path: 'asignacion',
                 component: AsignaciondocenteComponent
