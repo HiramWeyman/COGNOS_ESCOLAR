@@ -24,6 +24,15 @@ export class AlumnosService {
     return this.http.get(`${environment.rutaAPI}` + 'getEstudiantes');
   }
 
+  GetSemestres(): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getSemestres');
+  }
+
+  GetTipoDoc(): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getTipoDoc');
+  }
+
+
   GetUsuariosEst(): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getUsuariosAlumnos');
   }

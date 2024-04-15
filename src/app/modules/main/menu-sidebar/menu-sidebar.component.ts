@@ -63,7 +63,7 @@ export const MENU = [
         path: ['/calificacion']
     },
     {
-        name: 'Documentos',
+        name: 'Alumno Documentos ',
         iconClasses: 'fas fa-file-contract',
         path: ['/documento']
     }, 
@@ -224,7 +224,7 @@ export const MENU3 = [
         path: ['/alunogpo']
     },
     {
-        name: 'Documentos',
+        name: 'Alumno Documentos ',
         iconClasses: 'fas fa-file-contract',
         path: ['/documento']
     }, 

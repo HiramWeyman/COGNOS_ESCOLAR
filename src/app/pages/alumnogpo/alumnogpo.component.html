@@ -58,7 +58,7 @@
                     </td>
                     <td class="col-xs-3">
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#exampleModal2" (click)="GetIDAsignacion(item.asignacionID)">Actas de evaluacion</button>
+                        data-target="#exampleModal2" (click)="GetIDAsignacion(item.asignacionID,item.docenteID)">Actas de evaluacion</button>
                 </td>
                 </tr>
             </tbody>
@@ -197,7 +197,7 @@
                         <!-- Name input -->
                         <div data-mdb-input-init class="form-outline">
                           <label class="form-label" for="form8Example4">Seleccione Sinodal</label>
-                          <select class="form-control" [(ngModel)]="actaEva.DocenteID">
+                          <select class="form-control" [(ngModel)]="actaEva.Sinodal">
                               <option [value]="" selected>Seleccione un Sinodal</option>
                               <option *ngFor="let itemx of Docentes" [value]="itemx.docenteID">{{itemx.paterno}} {{itemx.materno}} {{itemx.nombre}}</option>
                           </select>
