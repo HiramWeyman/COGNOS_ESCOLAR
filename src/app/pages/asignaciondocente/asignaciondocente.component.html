@@ -73,20 +73,36 @@
                 
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="asignacion.grupoID">
-                                <option selected>Seleccione una Grupo</option>
+                                <option value="null">Seleccione una Grupo</option>
                                 <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.descripcion}}</option>
                             </select>
                         </div>
     
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="asignacion.docenteID">
-                                <option selected>Seleccione un Docente</option>
+                                <option value="null">Seleccione un Docente</option>
                                 <option *ngFor="let item of Docentes" [ngValue]="item.docenteID">{{item.paterno}} {{item.materno}} {{item.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="asignacion.asignacionID==null">
+                            <select class="form-control" (change)="onChangeMatSem($event.target.value)">
+                                <option value="null">Seleccione un Semestre</option>
+                                <option *ngFor="let item of Semestre" [value]="item.semestreID">
+                                {{item.descripcion}} 
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="asignacion.asignacionID">
+                            <select class="form-control"  [(ngModel)]="asignacion.semestreID" (change)="onChangeMatSem($event.target.value)">
+                                <option value="null">Seleccione un Semestre</option>
+                                <option *ngFor="let item of Semestre" [value]="item.semestreID">
+                                {{item.descripcion}} 
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="asignacion.materiaID">
-                                <option value="" selected="selected">Seleccione una Materia</option>
+                                <option value="null">Seleccione una Materia</option>
                                 <option *ngFor="let item of Materias" [ngValue]="item.materiaID">{{item.nombre}} <label><b>-- Creditos: </b> </label>{{item.creditos}} </option>
                             </select>
                         </div>

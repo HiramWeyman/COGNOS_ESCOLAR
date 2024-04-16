@@ -24,6 +24,10 @@ export class MateriaService {
     return this.http.get(`${environment.rutaAPI}` + 'getMaterias');
   }
 
+  GetMateriasID(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getMateriasSemestre/'+id);
+  }
+
   GetMateriaID(id:number): Observable<Materia> {
     return this.http.get<Materia>(`${environment.rutaAPI}` + 'getMateria/'+id);
   }

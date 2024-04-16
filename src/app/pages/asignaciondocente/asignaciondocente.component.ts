@@ -9,6 +9,7 @@ import { MateriaService } from '@services/materia.service';
 import { AsignacionService } from '@services/asignacion.service';
 import { Asigna } from '@/models/Asignadocgpo';
 import { GruposService } from '@services/grupos.service';
+import { AlumnosService } from '@services/alumnos.service';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class AsignaciondocenteComponent {
   @ViewChild('myModalClose') modalClose;
   Usuarios: any;
   Materias: any;
+  MateriasSem: any;
   Docentes: any;
+  Semestre:any;
   Grupos:any;
   AsignaDoc: any;
   asignacion: Asigna = new Asigna();
@@ -35,11 +38,13 @@ export class AsignaciondocenteComponent {
     this.cargarDocentes();
     this.cargarMaterias();
     this.cargarGrupos();
+    this.cargarSemestres();
   }
   constructor(
     private router: Router,
     private _asignacion: AsignacionService,
     private _docente: DocenteService,
+    private _alumno:AlumnosService,
     private _materia: MateriaService,
     private _grupo:GruposService,
     private datePipe: DatePipe) { }
@@ -70,7 +75,19 @@ export class AsignaciondocenteComponent {
       });
   }
 
-  cargarMaterias() {
+  cargarSemestres() {
+    this._alumno.GetSemestres().subscribe(
+      sem => {
+        this.Semestre = sem;
+        console.log(this.Semestre);
+       
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+   cargarMaterias() {
     this._materia.GetMaterias().subscribe(
       per => {
         this.Materias = per;
@@ -84,7 +101,27 @@ export class AsignaciondocenteComponent {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
+  } 
+
+  ///Buscar La materia Dependiendo Del Semestre
+  onChangeMatSem(id: number) {
+    console.log(id)
+    this._materia.GetMateriasID(id).subscribe(
+      per => {
+        this.Materias = per;
+        console.log(this.Materias);
+        for (let i = 0; i < this.Materias.length; i++) {
+          this.fecCrea = this.datePipe.transform(this.Materias[i].fechaCreacion, "dd/MM/yyyy");
+          this.Materias[i].fechaCreacion = this.fecCrea;
+        }
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+
   }
+
 
   cargarGrupos() {
     this._grupo.GetGrupos().subscribe(
@@ -142,7 +179,7 @@ export class AsignaciondocenteComponent {
     this._asignacion.GetAsignaID(id).subscribe(
       mat => {
         this.asignacion = mat[0];
-        //console.log(this.asignacion);
+        console.log(this.asignacion);
 
       }, error => {
         // console.log(error);

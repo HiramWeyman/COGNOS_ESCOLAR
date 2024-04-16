@@ -1,63 +1,63 @@
 <block-ui>
-    <div class="d-flex justify-content-center"><label>Alumnos</label></div>
-    
-    <div class="container">
-        <table class="table table-fixed">
-          <thead>
-            <tr>
-              <th class="col-xs-2">Matrícula</th>
-              <th class="col-xs-6">Nombre</th>
-              <th class="col-xs-2">Documentos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of Alumnos">
-              <td class="col-xs-2">{{item.matricula}}</td>
-              <td class="col-xs-6">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
-              <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Consultar documentos</button></td>
-            </tr>    
-          </tbody>
-        </table>
-      </div>
-    
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Documentos</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Tipo de Documento:</label>
-                    <select class="form-control" [(ngModel)]="tipo">
-                      <option value="null">Seleccione una Opción</option>
-                      <option *ngFor="let item of TipoDoc" [value]="item.tipoDocumentoID">
-                      {{item.nombre}}
-                      </option>
-                    </select>
-                </div>
-
-                <div class="form-group" *ngIf="tipo==2">
-                    <label for="recipient-name" class="col-form-label">Semestre:</label>
-                    <select class="form-control" [(ngModel)]="nosemestre">
-                      <option value="null">Seleccione un Semestre</option>
-                      <option *ngFor="let item of Semestre" [value]="item.semestreID">
-                      {{item.descripcion}} 
-                      </option>
-                    </select>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
-                <button type="button" class="btn btn-primary" id="act" name="act" (click)="ConsultaDoc(alumno.estudianteID,tipo,nosemestre)">Consultar Documento</button>
-              </div>
-          </div>
-      </div>
+  <div class="d-flex justify-content-center"><label>Alumnos</label></div>
+  
+  <div class="container">
+      <table class="table table-fixed">
+        <thead>
+          <tr>
+            <th class="col-xs-2">Matrícula</th>
+            <th class="col-xs-6">Nombre</th>
+            <th class="col-xs-2">Documentos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Alumnos">
+            <td class="col-xs-2">{{item.matricula}}</td>
+            <td class="col-xs-6">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
+            <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Consultar documentos</button></td>
+          </tr>    
+        </tbody>
+      </table>
     </div>
-    </block-ui>
-    
+  
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Documentos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+              <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Tipo de Documento:</label>
+                  <select class="form-control" [(ngModel)]="tipo">
+                    <option value="null">Seleccione una Opción</option>
+                    <option *ngFor="let item of TipoDoc" [value]="item.tipoDocumentoID">
+                    {{item.nombre}}
+                    </option>
+                  </select>
+              </div>
+
+              <div class="form-group" *ngIf="tipo==2">
+                  <label for="recipient-name" class="col-form-label">Semestre:</label>
+                  <select class="form-control" [(ngModel)]="nosemestre">
+                    <option value="null">Seleccione un Semestre</option>
+                    <option *ngFor="let item of Semestre" [value]="item.semestreID">
+                    {{item.descripcion}} 
+                    </option>
+                  </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose (click)="Limpiar()">Cerrar</button>
+              <button type="button" class="btn btn-primary" id="act" name="act" (click)="ConsultaDoc(alumno.estudianteID,tipo,nosemestre)">Consultar Documento</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  </block-ui>
+  
