@@ -106,9 +106,11 @@ export class DocumentoComponent {
     }
     else if(Tipodoc==3){
       console.log('Opción 3 Kardex de Calificaciones');
+      window.open(`${environment.rutaAPI}` + 'ReportKardex/' + idEstudiante);
     }
     else{
       console.log('Opción 4 Cerfificado');
+      window.open(`${environment.rutaAPI}` + 'ReportCertificado/' + idEstudiante);
     }
 /*     let codigo = Tipodoc;
 
