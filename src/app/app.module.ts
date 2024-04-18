@@ -70,9 +70,9 @@ import { DocumentoComponent } from './pages/documento/documento.component';
 import { AsignaciondocenteComponent } from './pages/asignaciondocente/asignaciondocente.component';
 import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
 import { AlumnogpoComponent } from './pages/alumnogpo/alumnogpo.component';
+import { APP_BASE_HREF } from '@angular/common';
 
-
-registerLocaleData(localeEn, 'en-EN');
+registerLocaleData(localeEn, 'es-ES');
 
 @NgModule({
     declarations: [
@@ -145,7 +145,10 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         })
     ],
-    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-MX' },DatePipe],
+  /*   providers: [{provide: APP_BASE_HREF, useValue: '/YOUR_VIRTUALDIRECTORY_NAME'}], */
+    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
+/*     {provide: APP_BASE_HREF, useValue: '/escolar'},
+ */    DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
