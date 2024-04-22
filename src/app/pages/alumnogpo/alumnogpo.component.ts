@@ -51,6 +51,7 @@ export class AlumnogpoComponent {
   selectedOption: number;
   Ciclos:any;
   Examen:any;
+  nombreMat:string;
   ngOnInit(): void {
     this.cargarAsignacion();
     this.cargarAlumnos(); 
@@ -307,9 +308,10 @@ export class AlumnogpoComponent {
     window.open(`${environment.rutaAPI}` + 'ReportActaEva/'+id);
   }
 
-  GetIDAsignacion(id:number,docente:number){
+  GetIDAsignacion(id:number,docente:number,nombreMat:string){
     this.actaEva.AsignacionID=id;
     this.actaEva.DocenteID=docente;
+    this.nombreMat=nombreMat;
     this.cargarActas(id);
   }
   GuardarActa(){

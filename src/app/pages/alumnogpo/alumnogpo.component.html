@@ -58,7 +58,7 @@
                     </td>
                     <td class="col-xs-3">
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#exampleModal2" (click)="GetIDAsignacion(item.asignacionID,item.docenteID)">Actas de evaluacion</button>
+                        data-target="#exampleModal2" (click)="GetIDAsignacion(item.asignacionID,item.docenteID,item.nombreMat)">Actas de evaluacion</button>
                 </td>
                 </tr>
             </tbody>
@@ -146,7 +146,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><label><b>Crear Acta</b></label></h5>
+                <h5 class="modal-title" id="exampleModalLabel"><label><b>{{nombreMat}}</b></label></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -214,12 +214,14 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Actas</th>
+                                <th>Folio del Acta</th>
+                                <th>Fecha</th>
                                 <th align="right" style="text-align: right;">Acta de Evaluación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of Actas">
+                                <td>{{item.folio}}</td>
                                 <td>{{item.fecha}}</td>
                                 <td align="right"><button type="button" class="btn btn-danger btn-sm" (click)="Reporte(item.actaEvaluacionID)">Ver Acta de Evaluación</button></td>
                             </tr>

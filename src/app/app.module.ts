@@ -147,8 +147,8 @@ registerLocaleData(localeEn, 'es-ES');
     ],
   /*   providers: [{provide: APP_BASE_HREF, useValue: '/YOUR_VIRTUALDIRECTORY_NAME'}], */
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
-/*     {provide: APP_BASE_HREF, useValue: '/escolar'},
- */    DatePipe],
+   /*   {provide: APP_BASE_HREF, useValue: '/escolar'}, */
+     DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
