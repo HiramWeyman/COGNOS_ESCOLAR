@@ -53,7 +53,7 @@ export const MENU = [
         path: ['/asignacion']
     },
     {
-        name: 'Asignación Alumno-Gpo',
+        name: 'Asignacion Alumno-Mat',
         iconClasses: 'fas fa-user-graduate',
         path: ['/alunogpo']
     },
@@ -219,7 +219,7 @@ export const MENU3 = [
         path: ['/asignacion']
     },
     {
-        name: 'Asignación Alumno-Gpo',
+        name: 'Asignacion Alumno-Mat',
         iconClasses: 'fas fa-user-graduate',
         path: ['/alunogpo']
     },
