@@ -311,6 +311,7 @@ export class AlumnogpoComponent {
   GetIDAsignacion(id:number,docente:number,nombreMat:string){
     this.actaEva.AsignacionID=id;
     this.actaEva.DocenteID=docente;
+    this.actaEva.Sinodal=docente;
     this.nombreMat=nombreMat;
     this.cargarActas(id);
   }
@@ -356,7 +357,7 @@ export class AlumnogpoComponent {
       return;
     }
 
-    if (this.actaEva.Sinodal==null) {
+  /*   if (this.actaEva.Sinodal==null) {
       this.blockUI.stop();
       swal.fire({
         title: 'Información!!!',
@@ -364,7 +365,7 @@ export class AlumnogpoComponent {
         icon: 'info'
       });
       return;
-    }
+    } */
     console.log(this.actaEva);
     this.actaEva.CicloID=Number(this.actaEva.CicloID);
     this.actaEva.TipoExamenID=Number(this.actaEva.TipoExamenID);
