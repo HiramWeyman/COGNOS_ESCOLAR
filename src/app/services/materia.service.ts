@@ -1,5 +1,6 @@
 
 import { Materia } from '@/models/Materia';
+import { MateriaIns } from '@/models/MateriaIns';
 import { Perfil } from '@/models/Perfil';
 import { PerfilIns } from '@/models/PerfilIns';
 import { HttpClient } from '@angular/common/http';
@@ -36,11 +37,12 @@ export class MateriaService {
     return this.http.patch<Materia>(`${environment.rutaAPI}` + 'updateMateria/'+materia.materiaID, materia);
   }
 
-  GuardarMateria(materia: Materia): Observable<Materia> {
+  GuardarMateria(materia: MateriaIns): Observable<MateriaIns> {
     
-    materia.materiaID=0;
+    materia.MateriaID=0;
+    materia.Nombre=materia.Nombre.trim();
     console.log(materia);
-    return this.http.post<Materia>(`${environment.rutaAPI}`+'materiaregistro', materia);
+    return this.http.post<MateriaIns>(`${environment.rutaAPI}`+'materiaregistro', materia);
   }
 
   DeleteMateria(id:number): Observable<Materia> {

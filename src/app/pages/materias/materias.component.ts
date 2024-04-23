@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
 import { Materia } from '@/models/Materia';
 import { MateriaService } from '@services/materia.service';
+import { MateriaIns } from '@/models/MateriaIns';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class MateriasComponent {
   @ViewChild('myModalClose') modalClose;
   Materias:any;
   materia:Materia=new Materia();
+  materiaIns:MateriaIns=new MateriaIns();
   resp:any;
   fecCrea:any;
 
@@ -126,8 +128,15 @@ export class MateriasComponent {
       return;
     }
   
+this.materiaIns.MateriaID=this.materia.materiaID;
+this.materiaIns.Nombre =this.materia.nombre.trim();
+this.materiaIns.Clave =this.materia.clave;
+this.materiaIns.Creditos =this.materia.creditos;
+this.materiaIns.Horas=this.materia.horas;
+this.materiaIns.SemestreID =this.materia.semestreID;
+this.materiaIns.Activo =this.materia.activo;
 
-    this._materia.GuardarMateria(this.materia).subscribe(datos => {
+    this._materia.GuardarMateria(this.materiaIns).subscribe(datos => {
       
       if(datos){
         this.blockUI.stop();
@@ -183,7 +192,17 @@ export class MateriasComponent {
     this.materia.nombre=null;
     this.materia.creditos=null;
     this.materia.activo=null;
+    this.materia.horas=null;
     this.materia.materiaID=null;
+    this.materia.semestreID=null;
+
+    this.materiaIns.MateriaID=null;
+    this.materiaIns.Nombre =null;
+    this.materiaIns.Clave =null;
+    this.materiaIns.Creditos =null;
+    this.materiaIns.Horas=null;
+    this.materiaIns.SemestreID =null;
+    this.materiaIns.Activo =null;
 
   }
 
