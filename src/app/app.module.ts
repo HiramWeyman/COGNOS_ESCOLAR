@@ -71,6 +71,7 @@ import { AsignaciondocenteComponent } from './pages/asignaciondocente/asignacion
 import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
 import { AlumnogpoComponent } from './pages/alumnogpo/alumnogpo.component';
 import { APP_BASE_HREF } from '@angular/common';
+import { GeneracionesComponent } from './pages/generaciones/generaciones.component';
 
 registerLocaleData(localeEn, 'es-ES');
 
@@ -110,6 +111,7 @@ registerLocaleData(localeEn, 'es-ES');
         AsignaciondocenteComponent,
         CalificacionesComponent,
         AlumnogpoComponent,
+        GeneracionesComponent,
 
     ],
     imports: [

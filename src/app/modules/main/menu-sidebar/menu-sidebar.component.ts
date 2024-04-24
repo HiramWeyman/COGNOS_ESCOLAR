@@ -98,6 +98,11 @@ export const MENU = [
                 path: ['/ciclos']
             },  
             {
+                name: 'Generaciones',
+                iconClasses: 'fas fa-calendar',
+                path: ['/generaciones']
+            },  
+            {
                 name: 'Perfiles',
                 iconClasses: 'fas fa-user-tie',
                 path: ['/perfil']

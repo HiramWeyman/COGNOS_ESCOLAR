@@ -24,6 +24,7 @@ import { DocumentoComponent } from '@pages/documento/documento.component';
 import { AsignaciondocenteComponent } from '@pages/asignaciondocente/asignaciondocente.component';
 import { CalificacionesComponent } from '@pages/calificaciones/calificaciones.component';
 import { AlumnogpoComponent } from '@pages/alumnogpo/alumnogpo.component';
+import { GeneracionesComponent } from '@pages/generaciones/generaciones.component';
 
 const routes: Routes = [
     {
@@ -67,6 +68,10 @@ const routes: Routes = [
             {
                 path: 'ciclos',
                 component: CiclosComponent
+            },
+            {
+                path: 'generaciones',
+                component: GeneracionesComponent
             },
             {
                 path: 'perfil',
