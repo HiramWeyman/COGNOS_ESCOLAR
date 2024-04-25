@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { GeneracionesService } from '@services/generaciones.service';
 import { NgBlockUI } from 'ng-block-ui';
 import swal from 'sweetalert2';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-generaciones',
@@ -24,7 +24,7 @@ export class GeneracionesComponent {
   ngOnInit(): void {
   this.cargarGeneraciones();
   }
-  constructor(private router: Router,private _generacion:GeneracionesService,){}
+  constructor(private router: Router,private _generacion:GeneracionesService,private datePipe: DatePipe){}
 
 
   cargarGeneraciones() {
@@ -32,6 +32,12 @@ export class GeneracionesComponent {
       gen => {
         this.Generaciones = gen;
         console.log(this.Generaciones);
+        for(let i=0;i<this.Generaciones.length;i++){
+          this.fecIni =this.datePipe.transform(this.Generaciones[i].fechaInicio,"dd/MM/yyyy");
+          this.Generaciones[i].fechaInicio= this.fecIni;
+          this.fecFin =this.datePipe.transform(this.Generaciones[i].fechaFin,"dd/MM/yyyy");
+          this.Generaciones[i].fechaFin= this.fecFin;
+        }
        
       }, error => {
         //console.log(error);
@@ -44,6 +50,10 @@ export class GeneracionesComponent {
       gen => {
         this.generacion= gen[0];
         console.log(this.generacion);
+        this.fecIni =this.datePipe.transform(this.generacion.fechaInicio,"yyyy-MM-dd");
+        this.generacion.fechaInicio= this.fecIni;
+        this.fecFin =this.datePipe.transform(this.generacion.fechaFin,"yyyy-MM-dd");
+        this.generacion.fechaFin= this.fecFin;
      
       }, error => {
        // console.log(error);

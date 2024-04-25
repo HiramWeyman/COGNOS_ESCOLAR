@@ -1,6 +1,6 @@
 
 <block-ui>
-    <div class="d-flex justify-content-center"><label>Catalogo de Generaciones</label></div>
+    <div class="d-flex justify-content-center"><label>Catálogo de Generaciones</label></div>
     
     <div class="container">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Agregar Generación</button>
@@ -34,11 +34,11 @@
            
           </tbody>
         </table>
-      </div>
+    </div>
     
-      <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
-      <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Generaciones</h5>
@@ -47,24 +47,28 @@
                   </button>
               </div>
               <div class="modal-body">
-                      <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">Nombre:</label>
-                          <input type="text" class="form-control" id="recipient-name" [(ngModel)]="perfil.nombrePerfil">
-                      </div>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Descripción:</label>
-                        <input type="text" class="form-control" id="recipient-name" [(ngModel)]="perfil.descripcion">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Titulo:</label>
+                        <input type="text" class="form-control" id="recipient-name" [(ngModel)]="generacion.titulo">
                     </div>
-                      <div class="form-group">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Fecha Inicio:</label>
+                        <input type="date" class="form-control" id="recipient-name" [(ngModel)]="generacion.fechaInicio">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Fecha Fin:</label>
+                        <input type="date" class="form-control" id="recipient-name" [(ngModel)]="generacion.fechaFin">
+                    </div>
+                    <!-- <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Estatus:</label>
                         <select class="form-control" [(ngModel)]="perfil.activo">
                           <option selected="selected">Seleccione una Opción</option>
                           <option [ngValue]="true">Activo</option>
                           <option [ngValue]="false">Inactivo</option>
                         </select>
-                      </div>
+                    </div> -->
               </div>
-              <div class="modal-footer">
+              <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
                 <ng-template [ngIf]="perfil.perfilID" [ngIfElse]="elseBlock">
                   <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Perfil</button>
@@ -72,8 +76,8 @@
                 <ng-template #elseBlock>
                   <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Perfil</button>
                 </ng-template>
-              </div>
+              </div> -->
           </div>
-      </div> 
-    </div>-->
-    </block-ui>
+        </div> 
+    </div>
+</block-ui>
