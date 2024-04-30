@@ -6,6 +6,7 @@
     <table class="table table-fixed">
       <thead>
         <tr>
+          <th class="col-xs-2">Matrícula</th>
           <th class="col-xs-3">Nombre</th>
           <th class="col-xs-3">Editar</th>
           <th class="col-xs-3">Cancelar</th>
@@ -13,6 +14,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of Docentes">
+          <td class="col-xs-2">{{item.matricula}}</td>
           <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
           <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetDocente(item.docenteID)">Editar</button></td>
           <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" (click)="Delete(item.docenteID)">Cancelar</button></td>
