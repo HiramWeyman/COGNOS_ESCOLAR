@@ -4,4 +4,5 @@ export class Docente {
     materno:string; 
     nombre:string;
     mail:string;
+    matricula:string;
 }

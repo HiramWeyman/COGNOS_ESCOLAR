@@ -33,7 +33,7 @@ export class DocentesComponent {
       this._docente.GetDocentes().subscribe(
         per => {
           this.Docentes = per;
-          //console.log(this.Docentes);
+          console.log(this.Docentes);
           
          
         }, error => {
@@ -132,6 +132,7 @@ export class DocentesComponent {
           swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
           this.router.navigate(['/docentes']); 
           this.limpiar();
+          this.ngOnInit();
           this.modalClose.nativeElement.click();
         }
         this.ngOnInit();
@@ -139,7 +140,7 @@ export class DocentesComponent {
       },error => {
         this.blockUI.stop();
         console.log(error);
-        //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
       });
 
     }
