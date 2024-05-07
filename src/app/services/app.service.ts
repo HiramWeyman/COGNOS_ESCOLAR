@@ -16,7 +16,11 @@ export class AppService {
     public user: any = null;
     public username: any=null;
     correo:EnvioCorreo=new EnvioCorreo();
-    constructor(private http: HttpClient,private router: Router, private toastr: ToastrService) { }
+    private loggedIn: boolean = false;
+    constructor(private http: HttpClient,private router: Router, private toastr: ToastrService) { 
+           // Verificar si hay información de inicio de sesión en el almacenamiento local al iniciar el servicio
+           this.loggedIn = !!localStorage.getItem('isLoggedIn');
+    }
 
     public urlEndPoint = `${environment.rutaAPI}`;
 
@@ -31,16 +35,19 @@ export class AppService {
                 // sessionStorage.setItem(_TOKEN, matricula.toString());
                 console.log(response);
                 this.username=response.nombre.toString()+' '+response.paterno.toString()+' '+response.materno.toString();
-                sessionStorage.setItem('UserMail', response.mail.toString());
-                sessionStorage.setItem('UserId', response.usuarioID);
-                sessionStorage.setItem('UserPerfil', response.perfilID);
-                sessionStorage.setItem('UserName', this.username);
+                localStorage.setItem('UserMail', response.mail.toString());
+                localStorage.setItem('UserId', response.usuarioID);
+                localStorage.setItem('UserPerfil', response.perfilID);
+                localStorage.setItem('UserName', this.username);
                 this.user = response.mail.toString();
                // console.log(response);
                 console.log(response.mail);
                 console.log(this.user);
                 this.router.navigate(['/']);
                 this.toastr.success('Login exitoso');
+                this.loggedIn = true;
+                // Almacenar el estado de inicio de sesión en el almacenamiento local
+                localStorage.setItem('isLoggedIn', 'true');
                 return response;
                
             })
@@ -156,14 +163,22 @@ export class AppService {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('gatekeeper_token');
-        sessionStorage.removeItem('Expediente');
-        sessionStorage.removeItem('IndexTab');
-        sessionStorage.removeItem('UserMail');
-        sessionStorage.removeItem('UserId');
-        sessionStorage.removeItem('UserPerfil');
-        sessionStorage.removeItem('UserName');
-        sessionStorage.removeItem('IndexTabla');
+        localStorage.removeItem('Expediente');
+        localStorage.removeItem('IndexTab');
+        localStorage.removeItem('UserMail');
+        localStorage.removeItem('UserId');
+        localStorage.removeItem('UserPerfil');
+        localStorage.removeItem('UserName');
+        localStorage.removeItem('IndexTabla');
         this.user = null;
+        this.loggedIn = false;
+        // Eliminar el estado de inicio de sesión del almacenamiento local al cerrar sesión
+        localStorage.removeItem('isLoggedIn');
         this.router.navigate(['/login']);
     } 
+
+    isAuthenticated(): boolean {
+        // Verifica si el usuario tiene una sesión activa
+        return this.loggedIn;
+      }
 }

@@ -60,7 +60,7 @@ export class AlumnogpoComponent {
     this.cargarCiclos();
     this.cargarTipoExamen();
     this.cargarDocentes();
-    this.user=sessionStorage.UserId;
+    this.user=localStorage.UserId;
     this.alumnoIns.UsuarioCreacionID=Number(this.user);
   }
   constructor(

@@ -41,8 +41,8 @@ export class CalificacionesComponent {
   ];
 
   ngOnInit(): void {
-    this.Perfil = sessionStorage.UserPerfil;
-    this.UserId = sessionStorage.UserId;
+    this.Perfil = localStorage.UserPerfil;
+    this.UserId = localStorage.UserId;
     if(Number(this.Perfil)==1){
       this.cargarGruposEstudiante();
     }

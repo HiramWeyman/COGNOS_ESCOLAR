@@ -16,7 +16,25 @@ import {AppService} from '@services/app.service';
 export class AuthGuard implements CanActivate, CanActivateChild {
     constructor(private router: Router, private appService: AppService) {}
 
-    canActivate(
+    canActivate(): boolean {
+        return this.checkLoggedIn();
+      }
+    
+      canActivateChild(): boolean {
+        return this.checkLoggedIn();
+      }
+      
+    private checkLoggedIn(): boolean {
+        console.log(this.appService.isAuthenticated());
+        if (this.appService.isAuthenticated()) {
+          return true;
+        } else {
+          // Si la sesión está expirada, redirigir al login
+          this.router.navigate(['/login']);
+          return false;
+        }
+      }
+/*     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ):
@@ -36,11 +54,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         | boolean
         | UrlTree {
         return this.canActivate(next, state);
-    }
+    } */
 
     async getProfile() {
         //console.log(this.appService.user);
-        if(this.appService.user==null){
+    /*     if(this.appService.user==null){
             this.router.navigate(['/login']);
         }  
         if (this.appService.user) {
@@ -52,6 +70,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
             return true;
         } catch (error) {
             return false;
-        }
+        } */
     }
 }

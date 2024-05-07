@@ -40,6 +40,10 @@
             <ng-template [ngIf]="perfil===3">
                 <app-menu-item *ngFor="let item3 of menu3" [menuItem]="item3"></app-menu-item>
             </ng-template>
+             <!--Menu de Gestor Docente-->
+            <ng-template [ngIf]="perfil===6">
+                <app-menu-item *ngFor="let item3 of menu3" [menuItem]="item3"></app-menu-item>
+            </ng-template>
     
         </ul>
     </nav>
