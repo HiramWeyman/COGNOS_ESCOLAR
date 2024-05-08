@@ -22,14 +22,14 @@ export class GeneracionesService {
     return this.http.get<Generacion>(`${environment.rutaAPI}` + 'getGeneracion/'+id);
   }
 
-  UpdateGeneracion(Generacion: GeneracionIns): Observable<GeneracionIns> {
-    return this.http.patch<GeneracionIns>(`${environment.rutaAPI}` + 'updateGeneracion/'+Generacion.GeneracionID, Generacion);
+  UpdateGeneracion(Generacion: Generacion): Observable<Generacion> {
+    console.log("Generacion",Generacion.generacionID);
+    return this.http.patch<Generacion>(`${environment.rutaAPI}` + 'updateGeneracion/'+Generacion.generacionID, Generacion);
   }
 
   GuardarGeneracion(Generacion: GeneracionIns): Observable<GeneracionIns> {
     
     Generacion.GeneracionID=0;
-    console.log("Generacion",Generacion);
     return this.http.post<GeneracionIns>(`${environment.rutaAPI}`+'insertGeneracion', Generacion);
   }
 

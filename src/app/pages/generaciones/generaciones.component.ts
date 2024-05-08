@@ -94,9 +94,10 @@ export class GeneracionesComponent {
   }
 
   Actualizar(){
-    this._generacion.UpdateGeneracion(this.generacionIns).subscribe(datos => {
-    
+    this._generacion.UpdateGeneracion(this.generacion).subscribe(datos => {
+      
       if(datos){
+        console.log("datos",datos);
         this.blockUI.stop();
         this.resp=datos;
         swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
