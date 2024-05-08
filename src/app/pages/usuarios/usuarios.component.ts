@@ -1,22 +1,27 @@
 import { Usuarios } from '@/models/Usuarios';
 import { UsuariosIns } from '@/models/UsuariosIns';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PerfilesService } from '@services/perfiles.service';
 import { UsuariosService } from '@services/usuarios.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.scss']
 })
+
 export class UsuariosComponent {
+
   @BlockUI()
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
-  Usuarios: any;
+
+  Usuarios: any[];
   Perfiles: any;
+  Genero: any;
   user: Usuarios = new Usuarios();
   userIns: UsuariosIns = new UsuariosIns();
   resp: any;
@@ -24,10 +29,12 @@ export class UsuariosComponent {
   count: number = 0;
   tableSize: number = 5;
   tableSizes: any = [5, 10, 15, 20];
+ 
 
   ngOnInit(): void {
     this.cargarUsuarios();
     this.cargarPerfiles();
+    this.cargarGenero(); 
   }
   constructor(private router: Router, private _user: UsuariosService, private _perfil: PerfilesService) { }
 
@@ -42,6 +49,30 @@ export class UsuariosComponent {
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
+
+  ////Buscar en la tabla
+    // Tus variables y métodos existentes...
+    searchString: string;
+  
+
+    get filteredUsuarios() {
+      return this.filterUsuarios(this.Usuarios, this.searchString);
+    }
+  
+    filterUsuarios(usuarios: any[], searchString: string): any[] {
+      if (!usuarios) return [];
+      if (!searchString) return usuarios;
+  
+      searchString = searchString.toLowerCase();
+  
+      return usuarios.filter(it => {
+        return it.paterno.toLowerCase().includes(searchString)
+          || it.materno.toLowerCase().includes(searchString)
+          || it.nombre.toLowerCase().includes(searchString);
+      });
+    }
+
+   
 
   onTableDataChange(event: any) {
     console.log(event);
@@ -61,6 +92,18 @@ export class UsuariosComponent {
       per => {
         this.Perfiles = per;
         console.log(this.Perfiles);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarGenero() {
+    this._user.GetGenero().subscribe(
+      per => {
+        this.Genero = per;
+        console.log(this.Genero);
 
       }, error => {
         //console.log(error);
@@ -152,12 +195,23 @@ export class UsuariosComponent {
       return;
     }
 
+    if (!this.user.generoID) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Género de Usuario',
+        icon: 'info'
+      });
+      return;
+    }
+
     this.userIns.Paterno = this.user.paterno;
     this.userIns.Materno = this.user.materno;
     this.userIns.Nombre = this.user.nombre;
     this.userIns.Mail = this.user.mail;
     this.userIns.Password = this.user.password;
     this.userIns.PerfilID = this.user.perfilID;
+    this.userIns.GeneroID = this.user.generoID;
 
     this._user.GuardarUsuario(this.userIns).subscribe(datos => {
 
@@ -229,4 +283,23 @@ export class UsuariosComponent {
   }
 
 
+}
+
+@Pipe({
+  name: 'filter'
+})
+export class FilterPipe implements PipeTransform {
+
+  transform(items: any[], searchString: string): any[] {
+    if (!items) return [];
+    if (!searchString) return items;
+
+    searchString = searchString.toLowerCase();
+
+    return items.filter(it => {
+      return it.paterno.toLowerCase().includes(searchString)
+        || it.materno.toLowerCase().includes(searchString)
+        || it.nombre.toLowerCase().includes(searchString);
+    });
+  }
 }

@@ -14,8 +14,14 @@ export class UsuariosService {
   constructor(private http: HttpClient) { }
   public urlEndPoint = `${environment.rutaAPI}`;
   
-  GetUsuarios(): Observable<any> {
+ /*  GetUsuarios(): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getUsuarios');
+  } */
+
+  GetUsuarios(): Observable<any[]> {
+    return this.http.get(`${environment.rutaAPI}` + 'getUsuarios').pipe(
+      map(response => response as any[])
+    );
   }
 
   GetUsuarioID(id:number): Observable<Usuarios> {
@@ -32,5 +38,9 @@ export class UsuariosService {
 
   DeleteUsuario(id:number): Observable<Usuarios> {
     return this.http.patch<Usuarios>(`${environment.rutaAPI}` + 'deleteUsuario/'+id, "");
+  }
+
+  GetGenero(): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getGenero');
   }
 }
