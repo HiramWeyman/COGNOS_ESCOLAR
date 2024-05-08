@@ -7,4 +7,5 @@ export class Usuarios {
     mail: string;
     password: string;
     perfilID: number;
+    generoID: number;
 }

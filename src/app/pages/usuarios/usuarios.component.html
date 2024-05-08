@@ -2,6 +2,8 @@
   <div class="d-flex justify-content-center"><label>Catalogo de Usuarios</label></div>
 
   <div class="container">
+    <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
+    <br>
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"
       (click)="Limpiar()" style="width: 200px;">Agregar Usuario</button>
     <br>
@@ -26,11 +28,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Usuarios |paginate:{
-          itemsPerPage:tableSize,
-          currentPage:page,
-          totalItems:count
-        }; let i=index">
+        <tr  *ngFor="let item of (filteredUsuarios | paginate: {
+          itemsPerPage: tableSize,
+          currentPage: page,
+          totalItems: count
+        }); let i=index">
         <td class="col-xs-3 emoji-cell">
           <!-- Expresión condicional para mostrar emoji dependiendo del perfil -->
           {{ item.perfilID === 1 ? '👤' : item.perfilID === 2 ? '👩🏻‍🏫' : item.perfilID === 3 ? '👨🏽‍💻' : item.perfilID === 4 ? '👨🏽‍⚖️' : 'N/A' }}
@@ -95,6 +97,13 @@
             <select class="form-control" [(ngModel)]="user.perfilID">
               <option value="" selected="selected">Seleccione una Opción</option>
               <option *ngFor="let item of Perfiles" [value]="item.perfilID">{{item.nombrePerfil}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Género :</label>
+            <select class="form-control" [(ngModel)]="user.generoID">
+              <option value="" selected="selected">Seleccione una Opción</option>
+              <option *ngFor="let item of Genero" [value]="item.generoID">{{item.generoDesc}}</option>
             </select>
           </div>
 

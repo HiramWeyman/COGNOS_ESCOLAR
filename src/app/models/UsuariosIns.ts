@@ -7,4 +7,5 @@ export class UsuariosIns {
     Mail: string;
     Password: string;
     PerfilID: number;
+    GeneroID: number;
 }
