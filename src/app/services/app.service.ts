@@ -65,6 +65,12 @@ export class AppService {
         console.log(`${environment.rutaAPI}` + '/RecuperaPass/ValidaMail/'+email);
         return this.http.get<any>(`${environment.rutaAPI}` + '/RecuperaPass/ValidaMail/'+email);
     }
+
+
+    UpdatePass(id:number,pass: string): Observable<any> {
+        return this.http.patch<any>(`${environment.rutaAPI}` + 'cambiaPass/'+id+'/'+pass, '');
+    }
+
     
     //Envia correo para recuperar password
     EnviarCorreo(email:string): Observable<string> {
