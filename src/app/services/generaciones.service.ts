@@ -29,7 +29,7 @@ export class GeneracionesService {
   GuardarGeneracion(Generacion: GeneracionIns): Observable<GeneracionIns> {
     
     Generacion.GeneracionID=0;
-    console.log(Generacion);
+    console.log("Generacion",Generacion);
     return this.http.post<GeneracionIns>(`${environment.rutaAPI}`+'insertGeneracion', Generacion);
   }
 

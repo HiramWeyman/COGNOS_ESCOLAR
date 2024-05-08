@@ -3,9 +3,10 @@ import { GeneracionIns } from '@/models/GeneracionIns';
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GeneracionesService } from '@services/generaciones.service';
-import { NgBlockUI } from 'ng-block-ui';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { Semestres_Service } from '@services/semestres.service';
 
 @Component({
   selector: 'app-generaciones',
@@ -13,9 +14,11 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./generaciones.component.scss']
 })
 export class GeneracionesComponent {
+  @BlockUI()
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
   Generaciones:any;
+  ListaSemestres:any;
   generacion:Generacion=new Generacion();
   generacionIns:GeneracionIns=new GeneracionIns();
   resp:any;
@@ -23,8 +26,9 @@ export class GeneracionesComponent {
   fecFin:any;
   ngOnInit(): void {
   this.cargarGeneraciones();
+  this.cargarListaSemestres();
   }
-  constructor(private router: Router,private _generacion:GeneracionesService,private datePipe: DatePipe){}
+  constructor(private router: Router,private _generacion:GeneracionesService,private _listaSemestre:Semestres_Service,private datePipe: DatePipe){}
 
 
   cargarGeneraciones() {
@@ -75,6 +79,109 @@ export class GeneracionesComponent {
     this.generacionIns.FechaInicio=null;
     this.generacionIns.FechaFin=null;
     this.generacionIns.SemestreID=null;
+  }
+
+  cargarListaSemestres() {
+    this._listaSemestre.GetListaSemestres().subscribe(
+      sem => {
+        this.ListaSemestres = sem;
+        console.log(this.ListaSemestres);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  Actualizar(){
+    this._generacion.UpdateGeneracion(this.generacionIns).subscribe(datos => {
+    
+      if(datos){
+        this.blockUI.stop();
+        this.resp=datos;
+        swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
+        this.router.navigate(['/generaciones']); 
+        this.limpiar();
+        this.modalClose.nativeElement.click();
+      }
+      this.ngOnInit();
+  
+    },error => {
+      this.blockUI.stop();
+      console.log(error);
+      //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+    });
+  }
+
+  Guardar(){
+    this.blockUI.start('Guardando Usuario...');
+    if(!this.generacion.titulo){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Nombre de Generacion',
+        icon: 'info'
+      });
+      return;
+    }
+  
+    if(!this.generacion.fechaInicio){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Fecha de Inicio',
+        icon: 'info'
+      });
+      return;
+    }
+  
+    if(!this.generacion.fechaFin){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Fecha Final',
+        icon: 'info'
+      });
+      return;
+    }
+
+    if(!this.generacion.semestreID){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Semestre',
+        icon: 'info'
+      });
+      return;
+    }
+  
+
+  
+    this.generacionIns.Titulo=this.generacion.titulo;
+    this.generacionIns.FechaInicio=this.generacion.fechaInicio;
+    this.generacionIns.FechaFin=this.generacion.fechaFin;
+    this.generacionIns.SemestreID=this.generacion.semestreID;
+
+    
+    console.log(this.generacionIns);
+    this._generacion.GuardarGeneracion(this.generacionIns).subscribe(datos => {
+      
+      if(datos){
+        this.blockUI.stop();
+        this.resp=datos;
+        swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
+        this.router.navigate(['/generaciones']); 
+        this.limpiar();
+        this.limpiar2();
+        this.modalClose.nativeElement.click();
+      }
+      this.ngOnInit();
+  
+    },error => {
+      this.blockUI.stop();
+      console.log(error);
+      //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+    });
   }
 
 }

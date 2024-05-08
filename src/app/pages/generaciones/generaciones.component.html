@@ -59,6 +59,13 @@
                         <label for="recipient-name" class="col-form-label">Fecha Fin:</label>
                         <input type="date" class="form-control" id="recipient-name" [(ngModel)]="generacion.fechaFin">
                     </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Semestre:</label>
+                        <select class="form-control" [(ngModel)]="generacion.semestreID">
+                          <option value="" selected="selected">Seleccione un Semestre</option>
+                          <option *ngFor="let item of ListaSemestres" [value]="item.semestreID">{{item.descripcion}}</option>
+                        </select>
+                    </div>
                     <!-- <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Estatus:</label>
                         <select class="form-control" [(ngModel)]="perfil.activo">
@@ -68,15 +75,15 @@
                         </select>
                     </div> -->
               </div>
-              <!-- <div class="modal-footer">
+               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
-                <ng-template [ngIf]="perfil.perfilID" [ngIfElse]="elseBlock">
+                <ng-template [ngIf]="generacion.generacionID" [ngIfElse]="elseBlock">
                   <button type="button" class="btn btn-primary" id="act" name="act" (click)="Actualizar()">Actualizar Perfil</button>
                 </ng-template>
                 <ng-template #elseBlock>
-                  <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Perfil</button>
+                  <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar Generacion</button>
                 </ng-template>
-              </div> -->
+              </div>
           </div>
         </div> 
     </div>
