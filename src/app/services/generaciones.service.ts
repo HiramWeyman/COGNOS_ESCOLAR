@@ -23,7 +23,7 @@ export class GeneracionesService {
   }
 
   UpdateGeneracion(Generacion: Generacion): Observable<Generacion> {
-    console.log("Generacion",Generacion.generacionID);
+    console.log("PRUENa",Generacion);
     return this.http.patch<Generacion>(`${environment.rutaAPI}` + 'updateGeneracion/'+Generacion.generacionID, Generacion);
   }
 

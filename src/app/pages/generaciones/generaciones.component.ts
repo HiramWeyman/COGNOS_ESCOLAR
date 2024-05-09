@@ -97,7 +97,6 @@ export class GeneracionesComponent {
     this._generacion.UpdateGeneracion(this.generacion).subscribe(datos => {
       
       if(datos){
-        console.log("datos",datos);
         this.blockUI.stop();
         this.resp=datos;
         swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');

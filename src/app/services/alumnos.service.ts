@@ -42,6 +42,7 @@ export class AlumnosService {
   }
 
   UpdateAlumno(alumno: Alumno): Observable<Alumno> {
+    //console.log("Generacion-UpdateAlumno",alumno)
     return this.http.patch<Alumno>(`${environment.rutaAPI}` + 'updateEstudiante/'+alumno.estudianteID, alumno);
   }
 

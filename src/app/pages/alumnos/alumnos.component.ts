@@ -8,6 +8,7 @@ import { DocenteIns } from '@/models/DocenteIns';
 import { AlumnosService } from '@services/alumnos.service';
 import { Alumno } from '@/models/Alumno';
 import { AlumnoIns } from '@/models/AlumnoIns';
+import { GeneracionesService } from '@services/generaciones.service';
 
 @Component({
   selector: 'app-alumnos',
@@ -20,6 +21,7 @@ export class AlumnosComponent {
   @ViewChild('myModalClose') modalClose;
   Usuarios:any;
   Alumnos:any;
+  ListaGeneraciones:any;
   alumno:Alumno=new Alumno();
   alumnoIns:AlumnoIns=new AlumnoIns();
   resp:any;
@@ -27,8 +29,9 @@ export class AlumnosComponent {
   ngOnInit(): void {
     this.cargarAlumnos();
     this.cargarUsuarios();
+    this.cargarListaGeneraciones();
     }
-    constructor(private router: Router,private _alumno:AlumnosService,private datePipe: DatePipe){}
+    constructor(private router: Router,private _alumno:AlumnosService,private _listaGeneraciones:GeneracionesService,private datePipe: DatePipe){}
 
     cargarAlumnos() {
       this._alumno.GetAlumnos().subscribe(
@@ -69,6 +72,7 @@ export class AlumnosComponent {
     limpiar(){
 
       this.alumno.estudianteID=null;
+      this.alumno.generacionID=null;
       this.alumno.grupoID=null;
       this.alumno.usuarioID=null;
       this.alumno.paterno=null;
@@ -175,5 +179,17 @@ export class AlumnosComponent {
           );
         }
       });
+    }
+
+    cargarListaGeneraciones() {
+      this._listaGeneraciones.GetGeneraciones().subscribe(
+        sem => {
+          this.ListaGeneraciones = sem;
+          console.log(this.ListaGeneraciones);
+  
+        }, error => {
+          //console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
     }
 }
