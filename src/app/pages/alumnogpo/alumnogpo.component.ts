@@ -178,6 +178,7 @@ export class AlumnogpoComponent {
     this._actaeva.GetActas(id).subscribe(
       al => {
         this.Actas = al;
+        console.log('Aqui se cargan las actas');
         console.log(this.Actas);
         for(let i=0;i<this.Actas.length;i++){
           this.fecActa =this.datePipe.transform(this.Actas[i].fecha,"dd/MM/yyyy");
@@ -390,9 +391,10 @@ export class AlumnogpoComponent {
     }, error => {
       this.blockUI.stop();
       console.log(error);
+      swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
       this.limpiar();
       this.modalClose.nativeElement.click();
-      swal.fire({ title: 'ERROR!!!', text: error.error.descripcion, icon: 'error' });
+      
 
     });
   }

@@ -215,13 +215,19 @@
                             <tr>
                                 <th>Folio del Acta</th>
                                 <th>Fecha</th>
-                                <th align="right" style="text-align: right;">Acta de Evaluación</th>
+                                <th>Tipo de Examen</th>
+                                <th style="text-align: center;">Editar Acta de Evaluación</th>
+                                <th align="right" style="text-align: center;">Acta de Evaluación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of Actas">
                                 <td>{{item.folio}}</td>
                                 <td>{{item.fecha}}</td>
+                                <td *ngIf="item.tipoExamenID==2"><label>Ordinario</label></td>
+                                <td *ngIf="item.tipoExamenID==3"><label>Extraordinario</label></td>
+                                <td *ngIf="item.tipoExamenID==4"><label>Titulo</label></td>
+                                <td align="right"><button type="button" class="btn btn-primary btn-sm" (click)="Reporte(item.actaEvaluacionID)">Editar Acta de Evaluación</button></td>
                                 <td align="right"><button type="button" class="btn btn-danger btn-sm" (click)="Reporte(item.actaEvaluacionID)">Ver Acta de Evaluación</button></td>
                             </tr>
                         </tbody>
