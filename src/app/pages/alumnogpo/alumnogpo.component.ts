@@ -20,6 +20,8 @@ import { Ciclos_Service } from '@services/ciclos.service';
 import { ActaEvaluacion } from '@/models/ActaEvaluacion';
 import { ActaEvaService } from '@services/actaevaluacion.service';
 import { environment} from '../../../environments/environment';
+import { ActaEvaluacionUp } from '@/models/ActaEvaluacionDataUp';
+import { ActaEvaluacionDto } from '@/models/ActaEvaluacionDTO';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -30,6 +32,7 @@ export class AlumnogpoComponent {
   @BlockUI()
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
+  @ViewChild('myModalClose2') modalClose2;
   Usuarios: any;
   Materias: any;
   Docentes: any;
@@ -39,10 +42,12 @@ export class AlumnogpoComponent {
   Alumnos:any;
   Docente:any;
   Actas:any;
+  acta:ActaEvaluacionUp=new ActaEvaluacionUp();
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
   alumnoCal: Calificacion = new Calificacion();
   actaEva:ActaEvaluacion=new ActaEvaluacion();
+  actaEva2:ActaEvaluacionDto=new ActaEvaluacionDto();
   resp: any;
   fecActa: any;
   fecCrea:any;
@@ -412,5 +417,101 @@ export class AlumnogpoComponent {
   }
 
 
+  GetActa(id:number){
+    this._actaeva.GetActaID(id).subscribe(
+      al => {
+        this.acta = al;
+        console.log('Aqui se cargan las actas');
+        console.log(this.acta);
+        this.fecActa =this.datePipe.transform(this.acta.fecha,"yyyy-MM-dd");
+        this.acta.fecha= this.fecActa;
+        console.log(this.acta);
+      
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  ActualizaActa(acta:ActaEvaluacionUp){
+    this.blockUI.start('Actualizando Acta de Evaluación...');
+
+    this.actaEva2.ActaEvaluacionID=acta.actaEvaluacionID;
+    this.actaEva2.AsignacionID=acta.asignacionID;
+    this.actaEva2.CicloID=acta.cicloID;
+    this.actaEva2.TipoExamenID=acta.tipoExamenID;
+    this.actaEva2.DocenteID=acta.docenteID;
+    this.actaEva2.Folio=acta.folio;
+    this.actaEva2.Fecha=acta.fecha;
+    this.actaEva2.Sinodal=acta.sinodal;
+    this.actaEva2.Activo=acta.activo;
+
+
+    this._actaeva.UpdateActa(this.actaEva2).subscribe(datos => {
+      var id=Number(this.actaEva.AsignacionID);
+        if (datos) {
+  
+          this.blockUI.stop();
+          this.modalClose2.nativeElement.click();
+          this.resp = datos;
+          swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
+          this.cargarActas(id);
+          this.actaEva2.ActaEvaluacionID=null;
+          this.actaEva2.AsignacionID=null;
+          this.actaEva2.CicloID=null;
+          this.actaEva2.TipoExamenID=null;
+          this.actaEva2.DocenteID=null;
+          this.actaEva2.Folio=null;
+          this.actaEva2.Fecha=null;
+          this.actaEva2.Sinodal=null;
+          this.actaEva2.Activo=null;
+  
+        }
+     
+      }, error => {
+        this.blockUI.stop();
+        console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+        this.limpiar();
+        this.modalClose2.nativeElement.click();
+        
+  
+      });
+
+  }
+ 
+  EliminarActa(id:number,asignacionId:number){
+    swal.fire({
+      title: "Esta seguro de que quiere eliminar esta acta?",
+      text: "Una vez eliminada no se podra recuperar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminala!",
+      cancelButtonText: "Cancelar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.blockUI.start('Eliminando Acta de Evaluación...');
+        this._actaeva.DeleteActa(id).subscribe(datos => {
+          
+            if (datos) {
+              this.blockUI.stop();
+              this.resp = datos;
+              swal.fire('Eliminando Acta', `${this.resp.descripcion}`, 'success');
+              this.cargarActas(asignacionId);
+            }
+         
+          }, error => {
+            this.blockUI.stop();
+            console.log(error);
+            swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+          });
+    
+      }
+    });
+  }
+
+ 
 
 }

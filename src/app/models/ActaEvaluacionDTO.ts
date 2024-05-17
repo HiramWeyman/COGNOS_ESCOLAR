@@ -1,4 +1,4 @@
-export class ActaEvaluacion {
+export class ActaEvaluacionDto {
     ActaEvaluacionID:number;
     AsignacionID:number;
     CicloID:number;
@@ -7,6 +7,5 @@ export class ActaEvaluacion {
     Folio:string; 
     Fecha:Date; 
     Sinodal:number;
-    
+    Activo:boolean;
 }
-

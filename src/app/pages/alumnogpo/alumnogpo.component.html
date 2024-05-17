@@ -65,7 +65,6 @@
         </table>
     </div>
 
-
     <!-- Button trigger modal -->
     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
@@ -141,8 +140,7 @@
     </div>
 
 <!--Actas de evaluacion-->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="exampleModal2" 
-    aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg"  id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="primerModalLabel" aria-hidden="true" style="z-index: 1050;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -179,7 +177,8 @@
                         <label class="form-label" for="form8Example3">Seleccione un Ciclo</label>
                         <select class="form-control" [(ngModel)]="actaEva.CicloID">
                             <option selected>Seleccione un Ciclo</option>
-                            <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}}</select>
+                            <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}}</option>
+                        </select>
                       </div>
                     </div>
                     <div class="col">
@@ -205,6 +204,8 @@
               
                   </div>
                   <hr />
+
+
                   <button type="button" class="btn btn-primary btn-lg btn-block" (click)="GuardarActa()">Crear Acta de Evaluación</button>
                   <hr />
               
@@ -218,6 +219,7 @@
                                 <th>Tipo de Examen</th>
                                 <th style="text-align: center;">Editar Acta de Evaluación</th>
                                 <th align="right" style="text-align: center;">Acta de Evaluación</th>
+                                <th style="text-align: center;">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -227,8 +229,9 @@
                                 <td *ngIf="item.tipoExamenID==2"><label>Ordinario</label></td>
                                 <td *ngIf="item.tipoExamenID==3"><label>Extraordinario</label></td>
                                 <td *ngIf="item.tipoExamenID==4"><label>Titulo</label></td>
-                                <td align="right"><button type="button" class="btn btn-primary btn-sm" (click)="Reporte(item.actaEvaluacionID)">Editar Acta de Evaluación</button></td>
+                                <td align="right"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalEdit" data-whatever="@mdo" (click)="GetActa(item.actaEvaluacionID)">Editar Acta de Evaluación</button></td>
                                 <td align="right"><button type="button" class="btn btn-danger btn-sm" (click)="Reporte(item.actaEvaluacionID)">Ver Acta de Evaluación</button></td>
+                                <td align="right"><button type="button" class="btn btn-primary btn-sm" (click)="EliminarActa(item.actaEvaluacionID,item.asignacionID)">Eliminar</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -239,5 +242,42 @@
             </div>
         </div>
     </div>
+</div>
+
+<!--Modal para editar Acta-->
+<div class="modal fade" id="exampleModalEdit" tabindex="-1" role="dialog" aria-labelledby="segundoModalLabel" aria-hidden="true" style="z-index: 2000;" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Acta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+          <div class="form-group">
+            <label class="form-label" for="form8Example1">Folio:</label>
+            <input type="text" id="form8Example1" class="form-control"  [(ngModel)]="acta.folio"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form8Example2">Fecha:</label>
+            <input type="date" class="form-control" id="recipient-name" [(ngModel)]="acta.fecha">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form8Example3">Seleccione un Ciclo</label>
+            <select class="form-control" [(ngModel)]="acta.cicloID">
+                <option selected>Seleccione un Ciclo</option>
+                <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}}</option>
+            </select>
+          </div>
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose2>Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="ActualizaActa(acta)">Editar Acta</button>
+      </div>
+    </div>
+  </div>
 </div>
 </block-ui>

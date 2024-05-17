@@ -1,5 +1,6 @@
 
 import { ActaEvaluacion } from '@/models/ActaEvaluacion';
+import { ActaEvaluacionDto } from '@/models/ActaEvaluacionDTO';
 import { Alumno } from '@/models/Alumno';
 import { AlumnoIns } from '@/models/AlumnoIns';
 /* import { AlumnoIns } from '@/models/AlumnoIns'; */
@@ -26,6 +27,11 @@ export class ActaEvaService {
     return this.http.get(`${environment.rutaAPI}` + 'getListaActa/'+id);
   }
 
+  GetActaID(id:number): Observable<any> {
+    console.log(id);
+    return this.http.get(`${environment.rutaAPI}` + 'getActaID/'+id);
+  }
+
 /*   GetUsuariosEst(): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'getUsuariosAlumnos');
   }
@@ -34,17 +40,22 @@ export class ActaEvaService {
     return this.http.get<Alumno>(`${environment.rutaAPI}` + 'getEstudiante/'+id);
   }
 
-  UpdateAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.http.patch<Alumno>(`${environment.rutaAPI}` + 'updateEstudiante/'+alumno.estudianteID, alumno);
-  } */
+   */
 
   GuardarActa(acta: ActaEvaluacion): Observable<ActaEvaluacion> {
     acta.ActaEvaluacionID=0;
     return this.http.post<ActaEvaluacion>(`${environment.rutaAPI}`+'insertActa', acta);
   }
 
-/*  DeleteAlumno(id:number): Observable<Alumno> {
-    return this.http.patch<Alumno>(`${environment.rutaAPI}` + 'deleteEstudiante/'+id, "");
+  UpdateActa(acta: ActaEvaluacionDto): Observable<ActaEvaluacionDto> {
+    console.log(acta);
+    return this.http.patch<ActaEvaluacionDto>(`${environment.rutaAPI}` + 'updateActa/'+acta.ActaEvaluacionID, acta);
+  }
+
+  DeleteActa(id:number): Observable<any> {
+    return this.http.patch<any>(`${environment.rutaAPI}` + 'deleteActa/'+id, "");
   } 
- */
+
+  
+ 
 }
