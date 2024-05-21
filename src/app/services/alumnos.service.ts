@@ -1,6 +1,7 @@
 
 import { Alumno } from '@/models/Alumno';
 import { AlumnoIns } from '@/models/AlumnoIns';
+import { Certificado } from '@/models/Certificado';
 /* import { AlumnoIns } from '@/models/AlumnoIns'; */
 import { Materia } from '@/models/Materia';
 import { Perfil } from '@/models/Perfil';
@@ -51,8 +52,34 @@ export class AlumnosService {
     return this.http.post<AlumnoIns>(`${environment.rutaAPI}`+'estudianteregistro', alumno);
   }
 
- DeleteAlumno(id:number): Observable<Alumno> {
+  DeleteAlumno(id:number): Observable<Alumno> {
     return this.http.patch<Alumno>(`${environment.rutaAPI}` + 'deleteEstudiante/'+id, "");
   } 
+
+  //Metodos para el certificado
+
+  GuardarCertificado(cert: Certificado): Observable<Certificado> {
+    cert.certificadoID=0;
+    return this.http.post<Certificado>(`${environment.rutaAPI}`+'insertCertificado', cert);
+  }
+
+  GetCertificados(idEstudiante:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getListaCertificados/'+idEstudiante);
+  }
+
+  GetCertificado(idCertificado:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getCertificadoID/'+idCertificado);
+  }
+
+  UpdateCertificado(cert: Certificado): Observable<Certificado> {
+    //console.log("Generacion-UpdateAlumno",alumno)
+    return this.http.patch<Certificado>(`${environment.rutaAPI}` + 'updateCertificado/'+cert.certificadoID, cert);
+  }
+
+  DeleteCertificado(id:number): Observable<Certificado> {
+    //console.log("Generacion-UpdateAlumno",alumno)
+    return this.http.patch<Certificado>(`${environment.rutaAPI}` + 'deleteCertificado/'+id, "");
+  }
+
 
 }

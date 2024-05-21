@@ -363,15 +363,7 @@ export class AlumnogpoComponent {
       return;
     }
 
-  /*   if (this.actaEva.Sinodal==null) {
-      this.blockUI.stop();
-      swal.fire({
-        title: 'Información!!!',
-        text: 'Falta Ingresar un Sinodal',
-        icon: 'info'
-      });
-      return;
-    } */
+
     console.log(this.actaEva);
     this.actaEva.CicloID=Number(this.actaEva.CicloID);
     this.actaEva.TipoExamenID=Number(this.actaEva.TipoExamenID);
