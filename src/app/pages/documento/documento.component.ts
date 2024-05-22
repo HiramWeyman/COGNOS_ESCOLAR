@@ -34,6 +34,10 @@ export class DocumentoComponent {
   nosemestre: number = null;
   tipo: number = null;
   NoCalificaciones: number;
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
     this.cargarAlumnos();
     this.cargarUsuarios();
@@ -48,13 +52,48 @@ export class DocumentoComponent {
       al => {
         this.blockUI.stop();
         this.Alumnos = al;
-        //console.log(this.Alumnos);
+        console.log(this.Alumnos);
 
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
+
+  onTableDataChange(event: any) {
+    console.log(event);
+    this.page = event;
+    this.cargarAlumnos();
+  }
+
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.cargarAlumnos();
+  }
+
+  ////Buscar en la tabla
+    // Tus variables y métodos existentes...
+    searchString: string;
+
+  get filteredUsuarios() {
+    return this.filterUsuarios(this.Alumnos, this.searchString);
+  }
+
+  filterUsuarios(usuarios: any[], searchString: string): any[] {
+    if (!usuarios) return [];
+    if (!searchString) return usuarios;
+
+    searchString = searchString.toLowerCase();
+
+    return usuarios.filter(it => {
+      return it.paterno.toLowerCase().includes(searchString)
+        || it.materno.toLowerCase().includes(searchString)
+        || it.nombre.toLowerCase().includes(searchString)
+        || it.matricula.toLowerCase().includes(searchString);
+    });
+  }
+
 
   cargarUsuarios() {
     this._alumno.GetUsuariosEst().subscribe(
@@ -106,9 +145,7 @@ export class DocumentoComponent {
   }
 
   ConsultaDoc(idEstudiante: number, Tipodoc: number, Semestre: number) {
-    console.log(Tipodoc);
-    console.log(idEstudiante);
-    console.log(Semestre);
+  
 
     this._alumno.GetCountCal(idEstudiante).subscribe(
       al => {
@@ -167,11 +204,8 @@ export class DocumentoComponent {
           this.fecCert =this.datePipe.transform(this.certificadoList[i].fecha,"dd/MM/yyyy");
           this.certificadoList[i].fecha= this.fecCert;
         }
-      /*   for(let i=0;i<this.certificadoList.length;i++){
-          this.certificadoList =this.datePipe.transform(this.certificadoList[i].fecha,"dd/MM/yyyy");
-          this.certificadoList[i].fecha= this.certificadoList;
-        }  */
-        console.log(this.certificadoList);
+   
+      
       
       }, error => {
         //console.log(error);
@@ -259,7 +293,6 @@ export class DocumentoComponent {
         this.fecCert =this.datePipe.transform(this.certificado.fecha,"yyyy-MM-dd");
         this.certificado.fecha= this.fecCert;
     
-        console.log(this.certificado);
       
       }, error => {
         //console.log(error);
