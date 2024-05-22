@@ -81,5 +81,9 @@ export class AlumnosService {
     return this.http.patch<Certificado>(`${environment.rutaAPI}` + 'deleteCertificado/'+id, "");
   }
 
+  GetCountCal(id:number): Observable<number> {
+    return this.http.get<number>(`${environment.rutaAPI}` + 'getValidaCal/'+id);
+  }
+
 
 }

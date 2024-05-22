@@ -33,6 +33,7 @@ export class DocumentoComponent {
   fecCert:any;
   nosemestre: number = null;
   tipo: number = null;
+  NoCalificaciones: number;
   ngOnInit(): void {
     this.cargarAlumnos();
     this.cargarUsuarios();
@@ -42,8 +43,10 @@ export class DocumentoComponent {
   constructor(private router: Router, private _alumno: AlumnosService, private datePipe: DatePipe) { }
 
   cargarAlumnos() {
+    this.blockUI.start('Cargando ...');
     this._alumno.GetAlumnos().subscribe(
       al => {
+        this.blockUI.stop();
         this.Alumnos = al;
         //console.log(this.Alumnos);
 
@@ -106,20 +109,41 @@ export class DocumentoComponent {
     console.log(Tipodoc);
     console.log(idEstudiante);
     console.log(Semestre);
-    if(Tipodoc==2){
-      console.log('Opción 2 Boleta de Calificaciones');
-      window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre);
-    }
-    else if(Tipodoc==3){
-      console.log('Opción 3 Kardex de Calificaciones');
-      window.open(`${environment.rutaAPI}` + 'ReportKardex/' + idEstudiante);
-    }
-    else{
-      console.log('Opción 4 Cerfificado');
-      window.open(`${environment.rutaAPI}` + 'ReportCertificado/' + idEstudiante);
-    }
 
+    this._alumno.GetCountCal(idEstudiante).subscribe(
+      al => {
+        this.NoCalificaciones = al;
+        console.log(this.NoCalificaciones);
+        if(this.NoCalificaciones==0){
+          swal.fire({
+            title: 'Información!!!',
+            text: 'El alumno aún no tiene calificaciones',
+            icon: 'info'
+          });
+        }else{
+          if(Tipodoc==2){
+            console.log('Opción 2 Boleta de Calificaciones');
+            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre);
+          }
+          else if(Tipodoc==3){
+            console.log('Opción 3 Kardex de Calificaciones');
+            window.open(`${environment.rutaAPI}` + 'ReportKardex/' + idEstudiante);
+          }
+          else{
+            console.log('Opción 4 Cerfificado');
+            window.open(`${environment.rutaAPI}` + 'ReportCertificado/' + idEstudiante);
+          }
 
+        }
+      
+    
+      
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+    
+  
   }
 
   Limpiar() {
