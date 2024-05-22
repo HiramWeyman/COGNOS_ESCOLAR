@@ -2,6 +2,13 @@
 <div class="d-flex justify-content-center"><label>Catalogo de Materias</label></div><br>
 
 <div class="container" style="margin-left: 5px;">
+    <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
+  <div>
+    <select (change)="onTableSizeChange($event)" class="form-control" style="width: 200px;">
+      <option value="5" selected>No. de registros</option>
+      <option *ngFor="let item of tableSizes">{{item}}</option>
+    </select>
+  </div><br>
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Agregar
         Materia</button>
     <table class="table table-fixed">
@@ -18,7 +25,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of Materias">
+            <tr *ngFor="let item of (filteredUsuarios | paginate: {
+                itemsPerPage: tableSize,
+                currentPage: page,
+                totalItems: count
+              }); let i=index">
                 <td class="col-xs-3">{{item.clave}}</td>
                 <td class="col-xs-3">{{item.nombre}}</td>
                 <td class="col-xs-3">{{item.creditos}}</td>
@@ -29,6 +40,11 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <pagination-controls previousLabel="Ant" nextLabel="Sig" [responsive]="true"
+          (pageChange)="onTableDataChange($event)">
+        </pagination-controls>
+      </div>
 </div>
 
 

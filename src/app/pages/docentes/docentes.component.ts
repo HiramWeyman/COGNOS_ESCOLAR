@@ -23,6 +23,10 @@ export class DocentesComponent {
   docenteIns:DocenteIns=new DocenteIns();
   resp:any;
   fecCrea:any;
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
     this.cargarDocentes();
     this.cargarUsuarios();
@@ -30,8 +34,10 @@ export class DocentesComponent {
     constructor(private router: Router,private _docente:DocenteService,private datePipe: DatePipe){}
   
     cargarDocentes() {
+      this.blockUI.start('Cargando ...');
       this._docente.GetDocentes().subscribe(
         per => {
+          this.blockUI.stop();
           this.Docentes = per;
           console.log(this.Docentes);
           
@@ -40,6 +46,40 @@ export class DocentesComponent {
           //console.log(error);
           swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
         });
+    }
+
+    onTableDataChange(event: any) {
+      console.log(event);
+      this.page = event;
+      this.cargarDocentes();
+    }
+  
+    onTableSizeChange(event: any): void {
+      this.tableSize = event.target.value;
+      this.page = 1;
+      this.cargarDocentes();
+    }
+  
+    ////Buscar en la tabla
+      // Tus variables y métodos existentes...
+      searchString: string;
+  
+    get filteredUsuarios() {
+      return this.filterUsuarios(this.Docentes, this.searchString);
+    }
+  
+    filterUsuarios(usuarios: any[], searchString: string): any[] {
+      if (!usuarios) return [];
+      if (!searchString) return usuarios;
+  
+      searchString = searchString.toLowerCase();
+  
+      return usuarios.filter(it => {
+        return it.paterno.toLowerCase().includes(searchString)
+          || it.materno.toLowerCase().includes(searchString)
+          || it.nombre.toLowerCase().includes(searchString);
+          
+      });
     }
 
     cargarUsuarios() {

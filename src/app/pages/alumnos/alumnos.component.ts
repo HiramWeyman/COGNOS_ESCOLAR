@@ -38,8 +38,10 @@ export class AlumnosComponent {
     constructor(private router: Router,private _alumno:AlumnosService,private _listaGeneraciones:GeneracionesService,private datePipe: DatePipe){}
 
     cargarAlumnos() {
+      this.blockUI.start('Cargando ...');
       this._alumno.GetAlumnos().subscribe(
         al => {
+          this.blockUI.stop();
           this.Alumnos = al;
           //console.log(this.Alumnos);
         

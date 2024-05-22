@@ -21,16 +21,22 @@ export class CiclosComponent {
   resp:any;
   fecIni:any;
   fecFin:any;
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
   this.cargarCiclos();
   }
   constructor(private router: Router,private _ciclos:Ciclos_Service,private datePipe: DatePipe){}
 
   cargarCiclos() {
+    this.blockUI.start('Cargando ...');
     this._ciclos.GetCiclos().subscribe(
       usr => {
+        this.blockUI.stop();
         this.Ciclos = usr;
-        //console.log(this.Ciclos);
+        console.log(this.Ciclos);
         for(let i=0;i<this.Ciclos.length;i++){
           this.fecIni =this.datePipe.transform(this.Ciclos[i].fechaInicio,"dd/MM/yyyy");
           this.Ciclos[i].fechaInicio= this.fecIni;
@@ -44,6 +50,42 @@ export class CiclosComponent {
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
+
+  onTableDataChange(event: any) {
+    console.log(event);
+    this.page = event;
+    this.cargarCiclos();
+  }
+
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.cargarCiclos();
+  }
+
+  ////Buscar en la tabla
+    // Tus variables y métodos existentes...
+    searchString: string;
+
+  get filteredUsuarios() {
+    return this.filterUsuarios(this.Ciclos, this.searchString);
+  }
+
+  filterUsuarios(ciclos: any[], searchString: string): any[] {
+    if (!ciclos) return [];
+    if (!searchString) return ciclos;
+
+    searchString = searchString.toLowerCase();
+
+    return ciclos.filter(it => {
+      return it.titulo.toLowerCase().includes(searchString)
+        || it.periodo.toLowerCase().includes(searchString)
+        || it.fechaInicio.toLowerCase().includes(searchString)
+        || it.fechaFin.toLowerCase().includes(searchString);
+        
+    });
+  }
+
 
   GetCiclo(id:number){
     this._ciclos.GetCicloID(id).subscribe(
