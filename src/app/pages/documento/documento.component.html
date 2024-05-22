@@ -1,5 +1,5 @@
 <block-ui>
-  <div class="d-flex justify-content-center"><label>Alumnos</label></div>
+  <div class="d-flex justify-content-center"><label>Documentos de Alumnos</label></div>
   
   <div class="container">
     <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
@@ -29,12 +29,6 @@
             <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Consultar documentos</button></td>
             <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2" (click)="CrearCertificado(item.estudianteID); cargarCertificados(item.estudianteID)">Generar certificado</button></td>
           </tr>   
-        <!--   <tr *ngFor="let item of Alumnos">
-            <td class="col-xs-2">{{item.matricula}}</td>
-            <td class="col-xs-6">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
-            <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Consultar documentos</button></td>
-            <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2" (click)="CrearCertificado(item.estudianteID); cargarCertificados(item.estudianteID)">Generar certificado</button></td>
-          </tr>    --> 
         </tbody>
       </table>
       <div>

@@ -26,6 +26,10 @@ export class AlumnosComponent {
   alumnoIns:AlumnoIns=new AlumnoIns();
   resp:any;
   fecCrea:any;
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
     this.cargarAlumnos();
     this.cargarUsuarios();
@@ -44,6 +48,41 @@ export class AlumnosComponent {
           swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
         });
     }
+
+    onTableDataChange(event: any) {
+      console.log(event);
+      this.page = event;
+      this.cargarAlumnos();
+    }
+  
+    onTableSizeChange(event: any): void {
+      this.tableSize = event.target.value;
+      this.page = 1;
+      this.cargarAlumnos();
+    }
+  
+    ////Buscar en la tabla
+      // Tus variables y métodos existentes...
+      searchString: string;
+  
+    get filteredUsuarios() {
+      return this.filterUsuarios(this.Alumnos, this.searchString);
+    }
+  
+    filterUsuarios(usuarios: any[], searchString: string): any[] {
+      if (!usuarios) return [];
+      if (!searchString) return usuarios;
+  
+      searchString = searchString.toLowerCase();
+  
+      return usuarios.filter(it => {
+        return it.paterno.toLowerCase().includes(searchString)
+          || it.materno.toLowerCase().includes(searchString)
+          || it.nombre.toLowerCase().includes(searchString);
+          
+      });
+    }
+  
 
     cargarUsuarios() {
       this._alumno.GetUsuariosEst().subscribe(
