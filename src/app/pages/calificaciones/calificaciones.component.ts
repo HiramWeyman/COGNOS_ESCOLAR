@@ -25,6 +25,8 @@ export class CalificacionesComponent {
   Materias: any;
   Docentes: any;
   Grupos: any;
+  Maestro: any;
+  MaestroID: any;
   AsignaDoc: any;
   Alumnos: any;
   Perfil: any;
@@ -33,7 +35,7 @@ export class CalificacionesComponent {
   CalIns: Calificacion = new Calificacion();
   resp: any;
   fecCrea: any;
-  valortemporal:number;
+  valortemporal: number;
   tiposExamen: { id: number, nombre: string }[] = [
     { id: 2, nombre: 'Ordinario' },
     { id: 3, nombre: 'Extraordinario' },
@@ -43,31 +45,20 @@ export class CalificacionesComponent {
   ngOnInit(): void {
     this.Perfil = localStorage.UserPerfil;
     this.UserId = localStorage.UserId;
-    if(Number(this.Perfil)==1){
+    if (Number(this.Perfil) == 1) {
       this.cargarGruposEstudiante();
     }
-    else{
+    if (Number(this.Perfil) == 2) {
+      this.cargarMaestro();
+      this.cargarGruposMaestro();
+    }
+    else {
       this.cargarGrupos();
     }
-    
+
     console.log(this.Perfil);
     console.log(this.UserId);
- /*    switch (Number(this.Perfil)) {
-      case 1: {
-        //statements; 
-        break;
-      }
-      case 2: {
-        //statements; 
-        this.cargarAsignacionProfesor()
-        break;
-      }
-      default: {
-        this.cargarAsignacion(); 
-        break;
-      }
 
-    } */
 
   }
 
@@ -76,57 +67,120 @@ export class CalificacionesComponent {
     private _asignacion: AsignacionService,
     private _docente: DocenteService,
     private _materia: MateriaService,
-    private _grupo:GruposService,
-    private _calificacion:CalificacionService,
+    private _grupo: GruposService,
+    private _calificacion: CalificacionService,
     private datePipe: DatePipe) { }
 
-    cargarGrupos() {
-      this._grupo.GetGrupos().subscribe(
-        per => {
-          this.Grupos = per;
-          console.log('Grupos Administrador');
-          console.log(this.Grupos);
-         
-        }, error => {
-          //console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
-
-    cargarGruposEstudiante() {
-      this._grupo.GetGruposEstudiante(Number(this.Perfil)).subscribe(
-        per => {
-          this.Grupos = per;
-          console.log(this.Grupos);
-         
-        }, error => {
-          //console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
-
-    ///////Busqueda de Asignacion por grupo
-  onChangeGpo(id: number) {
-    this.AsignaDoc = null;
-    this._asignacion.GetAsignacionGpo(id).subscribe(
-      mat => {
-        this.AsignaDoc = mat;
-        console.log(this.AsignaDoc);
+  cargarGrupos() {
+    this._grupo.GetGrupos().subscribe(
+      per => {
+        this.Grupos = per;
+        console.log('Grupos Administrador');
+        console.log(this.Grupos);
 
       }, error => {
-        // console.log(error);
+        //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
+  }
+
+  cargarGruposMaestro() {
+    this._grupo.GetGruposMaestro(Number(this.UserId)).subscribe(
+      per => {
+        this.Grupos = per;
+        console.log(this.Grupos);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarMaestro() {
+    this._grupo.GetMaestro(Number(this.UserId)).subscribe(
+      per => {
+        this.Maestro = per;
+        console.log(this.Maestro);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarGruposEstudiante() {
+    this._grupo.GetGruposEstudiante(Number(this.Perfil)).subscribe(
+      per => {
+        this.Grupos = per;
+        console.log(this.Grupos);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  ///////Busqueda de Asignacion por grupo
+  /*   onChangeGpo(id: number) {
+      this.AsignaDoc = null;
+      this._asignacion.GetAsignacionGpo(id).subscribe(
+        mat => {
+          this.AsignaDoc = mat;
+          console.log(this.AsignaDoc);
+  
+        }, error => {
+          // console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+  
+    } */
+
+  onChangeGpo(id: number) {
+    /*   this.AsignaDoc = null;
+        this._asignacion.GetAsignacionGpo(id).subscribe(
+          mat => {
+            this.AsignaDoc = mat;
+            console.log(this.AsignaDoc);
+  
+          }, error => {
+            // console.log(error);
+            swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+          }); */
+    if (Number(this.Perfil) == 2) {
+      console.log('Si entra');
+      this.AsignaDoc = null;
+      this._asignacion.GetAsignacionGpo(id).subscribe(
+        mat => {
+          console.log(this.Maestro[0].docenteID);
+          const docenteId = Number(this.Maestro[0].docenteID); // Obtener el docenteId desde la sesión
+          this.AsignaDoc = mat.filter(item => item.docenteID === docenteId); // Filtrar los datos
+          console.log(this.AsignaDoc);
+        }, error => {
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+    }
+    else {
+      this.AsignaDoc = null;
+      this._asignacion.GetAsignacionGpo(id).subscribe(
+        mat => {
+          this.AsignaDoc = mat;
+          console.log(this.AsignaDoc);
+
+        }, error => {
+          // console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        });
+    }
 
   }
 
   onChangeMat(id: number) {
-    this.valortemporal=id;
+    this.valortemporal = id;
     this.Alumnos = null;
     this._calificacion.GetAlumnosPorAsignacion(id).subscribe(
       al => {
         this.Alumnos = al;
-        console.log("LISTA",this.Alumnos);
+        console.log("LISTA", this.Alumnos);
 
       }, error => {
         // console.log(error);
@@ -137,7 +191,7 @@ export class CalificacionesComponent {
 
   onChangeGpoAlumnos(id: number) {
     this.AsignaDoc = null;
-    this._calificacion.GetMateriasAlumno(id,Number(this.UserId)).subscribe(
+    this._calificacion.GetMateriasAlumno(id, Number(this.UserId)).subscribe(
       mat => {
         this.AsignaDoc = mat;
         console.log(this.AsignaDoc);
@@ -150,9 +204,9 @@ export class CalificacionesComponent {
   }
 
   onChangeMatAlumnos(id: number) {
-    this.valortemporal=id;
+    this.valortemporal = id;
     this.Alumnos = null;
-    this._calificacion.getAlumnosPorIdUsuario(id,Number(this.UserId)).subscribe(
+    this._calificacion.getAlumnosPorIdUsuario(id, Number(this.UserId)).subscribe(
       al => {
         this.Alumnos = al;
         console.log(this.Alumnos);
@@ -164,11 +218,11 @@ export class CalificacionesComponent {
 
   }
 
-  CaragarActualizacion(){
+  CaragarActualizacion() {
     this._calificacion.GetAlumnosPorAsignacion(this.valortemporal).subscribe(
       al => {
         this.Alumnos = al;
-        console.log("Alumnos",this.Alumnos);
+        console.log("Alumnos", this.Alumnos);
 
       }, error => {
         // console.log(error);
@@ -176,17 +230,17 @@ export class CalificacionesComponent {
       });
   }
 
-  Califica(califica:any){
+  Califica(califica: any) {
     this.blockUI.start('Calificando...');
     console.log(califica);
-    this.CalIns.EstudianteID=califica.EstudianteID;
+    this.CalIns.EstudianteID = califica.EstudianteID;
 
-    this.CalIns.CalificacionID=califica.calificacionID;
-    this.CalIns.Puntaje=califica.puntaje;
-    this.CalIns.PuntajeLetra=califica.puntajeLetra;
-    this.CalIns.EstudianteID=califica.estudianteID;
-    this.CalIns.AsignacionID=califica.asignacionID;
-    this.CalIns.TipoExamenID=califica.tipoExamenID;
+    this.CalIns.CalificacionID = califica.calificacionID;
+    this.CalIns.Puntaje = califica.puntaje;
+    this.CalIns.PuntajeLetra = califica.puntajeLetra;
+    this.CalIns.EstudianteID = califica.estudianteID;
+    this.CalIns.AsignacionID = califica.asignacionID;
+    this.CalIns.TipoExamenID = califica.tipoExamenID;
     //console.log("hola",califica.tipoExamenID);
 
     this._calificacion.UpdateCalificacion(this.CalIns).subscribe(datos => {
@@ -207,5 +261,5 @@ export class CalificacionesComponent {
   }
 
 
-  
+
 }
