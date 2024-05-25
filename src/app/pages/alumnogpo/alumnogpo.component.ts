@@ -22,6 +22,8 @@ import { ActaEvaService } from '@services/actaevaluacion.service';
 import { environment} from '../../../environments/environment';
 import { ActaEvaluacionUp } from '@/models/ActaEvaluacionDataUp';
 import { ActaEvaluacionDto } from '@/models/ActaEvaluacionDTO';
+import { GeneracionesService } from '@services/generaciones.service';
+import { GeneracionGpo } from '@/models/GeneracionGpo';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -40,11 +42,13 @@ export class AlumnogpoComponent {
   AsignaDoc: any;
   ListaAlumnos: any;
   Alumnos:any;
+  Generaciones:any;
   Docente:any;
   Actas:any;
   acta:ActaEvaluacionUp=new ActaEvaluacionUp();
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
+  generacionIns: GeneracionGpo = new GeneracionGpo();
   alumnoCal: Calificacion = new Calificacion();
   actaEva:ActaEvaluacion=new ActaEvaluacion();
   actaEva2:ActaEvaluacionDto=new ActaEvaluacionDto();
@@ -67,11 +71,13 @@ export class AlumnogpoComponent {
     this.cargarDocentes();
     this.user=localStorage.UserId;
     this.alumnoIns.UsuarioCreacionID=Number(this.user);
+    this.generacionIns.UsuarioCreacionID=Number(this.user);
   }
   constructor(
     private router: Router,
     private _asignacion: AsignacionService,
     private _alumno:AlumnosService,
+    private _generacion:GeneracionesService,
     private _docente: DocenteService,
     private _alumnoGpo:AlumnoGpoService,
     private _materia: MateriaService,
@@ -98,6 +104,18 @@ export class AlumnogpoComponent {
       al => {
         this.Alumnos = al;
         console.log(this.Alumnos);
+      
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+  cargarGeneraciones(){
+    this._generacion.GetGeneraciones().subscribe(
+      gen => {
+        this.Generaciones = gen;
+        console.log("entro",this.Generaciones);
       
       }, error => {
         //console.log(error);
@@ -246,6 +264,14 @@ export class AlumnogpoComponent {
     console.log('grupoId '+grupoId);
   }
 
+  GetAsignaGen(asignacionId:number,grupoId:number){
+    this.generacionIns.AsignacionID=asignacionId;
+    this.generacionIns.GrupoID=grupoId;
+    console.log('GENasignacionId '+asignacionId);
+    console.log('GENgrupoId '+grupoId);
+    this.cargarGeneraciones();
+  }
+
   GetListaAlumnos(id:number){
     this._alumnoGpo.GetListaAlumnos(id).subscribe(
       lista => {
@@ -308,6 +334,45 @@ export class AlumnogpoComponent {
 
   }
 
+  GuardarGeneracion() {
+    this.blockUI.start('Guardando Generación...');
+    if (this.generacionIns.GeneracionID == null) {
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar una generacion',
+        icon: 'info'
+      });
+      return;
+    }
+    this.generacionIns.GeneracionID=Number(this.generacionIns.GeneracionID);
+    console.log("Generacion",this.generacionIns);
+    
+    this._alumnoGpo.GuardarGeneracionGpo(this.generacionIns).subscribe(datos => {
+
+      if (datos) {
+        console.log(datos);
+
+        this.blockUI.stop();
+        this.resp = datos;
+        swal.fire('Guardando Datos', `${this.resp.message}`, 'success');
+        //this._alumnoGpo.GuardarCalificacionTemp(this.alumnoCal).subscribe();
+        this.router.navigate(['/alunogpo']);
+        this.limpiar();
+        this.modalClose.nativeElement.click();
+      }
+      this.ngOnInit(); 
+
+    }, error => {
+      this.blockUI.stop();
+      console.log(error);
+      this.limpiar();
+      this.modalClose.nativeElement.click();
+      swal.fire({ title: 'ERROR!!!', text: error.error.descripcion, icon: 'error' });
+
+    });
+
+  }
 
   Reporte(id:number){
     //console.log(id);

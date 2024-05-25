@@ -48,7 +48,7 @@
                     <td class="col-xs-3">{{item.creditos}}</td>
                     <td class="col-xs-3">
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                            data-target="#exampleModal" (click)="GetAsigna(item.asignacionID,item.grupoID)">Registrar
+                            data-target="#exampleModal" (click)="GetAsignaGen(item.asignacionID,item.grupoID)">Registrar
                             Alumno </button>
                     </td>
                     <td class="col-xs-3">
@@ -83,19 +83,29 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="form-group">
+                   <!--  <div class="form-group">
                         <label><b>Seleccionar Alumno:</b></label>
                         <select class="form-control" [(ngModel)]="alumnoIns.EstudianteID">
                             <option selected>Seleccione un Alumno</option>
                             <option *ngFor="let item of Alumnos" [value]="item.estudianteID">{{item.paterno}}
                                 {{item.materno}} {{item.nombre}}</option>
                         </select>
+                        
+                    </div> -->
+
+                    <div class="form-group">
+                        <label><b>Seleccionar Generacion:</b></label>
+                        <select class="form-control" [(ngModel)]="generacionIns.GeneracionID">
+                            <option selected>Seleccione una Generacion</option>
+                            <option *ngFor="let item of Generaciones" [value]="item.generacionID">{{item.titulo}}</option>
+                        </select>
+                        
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="Guardar()">Guardar
+                    <button type="button" class="btn btn-primary" id="guarda" name="guarda" (click)="GuardarGeneracion()">Guardar
                         Asignación</button>
                 </div>
             </div>
