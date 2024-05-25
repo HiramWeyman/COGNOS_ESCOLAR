@@ -2,6 +2,13 @@
 <div class="d-flex justify-content-center"><label>Catalogo de Docentes</label></div>
 
 <div class="container">
+  <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
+  <div>
+    <select (change)="onTableSizeChange($event)" class="form-control" style="width: 200px;">
+      <option value="5" selected>No. de registros</option>
+      <option *ngFor="let item of tableSizes">{{item}}</option>
+    </select>
+  </div><br>
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="limpiar()">Agregar Docente</button>
     <table class="table table-fixed">
       <thead>
@@ -13,7 +20,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Docentes">
+        <tr *ngFor="let item of (filteredUsuarios | paginate: {
+          itemsPerPage: tableSize,
+          currentPage: page,
+          totalItems: count
+        }); let i=index">
           <td class="col-xs-2">{{item.matricula}}</td>
           <td class="col-xs-3">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
           <td class="col-xs-3"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetDocente(item.docenteID)">Editar</button></td>
@@ -21,6 +32,11 @@
         </tr>    
       </tbody>
     </table>
+    <div>
+      <pagination-controls previousLabel="Ant" nextLabel="Sig" [responsive]="true"
+        (pageChange)="onTableDataChange($event)">
+      </pagination-controls>
+    </div>
   </div>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

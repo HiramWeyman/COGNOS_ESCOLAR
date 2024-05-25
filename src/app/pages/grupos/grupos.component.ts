@@ -25,6 +25,10 @@ export class GruposComponent {
   resp:any;
   fecIni:any;
   fecFin:any;
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
   this.cargarGrupos();
   this.cargarCiclos();
@@ -32,8 +36,10 @@ export class GruposComponent {
   constructor(private router: Router,private _grupo:GruposService,private _ciclos:Ciclos_Service){}
 
   cargarGrupos() {
+    this.blockUI.start('Cargando ...');
     this._grupo.GetGrupos().subscribe(
       per => {
+        this.blockUI.stop();
         this.Grupos = per;
         console.log(this.Grupos);
        
@@ -41,6 +47,40 @@ export class GruposComponent {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
+  }
+
+  onTableDataChange(event: any) {
+    console.log(event);
+    this.page = event;
+    this.cargarGrupos();
+  }
+
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.cargarGrupos();
+  }
+
+  ////Buscar en la tabla
+    // Tus variables y métodos existentes...
+    searchString: string;
+
+  get filteredUsuarios() {
+    return this.filterUsuarios(this.Grupos, this.searchString);
+  }
+
+  filterUsuarios(grupos: any[], searchString: string): any[] {
+    if (!grupos) return [];
+    if (!searchString) return grupos;
+
+    searchString = searchString.toLowerCase();
+
+    return grupos.filter(it => {
+      return it.descripcion.toLowerCase().includes(searchString)
+        || it.nombre.toLowerCase().includes(searchString)
+        || it.titulo.toLowerCase().includes(searchString);
+        
+    });
   }
 
   cargarCiclos() {

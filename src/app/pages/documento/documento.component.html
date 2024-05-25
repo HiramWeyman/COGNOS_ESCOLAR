@@ -1,23 +1,41 @@
 <block-ui>
-  <div class="d-flex justify-content-center"><label>Alumnos</label></div>
+  <div class="d-flex justify-content-center"><label>Documentos de Alumnos</label></div>
   
   <div class="container">
+    <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
+    <div>
+      <select (change)="onTableSizeChange($event)" class="form-control" style="width: 200px;">
+        <option value="5" selected>No. de registros</option>
+        <option *ngFor="let item of tableSizes">{{item}}</option>
+      </select>
+    </div>
       <table class="table table-fixed">
         <thead>
           <tr>
             <th class="col-xs-2">Matrícula</th>
             <th class="col-xs-6">Nombre</th>
             <th class="col-xs-2">Documentos</th>
+            <th class="col-xs-2">Certificado</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of Alumnos">
+          <tr *ngFor="let item of (filteredUsuarios | paginate: {
+            itemsPerPage: tableSize,
+            currentPage: page,
+            totalItems: count
+          }); let i=index">
             <td class="col-xs-2">{{item.matricula}}</td>
             <td class="col-xs-6">{{item.paterno}} {{item.materno}} {{item.nombre}}</td>
             <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="GetAlumno(item.estudianteID)">Consultar documentos</button></td>
-          </tr>    
+            <td class="col-xs-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2" (click)="CrearCertificado(item.estudianteID); cargarCertificados(item.estudianteID)">Generar certificado</button></td>
+          </tr>   
         </tbody>
       </table>
+      <div>
+        <pagination-controls previousLabel="Ant" nextLabel="Sig" [responsive]="true"
+          (pageChange)="onTableDataChange($event)">
+        </pagination-controls>
+      </div>
     </div>
   
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -59,5 +77,118 @@
         </div>
     </div>
   </div>
+
+
+  <!--Certificados-->
+  <div class="modal fade bd-example-modal-lg"  id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="primerModalLabel" aria-hidden="true" style="z-index: 1050;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><label><b>Generar Certificado</b></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--Formulario Certificado-->
+                <div class="row">
+                  <div class="col">
+                    <!-- Name input -->
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="form8Example1">No. de Certificado:</label>
+                      <input type="text" id="form8Example1" class="form-control" placeholder="Ingrese Número de Certificado" [(ngModel)]="certificado.noCertificado"/>
+                    </div>
+                  </div>
+                    <div class="col">
+                      <!-- Name input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example1">Folio:</label>
+                        <input type="text" id="form8Example1" class="form-control" placeholder="Ingrese Folio de Certificado" [(ngModel)]="certificado.folio"/>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <!-- Email input -->
+                      <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="form8Example2">Fecha:</label>
+                        <input type="date" class="form-control" id="recipient-name" [(ngModel)]="certificado.fecha">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  
+         
+
+
+                  <button type="button" class="btn btn-primary btn-lg btn-block" (click)="GuardarCertificado()">Crear Certificado</button>
+                  <hr />
+              
+                
+                <div class="tableFixHead">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Folio de Certificado</th>
+                                <th>Fecha</th>
+                              
+                                <th style="text-align: center;">Editar Certificado</th>
+                                <th align="right" style="text-align: center;">Certificado</th>
+                                <th style="text-align: center;">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of certificadoList">
+                                <td>{{item.folio}}</td>
+                                <td>{{item.fecha}}</td>
+                             
+                                <td align="right"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalEdit" data-whatever="@mdo" (click)="GetCertificado(item.certificadoID)">Editar Certificado</button></td>
+                                <td align="right"><button type="button" class="btn btn-danger btn-sm" (click)="Reporte(item.certificadoID)">Ver Certificado</button></td>
+                                <td align="right"><button type="button" class="btn btn-primary btn-sm" (click)="EliminarCertificado(item.certificadoID,item.estudianteID)">Eliminar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose2>Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal para editar Acta-->
+<div class="modal fade" id="exampleModalEdit" tabindex="-1" role="dialog" aria-labelledby="segundoModalLabel" aria-hidden="true" style="z-index: 2000;" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Certificado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+        <div class="form-group">
+          <label class="form-label" for="form8Example1">No de Certificado:</label>
+          <input type="text" id="form8Example1" class="form-control"  [(ngModel)]="certificado.noCertificado"/>
+        </div>
+          <div class="form-group">
+            <label class="form-label" for="form8Example1">Folio:</label>
+            <input type="text" id="form8Example1" class="form-control"  [(ngModel)]="certificado.folio"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form8Example2">Fecha:</label>
+            <input type="date" class="form-control" id="recipient-name" [(ngModel)]="certificado.fecha">
+          </div>
+        
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose3>Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="ActualizaCertificado(certificado)">Editar Acta</button>
+      </div>
+    </div>
+  </div>
+</div>
   </block-ui>
   

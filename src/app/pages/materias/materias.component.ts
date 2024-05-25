@@ -22,7 +22,10 @@ export class MateriasComponent {
   materiaIns:MateriaIns=new MateriaIns();
   resp:any;
   fecCrea:any;
-
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
   ngOnInit(): void {
   this.cargarMaterias();
   }
@@ -42,6 +45,41 @@ export class MateriasComponent {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
+  }
+
+  onTableDataChange(event: any) {
+    console.log(event);
+    this.page = event;
+    this.cargarMaterias();
+  }
+
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.cargarMaterias();
+  }
+
+  ////Buscar en la tabla
+    // Tus variables y métodos existentes...
+    searchString: string;
+
+  get filteredUsuarios() {
+    return this.filterUsuarios(this.Materias, this.searchString);
+  }
+
+  filterUsuarios(materias: any[], searchString: string): any[] {
+    if (!materias) return [];
+    if (!searchString) return materias;
+
+    searchString = searchString.toLowerCase();
+
+    return materias.filter(it => {
+      return it.nombre.toLowerCase().includes(searchString)
+        || it.clave.toLowerCase().includes(searchString)
+      /*   || it.horas.toLowerCase().includes(searchString) */
+        || it.fechaCreacion.toLowerCase().includes(searchString);
+        
+    });
   }
 
   Getmateria(id:number){
