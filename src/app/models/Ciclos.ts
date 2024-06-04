@@ -5,5 +5,6 @@ export class Ciclos {
     periodo:string; 
     fechaInicio:Date;
     fechaFin:Date;
+    fechaCierreExamen:Date;
     activo:boolean;
 }

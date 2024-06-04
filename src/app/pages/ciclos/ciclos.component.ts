@@ -21,6 +21,7 @@ export class CiclosComponent {
   resp:any;
   fecIni:any;
   fecFin:any;
+  fecCierre:any;
   page: number = 1;
   count: number = 0;
   tableSize: number = 5;
@@ -36,12 +37,14 @@ export class CiclosComponent {
       usr => {
         this.blockUI.stop();
         this.Ciclos = usr;
-        console.log(this.Ciclos);
+        console.log("CargarCiclos",this.Ciclos);
         for(let i=0;i<this.Ciclos.length;i++){
           this.fecIni =this.datePipe.transform(this.Ciclos[i].fechaInicio,"dd/MM/yyyy");
           this.Ciclos[i].fechaInicio= this.fecIni;
           this.fecFin =this.datePipe.transform(this.Ciclos[i].fechaFin,"dd/MM/yyyy");
           this.Ciclos[i].fechaFin= this.fecFin;
+          this.fecCierre =this.datePipe.transform(this.Ciclos[i].fechaCierreExamen,"dd/MM/yyyy");
+          this.Ciclos[i].fechaCierreExamen = this.fecCierre;
         }
         //console.log(this.Ciclos);
        
@@ -91,11 +94,13 @@ export class CiclosComponent {
     this._ciclos.GetCicloID(id).subscribe(
       cl => {
         this.ciclo = cl[0];
-        //console.log(this.ciclo );
+        console.log("Getciclo",this.ciclo );
         this.fecIni =this.datePipe.transform(this.ciclo.fechaInicio,"yyyy-MM-dd");
         this.ciclo.fechaInicio= this.fecIni;
         this.fecFin =this.datePipe.transform(this.ciclo.fechaFin,"yyyy-MM-dd");
         this.ciclo.fechaFin= this.fecFin;
+        this.fecCierre =this.datePipe.transform(this.ciclo.fechaCierreExamen,"yyyy-MM-dd");
+        this.ciclo.fechaCierreExamen= this.fecCierre;
       }, error => {
        // console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -108,6 +113,7 @@ export class CiclosComponent {
     this.ciclo.activo=null;
     this.ciclo.fechaInicio=null;
     this.ciclo.fechaFin=null;
+    this.ciclo.fechaCierreExamen=null;
     this.ciclo.cicloID=null;
   }
 
@@ -117,11 +123,12 @@ export class CiclosComponent {
     this.cicloIns.Activo=null;
     this.cicloIns.FechaInicio=null;
     this.cicloIns.FechaFin=null;
+    this.cicloIns.FechaCierreExamen=null;
   }
 
   ActCiclo(){
     this._ciclos.UpdateCiclo(this.ciclo).subscribe(datos => {
-    
+      console.log("fecha cierre",this.ciclo);
       if(datos){
         this.blockUI.stop();
         this.resp=datos;
@@ -179,16 +186,26 @@ export class CiclosComponent {
         title: 'Información!!!',
         text: 'Falta Ingresar Fecha Final',
         icon: 'info'
-      });
+      }); 
       return;
     }
   
+    if(!this.ciclo.fechaCierreExamen){
+      this.blockUI.stop();
+      swal.fire({
+        title: 'Información!!!',
+        text: 'Falta Ingresar Fecha de Cierre de Evaluacion',
+        icon: 'info'
+      }); 
+      return;
+    }
   
     this.cicloIns.Titulo=this.ciclo.titulo;
     this.cicloIns.Periodo=this.ciclo.periodo;
     this.cicloIns.Activo=this.ciclo.activo;
     this.cicloIns.FechaInicio=this.ciclo.fechaInicio;
     this.cicloIns.FechaFin=this.ciclo.fechaFin;
+    this.cicloIns.FechaCierreExamen=this.ciclo.fechaCierreExamen;
 
    
     this._ciclos.GuardarCiclo(this.cicloIns).subscribe(datos => {

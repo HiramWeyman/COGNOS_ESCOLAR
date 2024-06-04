@@ -5,6 +5,7 @@ export class CiclosIns {
     Titulo:string; 
     Periodo:string; 
     FechaFin:Date;
+    FechaCierreExamen:Date;
     Activo:boolean;
     
 }

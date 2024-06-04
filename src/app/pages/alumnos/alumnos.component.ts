@@ -163,8 +163,12 @@ export class AlumnosComponent {
     
       },error => {
         this.blockUI.stop();
-        console.log(error);
-        //swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+        if (error.status === 400 && error.error) {
+          swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+        } else {
+          console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: 'Ocurrió un error inesperado', icon: 'error' });
+        }
       });
 
     }
