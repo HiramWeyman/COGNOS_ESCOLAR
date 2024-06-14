@@ -6,6 +6,7 @@ import { PerfilesService } from '@services/perfiles.service';
 import { UsuariosService } from '@services/usuarios.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
@@ -29,6 +30,7 @@ export class UsuariosComponent {
   count: number = 0;
   tableSize: number = 5;
   tableSizes: any = [5, 10, 15, 20];
+  fecNac:any;
  
 
   ngOnInit(): void {
@@ -36,7 +38,7 @@ export class UsuariosComponent {
     this.cargarPerfiles();
     this.cargarGenero(); 
   }
-  constructor(private router: Router, private _user: UsuariosService, private _perfil: PerfilesService) { }
+  constructor(private router: Router, private _user: UsuariosService, private _perfil: PerfilesService, private datePipe: DatePipe) { }
 
   cargarUsuarios() {
     this._user.GetUsuarios().subscribe(
@@ -115,7 +117,9 @@ export class UsuariosComponent {
     this._user.GetUsuarioID(id).subscribe(
       usr => {
         this.user = usr[0];
-        console.log(this.user);
+        console.log("Usuario",this.user);
+        this.fecNac =this.datePipe.transform(this.user.fechaNac,"yyyy-MM-dd");
+        this.user.fechaNac= this.fecNac;
       }, error => {
         console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -130,6 +134,10 @@ export class UsuariosComponent {
     this.user.password = null;
     this.user.perfilID = null;
     this.user.usuarioID = null;
+    this.user.domicilio = null;
+    this.user.fechaNac = null;
+    this.user.telefono = null;
+    this.user.exEscuela = null;
   }
 
   Guardar() {
@@ -204,6 +212,23 @@ export class UsuariosComponent {
       });
       return;
     }
+    
+    if (this.user.perfilID == 1) {
+      if (!this.user.domicilio || !this.user.fechaNac || !this.user.exEscuela || !this.user.telefono) {
+        this.blockUI.stop();
+        swal.fire({
+          title: 'Información!!!',
+          text: 'Falta Ingresar Todos los Campos Adicionales',
+          icon: 'info'
+        });
+        return;
+      }
+      this.userIns.Domicilio = this.user.domicilio;
+      this.userIns.FechaNac = this.user.fechaNac;
+      this.userIns.ExEscuela = this.user.exEscuela;
+      this.userIns.Telefono = this.user.telefono;
+    }
+
 
     this.userIns.Paterno = this.user.paterno;
     this.userIns.Materno = this.user.materno;
@@ -226,6 +251,11 @@ export class UsuariosComponent {
         this.user.mail = null;
         this.user.password = null;
         this.user.perfilID = null;
+        this.user.generoID = null;
+        this.user.domicilio = null;
+        this.user.fechaNac = null;
+        this.user.telefono = null;
+        this.user.exEscuela = null;
         this.modalClose.nativeElement.click();
       }
       this.ngOnInit();
@@ -251,7 +281,12 @@ export class UsuariosComponent {
         this.user.mail = null;
         this.user.password = null;
         this.user.perfilID = null;
+        this.user.generoID = null;
         this.user.usuarioID = null;
+        this.user.domicilio = null;
+        this.user.fechaNac = null;
+        this.user.telefono = null;
+        this.user.exEscuela = null;
         this.modalClose.nativeElement.click();
       }
       this.ngOnInit();

@@ -8,4 +8,8 @@ export class Usuarios {
     password: string;
     perfilID: number;
     generoID: number;
+    domicilio?: string;
+    fechaNac?: Date;
+    exEscuela?: string;
+    telefono?: string;
 }
