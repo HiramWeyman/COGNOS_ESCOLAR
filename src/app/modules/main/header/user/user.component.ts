@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
         this.userId=localStorage.getItem('UserId'); 
       /*   this.user = this.appService.user; */
         this.user = localStorage.getItem('UserMail');
-        console.log(this.user);
+       // console.log(this.user);
     }
 
     logout() {

@@ -2,8 +2,7 @@
   <div class="d-flex justify-content-center"><label>Catalogo de Usuarios</label></div>
 
   <div class="container">
-    <input type="text" [(ngModel)]="searchString" class="form-control mb-3" placeholder="Buscar en la tabla...">
-    <br>
+    <input type="text" [(ngModel)]="searchString" class="form-control mb-3" id="buscarUsuario" autocomplete="new-password" placeholder="Buscar en la tabla...">     <br>
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"
       (click)="Limpiar()" style="width: 200px;">Agregar Usuario</button>
     <br>

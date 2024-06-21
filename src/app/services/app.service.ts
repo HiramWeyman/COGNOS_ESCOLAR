@@ -33,7 +33,7 @@ export class AppService {
            /*      sessionStorage.Login = login.toString();
                 localStorage.setItem(_TOKEN, login.toString()); */
                 // sessionStorage.setItem(_TOKEN, matricula.toString());
-                console.log(response);
+               // console.log(response);
                 this.username=response.nombre.toString()+' '+response.paterno.toString()+' '+response.materno.toString();
                 localStorage.setItem('UserMail', response.mail.toString());
                 localStorage.setItem('UserId', response.usuarioID);
@@ -41,8 +41,8 @@ export class AppService {
                 localStorage.setItem('UserName', this.username);
                 this.user = response.mail.toString();
                // console.log(response);
-                console.log(response.mail);
-                console.log(this.user);
+           /*      console.log(response.mail);
+                console.log(this.user); */
                 this.router.navigate(['/']);
                 this.toastr.success('Login exitoso');
                 this.loggedIn = true;
@@ -62,7 +62,7 @@ export class AppService {
 
     //Valida si el usuario existe
     CountUsr(email: any): Observable<any> {
-        console.log(`${environment.rutaAPI}` + '/RecuperaPass/ValidaMail/'+email);
+        //console.log(`${environment.rutaAPI}` + '/RecuperaPass/ValidaMail/'+email);
         return this.http.get<any>(`${environment.rutaAPI}` + '/RecuperaPass/ValidaMail/'+email);
     }
 
@@ -75,9 +75,9 @@ export class AppService {
     //Envia correo para recuperar password
     EnviarCorreo(email:string): Observable<string> {
       
-      console.log(email);
+      //console.log(email);
       this.correo.email=email;
-      console.log(this.correo.email);
+      //console.log(this.correo.email);
       return this.http.post<string>(`${this.urlEndPoint+'/RecuperaPass/EnvioMail?email='+email}`, this.correo.email);
       //return this.http.post<comFM>(`${environment.rutaAPI}` + '/Usuarios/registro', com);
     }

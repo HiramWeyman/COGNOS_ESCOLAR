@@ -13,7 +13,7 @@ constructor(private router: Router){}
     ngOnInit(): void {
         this.name=localStorage.getItem('UserName'); 
         this.userId=localStorage.getItem('UserId'); 
-        console.log(localStorage.getItem('UserName'));
+        //console.log(localStorage.getItem('UserName'));
       /*   if(this.name==null||this.name==null){
             this.router.navigate(['/login']);
         }  */

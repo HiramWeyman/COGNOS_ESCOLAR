@@ -268,6 +268,7 @@ export class UsuariosComponent {
   }
 
   Actualizar() {
+    console.log(this.user);
     this._user.UpdateUsuarios(this.user).subscribe(datos => {
 
       if (datos) {

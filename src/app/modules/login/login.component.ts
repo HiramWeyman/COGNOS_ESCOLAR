@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
      async Pruebas() {
-        console.log('Si jala');
-        console.log(this.login);
+       // console.log('Si jala');
+        //console.log(this.login);
         this.isAuthLoading = true;
         //aqui va el metodo de login
          //await this.appService.loginByAuth(this.loginForm.value);
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.subscription = this.appService.getLogin(this.loginx)
                 .subscribe((data: any) => {
                     if ( data != null) {
-                        console.log(data);
+                        //console.log(data);
                         swal.fire({
                             icon: 'success',
                             title: 'Usuario Logeado',

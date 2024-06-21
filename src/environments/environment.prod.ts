@@ -6,9 +6,9 @@ import { HttpHeaders } from '@angular/common/http';
 
 export const environment = {
   production: true,
-  	  //rutaAPI: 'https://api.escolar.iescognos.com/',
-		rutaAPI: 'https://localhost:7291/',
-	  //https://api.iescognos.com/api
+  	    rutaAPI: 'https://api.escolar.iescognos.com/',
+		//rutaAPI: 'https://localhost:7291/',
+
 
   getHeadersPOST(): HttpHeaders {
 		const headers = new HttpHeaders({
