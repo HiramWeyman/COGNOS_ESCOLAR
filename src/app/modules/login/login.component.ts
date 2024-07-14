@@ -131,7 +131,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 //console.log("You entered: ", event.target.value);
               }
 
-    async loginByGoogle() {
+/*     async loginByGoogle() {
         this.isGoogleLoading = true;
         await this.appService.loginByGoogle();
         this.isGoogleLoading = false;
@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isFacebookLoading = true;
         await this.appService.loginByFacebook();
         this.isFacebookLoading = false;
-    }
+    } */
 
     ngOnDestroy() {
         this.renderer.removeClass(
