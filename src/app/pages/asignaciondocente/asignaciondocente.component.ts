@@ -53,7 +53,7 @@ export class AsignaciondocenteComponent {
     this._asignacion.GetAsignacion().subscribe(
       asig => {
         this.AsignaDoc = asig;
-        //console.log(this.AsignaDoc);
+        console.log(this.AsignaDoc);
 
 
       }, error => {
