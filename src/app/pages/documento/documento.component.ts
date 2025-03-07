@@ -23,6 +23,7 @@ export class DocumentoComponent {
   Usuarios: any;
   Alumnos: any;
   Semestre: any;
+  Ciclo: any;
   TipoDoc: any;
   alumno: Alumno = new Alumno();
   certificado: Certificado = new Certificado();
@@ -32,6 +33,7 @@ export class DocumentoComponent {
   fecCrea: any;
   fecCert:any;
   nosemestre: number = null;
+  nociclo: number = null;
   tipo: number = null;
   NoCalificaciones: number;
   page: number = 1;
@@ -42,6 +44,7 @@ export class DocumentoComponent {
     this.cargarAlumnos();
     this.cargarUsuarios();
     this.cargarSemestres();
+    this.cargarCiclos();
     this.cargarTipoDoc();
   }
   constructor(private router: Router, private _alumno: AlumnosService, private datePipe: DatePipe) { }
@@ -119,6 +122,18 @@ export class DocumentoComponent {
       });
   }
 
+  cargarCiclos() {
+    this._alumno.GetCiclos().subscribe(
+      sem => {
+        this.Ciclo = sem;
+        console.log(this.Ciclo);
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
   cargarTipoDoc() {
     this._alumno.GetTipoDoc().subscribe(
       tipo => {
@@ -144,7 +159,7 @@ export class DocumentoComponent {
       });
   }
 
-  ConsultaDoc(idEstudiante: number, Tipodoc: number, Semestre: number) {
+  ConsultaDoc(idEstudiante: number, Tipodoc: number, Semestre: number,Ciclo: number) {
   
 
     this._alumno.GetCountCal(idEstudiante).subscribe(
@@ -160,7 +175,7 @@ export class DocumentoComponent {
         }else{
           if(Tipodoc==2){
             console.log('Opción 2 Boleta de Calificaciones');
-            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre);
+            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre+'/'+Ciclo);
           }
           else if(Tipodoc==3){
             console.log('Opción 3 Kardex de Calificaciones');

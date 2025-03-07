@@ -276,8 +276,8 @@ export class AlumnogpoComponent {
     this._alumnoGpo.GetListaAlumnos(id).subscribe(
       lista => {
         this.ListaAlumnos = lista;
-      /*   console.log(this.ListaAlumnos);
-        console.log(this.ListaAlumnos.length); */
+         console.log(this.ListaAlumnos);
+       /* console.log(this.ListaAlumnos.length); */
         this.NumeroAlumnos=this.ListaAlumnos.length;
 
 

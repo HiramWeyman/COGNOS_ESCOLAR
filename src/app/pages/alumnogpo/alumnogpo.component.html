@@ -41,7 +41,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of AsignaDoc">
-                    <td class="col-xs-3">{{item.nombreGpo}}</td>
+                    <td class="col-xs-3">{{item.descGpo}}</td>
                     <td class="col-xs-3">{{item.paternoDoc}} {{item.maternoDoc}} {{item.nombreDoc}}</td>
                     <td class="col-xs-3">{{item.clave}}</td>
                     <td class="col-xs-3">{{item.nombreMat}}</td>
@@ -136,7 +136,7 @@
                             <tbody>
                                 <tr *ngFor="let item of ListaAlumnos">
                                     <td>{{item.estudianteNombre}}</td>
-                                    <td>{{item.grupoNombre}}</td>
+                                    <td>{{item.grupoDesc}}</td>
                                 </tr>
                             </tbody>
                         </table>
