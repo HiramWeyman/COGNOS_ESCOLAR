@@ -23,8 +23,8 @@ export class AsignacionService {
     return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocGpo/'+id);
   }
 
-  GetAsignacionMat(id:number): Observable<any> {
-    return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocMat/'+id);
+  GetAsignacionMat(id:number,idGrupo:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getAsignacionesDocMat/'+id+'/'+idGrupo);
   }
 
   GetAsignaID(id:number): Observable<Asigna> {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { DatePipe } from '@angular/common';
@@ -35,6 +35,7 @@ export class AlumnogpoComponent {
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
   @ViewChild('myModalClose2') modalClose2;
+  @ViewChild('mat') selectElement!: ElementRef<HTMLSelectElement>;
   Usuarios: any;
   Materias: any;
   Docentes: any;
@@ -61,8 +62,9 @@ export class AlumnogpoComponent {
   Ciclos:any;
   Examen:any;
   nombreMat:string;
+  idGrupo:number;
   ngOnInit(): void {
-    this.cargarAsignacion();
+   // this.cargarAsignacion();
     this.cargarAlumnos(); 
     this.cargarMaterias(); 
     this.cargarGrupos();
@@ -218,41 +220,52 @@ export class AlumnogpoComponent {
 
   ///////Busqueda de Asignacion por Materia
   onChangeMat(id: number) {
-    console.log()
-    if (id == 0) {
+    console.log(id);
+    console.log(this.idGrupo);
+    if(this.idGrupo==undefined){
+      swal.fire({ title: 'Info!!!', text: 'Seleccione un grupo', icon: 'info' });
+      this.selectElement.nativeElement.value = "0";
+      return;
+    }
+    this.AsignaDoc = null;
+    this._asignacion.GetAsignacionMat(id,this.idGrupo).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        //console.log(this.AsignaDoc);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  /*   if (id == 0) {
       this.cargarAsignacion();
     }
     else {
-      this.AsignaDoc = null;
-      this._asignacion.GetAsignacionMat(id).subscribe(
-        mat => {
-          this.AsignaDoc = mat;
-          //console.log(this.AsignaDoc);
-
-        }, error => {
-          // console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+     
+    } */
 
   }
 
   ///////Busqueda de Asignacion por grupo
   onChangeGpo(id: number) {
-    if (id == 0) {
+    this.idGrupo=id;
+    console.log('Id grupo:'+this.idGrupo);
+    this.AsignaDoc = null;
+    this.selectElement.nativeElement.value = "0";
+    this._asignacion.GetAsignacionGpo(id).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        //console.log(this.AsignaDoc);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+ /*    if (id == 0) {
       this.cargarAsignacion();
     } else {
-      this.AsignaDoc = null;
-      this._asignacion.GetAsignacionGpo(id).subscribe(
-        mat => {
-          this.AsignaDoc = mat;
-          //console.log(this.AsignaDoc);
-
-        }, error => {
-          // console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+     
+    } */
 
   }
 

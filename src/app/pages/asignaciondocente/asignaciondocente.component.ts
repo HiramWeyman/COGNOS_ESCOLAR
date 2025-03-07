@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { DatePipe } from '@angular/common';
@@ -21,20 +21,23 @@ export class AsignaciondocenteComponent {
   @BlockUI()
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
+  @ViewChild('mat') selectElement!: ElementRef<HTMLSelectElement>;
+  
   Usuarios: any;
   Materias: any;
   MateriasSem: any;
   Docentes: any;
-  Semestre:any;
-  Grupos:any;
+  Semestre: any;
+  Grupos: any;
   AsignaDoc: any;
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoIns = new AlumnoIns();
   resp: any;
   fecCrea: any;
   selectedOption: number;
+  idGrupo: number;
   ngOnInit(): void {
-    this.cargarAsignacion();
+    //this.cargarAsignacion();
     this.cargarDocentes();
     this.cargarMaterias();
     this.cargarGrupos();
@@ -44,9 +47,9 @@ export class AsignaciondocenteComponent {
     private router: Router,
     private _asignacion: AsignacionService,
     private _docente: DocenteService,
-    private _alumno:AlumnosService,
+    private _alumno: AlumnosService,
     private _materia: MateriaService,
-    private _grupo:GruposService,
+    private _grupo: GruposService,
     private datePipe: DatePipe) { }
 
   cargarAsignacion() {
@@ -80,14 +83,14 @@ export class AsignaciondocenteComponent {
       sem => {
         this.Semestre = sem;
         console.log(this.Semestre);
-       
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
 
-   cargarMaterias() {
+  cargarMaterias() {
     this._materia.GetMaterias().subscribe(
       per => {
         this.Materias = per;
@@ -101,7 +104,7 @@ export class AsignaciondocenteComponent {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
-  } 
+  }
 
   ///Buscar La materia Dependiendo Del Semestre
   onChangeMatSem(id: number) {
@@ -128,7 +131,7 @@ export class AsignaciondocenteComponent {
       per => {
         this.Grupos = per;
         console.log(this.Grupos);
-       
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -137,41 +140,50 @@ export class AsignaciondocenteComponent {
 
   ///////Busqueda de Asignacion por Materia
   onChangeMat(id: number) {
-    console.log()
-    if (id == 0) {
-      this.cargarAsignacion();
-    }
-    else {
-      this.AsignaDoc = null;
-      this._asignacion.GetAsignacionMat(id).subscribe(
-        mat => {
-          this.AsignaDoc = mat;
-          //console.log(this.AsignaDoc);
+      if(this.idGrupo==undefined){
+          swal.fire({ title: 'Info!!!', text: 'Seleccione un grupo', icon: 'info' });
+          this.selectElement.nativeElement.value = "0";
+          return;
+        }
+    this.AsignaDoc = null;
+    this._asignacion.GetAsignacionMat(id, this.idGrupo).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        //console.log(this.AsignaDoc);
 
-        }, error => {
-          // console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+    /*   console.log()
+      if (id == 0) {
+        this.cargarAsignacion();
+      }
+      else {
+    
+      } */
 
   }
 
   ///////Busqueda de Asignacion por grupo
   onChangeGpo(id: number) {
-    if (id == 0) {
+    this.idGrupo = id;
+    this.AsignaDoc = null;
+    this.selectElement.nativeElement.value = "0";
+    this._asignacion.GetAsignacionGpo(id).subscribe(
+      mat => {
+        this.AsignaDoc = mat;
+        //console.log(this.AsignaDoc);
+
+      }, error => {
+        // console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  /*   if (id == 0) {
       this.cargarAsignacion();
     } else {
-      this.AsignaDoc = null;
-      this._asignacion.GetAsignacionGpo(id).subscribe(
-        mat => {
-          this.AsignaDoc = mat;
-          //console.log(this.AsignaDoc);
-
-        }, error => {
-          // console.log(error);
-          swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
-        });
-    }
+     
+    } */
 
   }
 
@@ -293,10 +305,10 @@ export class AsignaciondocenteComponent {
 
   } */
 
-  Delete(id:number, docente:string, materia:string){
+  Delete(id: number, docente: string, materia: string) {
     swal.fire({
       title: '¿Deseas Eliminar?',
-      text: docente+' '+materia+'\n Esta acción no se puede deshacer',
+      text: docente + ' ' + materia + '\n Esta acción no se puede deshacer',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -310,8 +322,8 @@ export class AsignaciondocenteComponent {
             if (datos) {
               this.blockUI.stop();
               this.resp = datos;
-              swal.fire('Eliminando Asignación Docente:'+docente+'-'+materia, `${this.resp.descripcion}`, 'success');
-              this.router.navigate(['/asignacion']); 
+              swal.fire('Eliminando Asignación Docente:' + docente + '-' + materia, `${this.resp.descripcion}`, 'success');
+              this.router.navigate(['/asignacion']);
             }
             this.ngOnInit();
           },

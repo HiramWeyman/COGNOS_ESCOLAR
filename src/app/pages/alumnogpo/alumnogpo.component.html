@@ -6,16 +6,16 @@
             <label>Busqueda por Grupo</label>
             <select class="form-control" (change)="onChangeGpo($event.target.value)">
                 <option value="0" selected="selected">Seleccione Un Grupo</option>
-                <option value="0">Todos las Grupos</option>
-                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.nombre}}<label><b> - </b> </label>{{item.descripcion}}</option>
+<!--                 <option value="0">Todos las Grupos</option>
+ -->                <option *ngFor="let item of Grupos" [value]="item.grupoID">{{item.nombre}}<label><b> - </b> </label>{{item.descripcion}}</option>
             </select>
         </div>
 
         <div class="form-group">
             <label>Busqueda por Materia</label>
-            <select class="form-control" (change)="onChangeMat($event.target.value)">
+            <select class="form-control" #mat id="mat" (change)="onChangeMat($event.target.value)">
                 <option value="0" selected="selected">Seleccione Una Materia</option>
-                <option value="0">Todas las Materias</option>
+            <!--     <option value="0">Todas las Materias</option> -->
                 <option *ngFor="let item of Materias" [value]="item.materiaID">{{item.nombre}} <label><b>-- Creditos:
                         </b> </label>{{item.creditos}} </option>
             </select>
