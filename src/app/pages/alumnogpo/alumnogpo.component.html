@@ -36,6 +36,7 @@
                     <th class="col-xs-3">Creditos</th>
                     <th class="col-xs-3">Registrar Alumno</th>
                     <th class="col-xs-3">Lista de Alumnos</th>
+                    <th class="col-xs-3">Baja de Alumnos</th>
                     <th class="col-xs-3">Actas de Evaluación</th>
                 </tr>
             </thead>
@@ -54,6 +55,11 @@
                     <td class="col-xs-3">
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target=".bd-example-modal-lg" (click)="GetListaAlumnos(item.asignacionID)">Lista de
+                            Alumnos</button>
+                    </td>
+                     <td class="col-xs-3">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#exampleModalReactiva" (click)="GetBajaAlumnos(item.asignacionID)">Baja de
                             Alumnos</button>
                     </td>
                     <td class="col-xs-3">
@@ -131,12 +137,17 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Grupo</th>
+                                    <th>Dar de baja</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of ListaAlumnos">
                                     <td>{{item.estudianteNombre}}</td>
                                     <td>{{item.grupoDesc}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalBaja" data-whatever="@mdo"
+                                       (click)="DarBaja(item.estudianteID,item.asignacionID)" >Baja</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -187,7 +198,7 @@
                         <label class="form-label" for="form8Example3">Seleccione un Ciclo</label>
                         <select class="form-control" [(ngModel)]="actaEva.CicloID">
                             <option selected>Seleccione un Ciclo</option>
-                            <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}}</option>
+                            <option *ngFor="let item of Ciclos" [value]="item.cicloID">{{item.periodo}} {{item.fechaCreacion | date:'yyyy'}}</option>
                         </select>
                       </div>
                     </div>
@@ -281,4 +292,84 @@
     </div>
   </div>
 </div>
+
+    <!--Modal para dar baja -->
+    <div class="modal fade" id="exampleModalBaja" tabindex="-1" role="dialog" aria-labelledby="segundoModalLabel"
+        aria-hidden="true" style="z-index: 2000;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Baja de alumno </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                   
+                    <div class="form-group">
+                        <label class="form-label" for="form8Example2">Fecha:</label>
+                        <input type="date" class="form-control" id="recipient-name" [(ngModel)]="fechaBaja">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="form8Example3">Motivo de baja:</label>
+                        <textarea class="form-control" [(ngModel)]="motivo"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        #myModalBaja>Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="darBajaAlumno()">Dar de baja Alumno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modar para reactivar alumnos-->
+       <div class="modal fade bd-example-modal-lg" id="exampleModalReactiva" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Lista de alumnos dados de baja : <label><b>{{NumeroBajaAlumnos}}</b></label></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="tableFixHead">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Grupo</th>
+                                    <th>Reactivar</th>
+                                    <th>Revalidar materia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of BajaAlumnos">
+                                    <td>{{item.estudianteNombre}}</td>
+                                    <td>{{item.grupoDesc}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" 
+                                       (click)="Reactivar(item.estudianteID,item.asignacionID)" >Reactivar</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" 
+                                       (click)="Revalidar(item.estudianteID,item.asignacionID)" >Revalidar Materia</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #myModalClose>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </block-ui>

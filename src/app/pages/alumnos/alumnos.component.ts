@@ -227,7 +227,7 @@ export class AlumnosComponent {
     }
 
     cargarListaGeneraciones() {
-      this._listaGeneraciones.GetGeneraciones().subscribe(
+      this._listaGeneraciones.GetGeneracionesBaja().subscribe(
         sem => {
           this.ListaGeneraciones = sem;
           console.log(this.ListaGeneraciones);
