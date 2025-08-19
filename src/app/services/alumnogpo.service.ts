@@ -1,8 +1,10 @@
 
 import { AlumnoGpo } from '@/models/AlumnoGpo';
 import { Asigna } from '@/models/Asignadocgpo';
+import { BajaAlumno } from '@/models/BajaAlumno';
 import { Calificacion } from '@/models/Calificacion';
 import { GeneracionGpo } from '@/models/GeneracionGpo';
+import { ReactivarAlumno } from '@/models/ReactivarAlumno';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
@@ -37,6 +39,7 @@ export class AlumnoGpoService {
   GetListaAlumnos(id:number): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getAsignacioneAlumnoGpo/'+id);
   }
+  
 
   GetTpoExamen(): Observable<any> {
     return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/getTipoExamen');
@@ -64,5 +67,22 @@ export class AlumnoGpoService {
  DeleteAsigna(id:number): Observable<Asigna> {
     return this.http.patch<Asigna>(`${environment.rutaAPI}` + 'deleteAsignacion/'+id, "");
   } 
+
+
+ darDeBaja(baja: BajaAlumno): Observable<any> {
+  console.log('Servicio');
+   console.log(baja);
+    return this.http.post(`${environment.rutaAPI}`+'api/AlumnoGpo/dar_de_baja', baja);
+  }
+
+  ReactivarAlumno(reactivar: ReactivarAlumno): Observable<any> {
+  console.log('reactivar');
+   console.log(reactivar);
+    return this.http.post(`${environment.rutaAPI}`+'api/AlumnoGpo/reactivar_alumno', reactivar);
+  }
+
+   GetBajasAlumnos(id:number): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'api/AlumnoGpo/ListaBajaAlumnos/'+id);
+  }
 
 }

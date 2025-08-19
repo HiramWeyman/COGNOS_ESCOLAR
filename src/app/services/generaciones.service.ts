@@ -18,6 +18,10 @@ export class GeneracionesService {
     return this.http.get(`${environment.rutaAPI}` + 'getGeneraciones');
   }
 
+  GetGeneracionesBaja(): Observable<any> {
+    return this.http.get(`${environment.rutaAPI}` + 'getGeneraciones2');
+  }
+
   GetGeneracionID(id:number): Observable<Generacion> {
     return this.http.get<Generacion>(`${environment.rutaAPI}` + 'getGeneracion/'+id);
   }

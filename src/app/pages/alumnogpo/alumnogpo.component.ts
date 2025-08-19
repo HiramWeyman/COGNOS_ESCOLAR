@@ -19,11 +19,13 @@ import { Calificacion } from '@/models/Calificacion';
 import { Ciclos_Service } from '@services/ciclos.service';
 import { ActaEvaluacion } from '@/models/ActaEvaluacion';
 import { ActaEvaService } from '@services/actaevaluacion.service';
-import { environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { ActaEvaluacionUp } from '@/models/ActaEvaluacionDataUp';
 import { ActaEvaluacionDto } from '@/models/ActaEvaluacionDTO';
 import { GeneracionesService } from '@services/generaciones.service';
 import { GeneracionGpo } from '@/models/GeneracionGpo';
+import { BajaAlumno } from '@/models/BajaAlumno';
+import { ReactivarAlumno } from '@/models/ReactivarAlumno';
 
 @Component({
   selector: 'app-alumnogpo',
@@ -35,57 +37,69 @@ export class AlumnogpoComponent {
   blockUI!: NgBlockUI;
   @ViewChild('myModalClose') modalClose;
   @ViewChild('myModalClose2') modalClose2;
+  @ViewChild('myModalBaja') modalBaja;
   @ViewChild('mat') selectElement!: ElementRef<HTMLSelectElement>;
   Usuarios: any;
   Materias: any;
   Docentes: any;
-  Grupos:any;
+  Grupos: any;
   AsignaDoc: any;
   ListaAlumnos: any;
-  Alumnos:any;
-  Generaciones:any;
-  Docente:any;
-  Actas:any;
-  acta:ActaEvaluacionUp=new ActaEvaluacionUp();
+  BajaAlumnos: any;
+  Alumnos: any;
+  Generaciones: any;
+  Docente: any;
+  Actas: any;
+  acta: ActaEvaluacionUp = new ActaEvaluacionUp();
   asignacion: Asigna = new Asigna();
   alumnoIns: AlumnoGpo = new AlumnoGpo();
   generacionIns: GeneracionGpo = new GeneracionGpo();
   alumnoCal: Calificacion = new Calificacion();
-  actaEva:ActaEvaluacion=new ActaEvaluacion();
-  actaEva2:ActaEvaluacionDto=new ActaEvaluacionDto();
+  actaEva: ActaEvaluacion = new ActaEvaluacion();
+  actaEva2: ActaEvaluacionDto = new ActaEvaluacionDto();
   resp: any;
   fecActa: any;
-  fecCrea:any;
+  fecCrea: any;
   user: any;
-  NumeroAlumnos:any;
+  NumeroAlumnos: any;
+  NumeroBajaAlumnos: any;
   selectedOption: number;
-  Ciclos:any;
-  Examen:any;
-  nombreMat:string;
-  idGrupo:number;
+  Ciclos: any;
+  Examen: any;
+  nombreMat: string;
+  idGrupo: number;
+
+  //Dar Baja Alumno
+  alumnoId = 0;     // ejemplo
+  materiaId = 0;    // ejemplo
+ // fechaBaja = new Date().toISOString().split('T')[0];
+  motivo = '';
+  fechaBaja:any;
+
+
   ngOnInit(): void {
-   // this.cargarAsignacion();
-    this.cargarAlumnos(); 
-    this.cargarMaterias(); 
+    // this.cargarAsignacion();
+    this.cargarAlumnos();
+    this.cargarMaterias();
     this.cargarGrupos();
     this.cargarCiclos();
     this.cargarTipoExamen();
     this.cargarDocentes();
-    this.user=localStorage.UserId;
-    this.alumnoIns.UsuarioCreacionID=Number(this.user);
-    this.generacionIns.UsuarioCreacionID=Number(this.user);
+    this.user = localStorage.UserId;
+    this.alumnoIns.UsuarioCreacionID = Number(this.user);
+    this.generacionIns.UsuarioCreacionID = Number(this.user);
   }
   constructor(
     private router: Router,
     private _asignacion: AsignacionService,
-    private _alumno:AlumnosService,
-    private _generacion:GeneracionesService,
+    private _alumno: AlumnosService,
+    private _generacion: GeneracionesService,
     private _docente: DocenteService,
-    private _alumnoGpo:AlumnoGpoService,
+    private _alumnoGpo: AlumnoGpoService,
     private _materia: MateriaService,
-    private _grupo:GruposService,
-    private _ciclos:Ciclos_Service,
-    private _actaeva:ActaEvaService,
+    private _grupo: GruposService,
+    private _ciclos: Ciclos_Service,
+    private _actaeva: ActaEvaService,
     private datePipe: DatePipe) { }
 
   cargarAsignacion() {
@@ -106,19 +120,19 @@ export class AlumnogpoComponent {
       al => {
         this.Alumnos = al;
         console.log(this.Alumnos);
-      
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
 
-  cargarGeneraciones(){
+  cargarGeneraciones() {
     this._generacion.GetGeneraciones().subscribe(
       gen => {
         this.Generaciones = gen;
-        console.log("entro",this.Generaciones);
-      
+        console.log("entro", this.Generaciones);
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -152,14 +166,14 @@ export class AlumnogpoComponent {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
-  } 
+  }
 
   cargarGrupos() {
     this._grupo.GetGrupos().subscribe(
       per => {
         this.Grupos = per;
         //console.log(this.Grupos);
-       
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -171,14 +185,14 @@ export class AlumnogpoComponent {
       usr => {
         this.Ciclos = usr;
         console.log(this.Ciclos);
-      /*   for(let i=0;i<this.Ciclos.length;i++){
-          this.fecIni =this.datePipe.transform(this.Ciclos[i].fechaInicio,"dd/MM/yyyy");
-          this.Ciclos[i].fechaInicio= this.fecIni;
-          this.fecFin =this.datePipe.transform(this.Ciclos[i].fechaFin,"dd/MM/yyyy");
-          this.Ciclos[i].fechaFin= this.fecFin;
-        } */
+        /*   for(let i=0;i<this.Ciclos.length;i++){
+            this.fecIni =this.datePipe.transform(this.Ciclos[i].fechaInicio,"dd/MM/yyyy");
+            this.Ciclos[i].fechaInicio= this.fecIni;
+            this.fecFin =this.datePipe.transform(this.Ciclos[i].fechaFin,"dd/MM/yyyy");
+            this.Ciclos[i].fechaFin= this.fecFin;
+          } */
         //console.log(this.Ciclos);
-       
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -190,8 +204,8 @@ export class AlumnogpoComponent {
       usr => {
         this.Examen = usr;
         console.log(this.Examen);
-    
-       
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -199,36 +213,36 @@ export class AlumnogpoComponent {
   }
 
 
-  cargarActas(id:number) {
+  cargarActas(id: number) {
     this._actaeva.GetActas(id).subscribe(
       al => {
         this.Actas = al;
         console.log('Aqui se cargan las actas');
         console.log(this.Actas);
-        for(let i=0;i<this.Actas.length;i++){
-          this.fecActa =this.datePipe.transform(this.Actas[i].fecha,"dd/MM/yyyy");
-          this.Actas[i].fecha= this.fecActa;
-        } 
+        for (let i = 0; i < this.Actas.length; i++) {
+          this.fecActa = this.datePipe.transform(this.Actas[i].fecha, "dd/MM/yyyy");
+          this.Actas[i].fecha = this.fecActa;
+        }
         console.log(this.Actas);
-      
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
-  
+
 
   ///////Busqueda de Asignacion por Materia
   onChangeMat(id: number) {
     console.log(id);
     console.log(this.idGrupo);
-    if(this.idGrupo==undefined){
+    if (this.idGrupo == undefined) {
       swal.fire({ title: 'Info!!!', text: 'Seleccione un grupo', icon: 'info' });
       this.selectElement.nativeElement.value = "0";
       return;
     }
     this.AsignaDoc = null;
-    this._asignacion.GetAsignacionMat(id,this.idGrupo).subscribe(
+    this._asignacion.GetAsignacionMat(id, this.idGrupo).subscribe(
       mat => {
         this.AsignaDoc = mat;
         //console.log(this.AsignaDoc);
@@ -237,19 +251,19 @@ export class AlumnogpoComponent {
         // console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
-  /*   if (id == 0) {
-      this.cargarAsignacion();
-    }
-    else {
-     
-    } */
+    /*   if (id == 0) {
+        this.cargarAsignacion();
+      }
+      else {
+       
+      } */
 
   }
 
   ///////Busqueda de Asignacion por grupo
   onChangeGpo(id: number) {
-    this.idGrupo=id;
-    console.log('Id grupo:'+this.idGrupo);
+    this.idGrupo = id;
+    console.log('Id grupo:' + this.idGrupo);
     this.AsignaDoc = null;
     this.selectElement.nativeElement.value = "0";
     this._asignacion.GetAsignacionGpo(id).subscribe(
@@ -261,38 +275,52 @@ export class AlumnogpoComponent {
         // console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
- /*    if (id == 0) {
-      this.cargarAsignacion();
-    } else {
-     
-    } */
+    /*    if (id == 0) {
+         this.cargarAsignacion();
+       } else {
+        
+       } */
 
   }
 
-  
-  GetAsigna(asignacionId:number,grupoId:number){
-    this.alumnoIns.AsignacionID=asignacionId;
-    this.alumnoIns.GrupoID=grupoId;
-    console.log('asignacionId '+asignacionId);
-    console.log('grupoId '+grupoId);
+
+  GetAsigna(asignacionId: number, grupoId: number) {
+    this.alumnoIns.AsignacionID = asignacionId;
+    this.alumnoIns.GrupoID = grupoId;
+    console.log('asignacionId ' + asignacionId);
+    console.log('grupoId ' + grupoId);
   }
 
-  GetAsignaGen(asignacionId:number,grupoId:number){
-    this.generacionIns.AsignacionID=asignacionId;
-    this.generacionIns.GrupoID=grupoId;
-    console.log('GENasignacionId '+asignacionId);
-    console.log('GENgrupoId '+grupoId);
+  GetAsignaGen(asignacionId: number, grupoId: number) {
+    this.generacionIns.AsignacionID = asignacionId;
+    this.generacionIns.GrupoID = grupoId;
+    console.log('GENasignacionId ' + asignacionId);
+    console.log('GENgrupoId ' + grupoId);
     this.cargarGeneraciones();
   }
 
-  GetListaAlumnos(id:number){
+  GetListaAlumnos(id: number) {
     this._alumnoGpo.GetListaAlumnos(id).subscribe(
       lista => {
         this.ListaAlumnos = lista;
-         console.log(this.ListaAlumnos);
-       /* console.log(this.ListaAlumnos.length); */
-        this.NumeroAlumnos=this.ListaAlumnos.length;
+        console.log(this.ListaAlumnos);
+        /* console.log(this.ListaAlumnos.length); */
+        this.NumeroAlumnos = this.ListaAlumnos.length;
 
+
+      }, error => {
+        //console.log(error);
+        swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
+      });
+  }
+
+   GetBajaAlumnos(id: number) {
+    this._alumnoGpo.GetBajasAlumnos(id).subscribe(
+      lista => {
+        this.BajaAlumnos = lista;
+        console.log(this.BajaAlumnos);
+        /* console.log(this.ListaAlumnos.length); */
+        this.NumeroBajaAlumnos = this.BajaAlumnos.length;
 
       }, error => {
         //console.log(error);
@@ -313,15 +341,14 @@ export class AlumnogpoComponent {
       return;
     }
 
-    
     console.log(this.alumnoIns);
-    this.alumnoIns.EstudianteID=Number(this.alumnoIns.EstudianteID);
+    this.alumnoIns.EstudianteID = Number(this.alumnoIns.EstudianteID);
     console.log(this.alumnoIns);
     //Modelo para Guardar Calificacion
-    this.alumnoCal.AsignacionID=this.alumnoIns.AsignacionID;
-    this.alumnoCal.EstudianteID=this.alumnoIns.EstudianteID;
-    this.alumnoCal.Puntaje=0;
-    this.alumnoCal.PuntajeLetra="";
+    this.alumnoCal.AsignacionID = this.alumnoIns.AsignacionID;
+    this.alumnoCal.EstudianteID = this.alumnoIns.EstudianteID;
+    this.alumnoCal.Puntaje = 0;
+    this.alumnoCal.PuntajeLetra = "";
     this._alumnoGpo.GuardarAlumnoGpo(this.alumnoIns).subscribe(datos => {
 
       if (datos) {
@@ -334,7 +361,7 @@ export class AlumnogpoComponent {
         this.limpiar();
         this.modalClose.nativeElement.click();
       }
-      this.ngOnInit(); 
+      this.ngOnInit();
 
     }, error => {
       this.blockUI.stop();
@@ -358,9 +385,9 @@ export class AlumnogpoComponent {
       });
       return;
     }
-    this.generacionIns.GeneracionID=Number(this.generacionIns.GeneracionID);
-    console.log("Generacion",this.generacionIns);
-    
+    this.generacionIns.GeneracionID = Number(this.generacionIns.GeneracionID);
+    console.log("Generacion", this.generacionIns);
+
     this._alumnoGpo.GuardarGeneracionGpo(this.generacionIns).subscribe(datos => {
 
       if (datos) {
@@ -374,7 +401,7 @@ export class AlumnogpoComponent {
         this.limpiar();
         this.modalClose.nativeElement.click();
       }
-      this.ngOnInit(); 
+      this.ngOnInit();
 
     }, error => {
       this.blockUI.stop();
@@ -387,19 +414,19 @@ export class AlumnogpoComponent {
 
   }
 
-  Reporte(id:number){
+  Reporte(id: number) {
     //console.log(id);
-    window.open(`${environment.rutaAPI}` + 'ReportActaEva/'+id);
+    window.open(`${environment.rutaAPI}` + 'ReportActaEva/' + id);
   }
 
-  GetIDAsignacion(id:number,docente:number,nombreMat:string){
-    this.actaEva.AsignacionID=id;
-    this.actaEva.DocenteID=docente;
-    this.actaEva.Sinodal=docente;
-    this.nombreMat=nombreMat;
+  GetIDAsignacion(id: number, docente: number, nombreMat: string) {
+    this.actaEva.AsignacionID = id;
+    this.actaEva.DocenteID = docente;
+    this.actaEva.Sinodal = docente;
+    this.nombreMat = nombreMat;
     this.cargarActas(id);
   }
-  GuardarActa(){
+  GuardarActa() {
     this.blockUI.start('Guardando Acta de Evaluación...');
     if (!this.actaEva.Folio) {
       this.blockUI.stop();
@@ -421,7 +448,7 @@ export class AlumnogpoComponent {
       return;
     }
 
-    if (this.actaEva.CicloID==null) {
+    if (this.actaEva.CicloID == null) {
       this.blockUI.stop();
       swal.fire({
         title: 'Información!!!',
@@ -431,7 +458,7 @@ export class AlumnogpoComponent {
       return;
     }
 
-    if (this.actaEva.TipoExamenID==null) {
+    if (this.actaEva.TipoExamenID == null) {
       this.blockUI.stop();
       swal.fire({
         title: 'Información!!!',
@@ -443,114 +470,114 @@ export class AlumnogpoComponent {
 
 
     console.log(this.actaEva);
-    this.actaEva.CicloID=Number(this.actaEva.CicloID);
-    this.actaEva.TipoExamenID=Number(this.actaEva.TipoExamenID);
+    this.actaEva.CicloID = Number(this.actaEva.CicloID);
+    this.actaEva.TipoExamenID = Number(this.actaEva.TipoExamenID);
     console.log(this.actaEva);
     this._actaeva.GuardarActa(this.actaEva).subscribe(datos => {
-    var id=Number(this.actaEva.AsignacionID);
+      var id = Number(this.actaEva.AsignacionID);
       if (datos) {
 
         this.blockUI.stop();
         this.resp = datos;
         swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
         this.cargarActas(id);
-        this.actaEva.ActaEvaluacionID=null;
-        this.actaEva.AsignacionID=null;
-        this.actaEva.CicloID=null;
-        this.actaEva.TipoExamenID=null;
-        this.actaEva.Folio=null;
-        this.actaEva.Fecha=null;
+        this.actaEva.ActaEvaluacionID = null;
+        this.actaEva.AsignacionID = null;
+        this.actaEva.CicloID = null;
+        this.actaEva.TipoExamenID = null;
+        this.actaEva.Folio = null;
+        this.actaEva.Fecha = null;
 
       }
-   
+
     }, error => {
       this.blockUI.stop();
       console.log(error);
       swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
       this.limpiar();
       this.modalClose.nativeElement.click();
-      
+
 
     });
   }
 
-  limpiar(){
-    this.alumnoIns.AsignacionID=null;
-    this.alumnoIns.GrupoID=null;
-    this.alumnoIns.EstudianteID=null;
+  limpiar() {
+    this.alumnoIns.AsignacionID = null;
+    this.alumnoIns.GrupoID = null;
+    this.alumnoIns.EstudianteID = null;
 
-    this.alumnoCal.AsignacionID=null;
-    this.alumnoCal.EstudianteID=null;
-    this.alumnoCal.Puntaje=null;
-    this.alumnoCal.PuntajeLetra=null;
-   
+    this.alumnoCal.AsignacionID = null;
+    this.alumnoCal.EstudianteID = null;
+    this.alumnoCal.Puntaje = null;
+    this.alumnoCal.PuntajeLetra = null;
+
   }
 
 
-  GetActa(id:number){
+  GetActa(id: number) {
     this._actaeva.GetActaID(id).subscribe(
       al => {
         this.acta = al;
         console.log('Aqui se cargan las actas');
         console.log(this.acta);
-        this.fecActa =this.datePipe.transform(this.acta.fecha,"yyyy-MM-dd");
-        this.acta.fecha= this.fecActa;
+        this.fecActa = this.datePipe.transform(this.acta.fecha, "yyyy-MM-dd");
+        this.acta.fecha = this.fecActa;
         console.log(this.acta);
-      
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
 
-  ActualizaActa(acta:ActaEvaluacionUp){
+  ActualizaActa(acta: ActaEvaluacionUp) {
     this.blockUI.start('Actualizando Acta de Evaluación...');
 
-    this.actaEva2.ActaEvaluacionID=acta.actaEvaluacionID;
-    this.actaEva2.AsignacionID=acta.asignacionID;
-    this.actaEva2.CicloID=acta.cicloID;
-    this.actaEva2.TipoExamenID=acta.tipoExamenID;
-    this.actaEva2.DocenteID=acta.docenteID;
-    this.actaEva2.Folio=acta.folio;
-    this.actaEva2.Fecha=acta.fecha;
-    this.actaEva2.Sinodal=acta.sinodal;
-    this.actaEva2.Activo=acta.activo;
+    this.actaEva2.ActaEvaluacionID = acta.actaEvaluacionID;
+    this.actaEva2.AsignacionID = acta.asignacionID;
+    this.actaEva2.CicloID = acta.cicloID;
+    this.actaEva2.TipoExamenID = acta.tipoExamenID;
+    this.actaEva2.DocenteID = acta.docenteID;
+    this.actaEva2.Folio = acta.folio;
+    this.actaEva2.Fecha = acta.fecha;
+    this.actaEva2.Sinodal = acta.sinodal;
+    this.actaEva2.Activo = acta.activo;
 
 
     this._actaeva.UpdateActa(this.actaEva2).subscribe(datos => {
-      var id=Number(this.actaEva.AsignacionID);
-        if (datos) {
-  
-          this.blockUI.stop();
-          this.modalClose2.nativeElement.click();
-          this.resp = datos;
-          swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
-          this.cargarActas(id);
-          this.actaEva2.ActaEvaluacionID=null;
-          this.actaEva2.AsignacionID=null;
-          this.actaEva2.CicloID=null;
-          this.actaEva2.TipoExamenID=null;
-          this.actaEva2.DocenteID=null;
-          this.actaEva2.Folio=null;
-          this.actaEva2.Fecha=null;
-          this.actaEva2.Sinodal=null;
-          this.actaEva2.Activo=null;
-  
-        }
-     
-      }, error => {
+      var id = Number(this.actaEva.AsignacionID);
+      if (datos) {
+
         this.blockUI.stop();
-        console.log(error);
-        swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
-        this.limpiar();
         this.modalClose2.nativeElement.click();
-        
-  
-      });
+        this.resp = datos;
+        swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
+        this.cargarActas(id);
+        this.actaEva2.ActaEvaluacionID = null;
+        this.actaEva2.AsignacionID = null;
+        this.actaEva2.CicloID = null;
+        this.actaEva2.TipoExamenID = null;
+        this.actaEva2.DocenteID = null;
+        this.actaEva2.Folio = null;
+        this.actaEva2.Fecha = null;
+        this.actaEva2.Sinodal = null;
+        this.actaEva2.Activo = null;
+
+      }
+
+    }, error => {
+      this.blockUI.stop();
+      console.log(error);
+      swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+      this.limpiar();
+      this.modalClose2.nativeElement.click();
+
+
+    });
 
   }
- 
-  EliminarActa(id:number,asignacionId:number){
+
+  EliminarActa(id: number, asignacionId: number) {
     swal.fire({
       title: "Esta seguro de que quiere eliminar esta acta?",
       text: "Una vez eliminada no se podra recuperar!",
@@ -564,24 +591,113 @@ export class AlumnogpoComponent {
       if (result.isConfirmed) {
         this.blockUI.start('Eliminando Acta de Evaluación...');
         this._actaeva.DeleteActa(id).subscribe(datos => {
-          
-            if (datos) {
-              this.blockUI.stop();
-              this.resp = datos;
-              swal.fire('Eliminando Acta', `${this.resp.descripcion}`, 'success');
-              this.cargarActas(asignacionId);
-            }
-         
-          }, error => {
+
+          if (datos) {
             this.blockUI.stop();
-            console.log(error);
-            swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
-          });
-    
+            this.resp = datos;
+            swal.fire('Eliminando Acta', `${this.resp.descripcion}`, 'success');
+            this.cargarActas(asignacionId);
+          }
+
+        }, error => {
+          this.blockUI.stop();
+          console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+        });
+
       }
     });
   }
 
- 
+  DarBaja(idEstudiante: number, IdMateria: number) {
+    this.alumnoId = idEstudiante;
+    this.materiaId = IdMateria
+  }
+
+  darBajaAlumno() {
+    const datos: BajaAlumno = {
+      alumnoId: this.alumnoId,
+      materiaId: this.materiaId,
+      fechaBaja: this.fechaBaja,
+      motivo: this.motivo
+    };
+    this.blockUI.start('Dando de baja alumno...');
+    console.log(datos);
+    this._alumnoGpo.darDeBaja(datos).subscribe({
+      next: (resp) => {
+        console.log(resp);
+
+        this.blockUI.stop();
+        //this.resp = datos;
+        swal.fire('Baja Alumno', resp.mensaje, 'success');
+        this.fechaBaja = '';
+        this.motivo=null;
+        this.GetListaAlumnos(this.materiaId);
+        //this._alumnoGpo.GuardarCalificacionTemp(this.alumnoCal).subscribe();
+        this.router.navigate(['/alunogpo']);
+
+        this.modalBaja.nativeElement.click();
+      },
+      error: (err) => {
+        this.blockUI.stop();
+        console.log(err);
+        console.log(err.error);
+
+        this.modalBaja.nativeElement.click();
+        swal.fire({
+          title: 'ERROR!!!',
+          text: err.error.mensaje || 'Ocurrió un error inesperado',
+          icon: 'error'
+        });
+        //swal.fire({ title: 'ERROR!!!', text: err.error, icon: 'error' });
+      }
+    });
+  }
+
+
+  Reactivar(EstudianteId:number,MateriaId:number) {
+    const datos: ReactivarAlumno = {
+      alumnoId: EstudianteId,
+      materiaId: MateriaId
+    };
+    this.blockUI.start('Reactivando alumno...');
+    console.log(datos);
+    this._alumnoGpo.ReactivarAlumno(datos).subscribe({
+      next: (resp) => {
+        console.log(resp);
+
+        this.blockUI.stop();
+        //this.resp = datos;
+        swal.fire('Reactivar Alumno', resp.mensaje, 'success');
+        this.GetBajaAlumnos(MateriaId);
+        //this._alumnoGpo.GuardarCalificacionTemp(this.alumnoCal).subscribe();
+        this.router.navigate(['/alunogpo']);
+
+        this.modalBaja.nativeElement.click();
+      },
+      error: (err) => {
+        this.blockUI.stop();
+        console.log(err);
+        console.log(err.error);
+
+        this.modalBaja.nativeElement.click();
+        swal.fire({
+          title: 'ERROR!!!',
+          text: err.error.mensaje || 'Ocurrió un error inesperado',
+          icon: 'error'
+        });
+        //swal.fire({ title: 'ERROR!!!', text: err.error, icon: 'error' });
+      }
+    });
+  }
+
+
+Revalidar(EstudianteId:number,MateriaId:number){
+  alert('Estudiante: '+EstudianteId);
+  alert('Materia: '+MateriaId);
+console.log('Estudiante: '+EstudianteId);
+console.log('Materia: '+MateriaId);
+}
+
 
 }
