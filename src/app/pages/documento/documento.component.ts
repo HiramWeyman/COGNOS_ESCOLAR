@@ -175,8 +175,10 @@ export class DocumentoComponent {
         }else{
           if(Tipodoc==2){
             console.log('Opción 2 Boleta de Calificaciones');
-            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre+'/'+Ciclo);
-          }
+            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre);
+
+/*             window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre+'/'+Ciclo);
+ */          }
           else if(Tipodoc==3){
             console.log('Opción 3 Kardex de Calificaciones');
             window.open(`${environment.rutaAPI}` + 'ReportKardex/' + idEstudiante);
