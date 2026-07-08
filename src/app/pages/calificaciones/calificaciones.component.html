@@ -43,8 +43,28 @@
         </div>
      <!----------------------------------------------------->
     </div>
+    <!-- Importar calificaciones desde Excel (solo admin y maestro) -->
+    <div class="row" style="margin-left: 5px; margin-bottom: 10px;" *ngIf="Perfil==4 || Perfil==2">
+        <div class="form-group col-md-6 d-flex align-items-end gap-2">
+            <div class="flex-grow-1">
+                <label><b>Importar calificaciones desde Excel</b></label>
+                <input id="inputExcelCalif"
+                       type="file"
+                       accept=".xlsx,.xls"
+                       class="form-control"
+                       (change)="onArchivoSeleccionado($event)">
+            </div>
+            <button type="button"
+                    class="btn btn-success"
+                    style="white-space: nowrap;"
+                    (click)="importarExcel()">
+                <i class="fa fa-upload"></i> Importar Excel
+            </button>
+        </div>
+    </div>
+
     <div class="container" style="margin-left: 5px;">
-        <ng-template [ngIf]="Perfil==1" [ngIfElse]="elseBlock2">
+          <ng-template [ngIf]="Perfil==1" [ngIfElse]="elseBlock2">
             <table class="table table-fixed">
                 <thead>
                     <tr>

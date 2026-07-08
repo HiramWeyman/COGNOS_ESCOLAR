@@ -64,4 +64,10 @@ export class CalificacionService {
     return this.http.patch<Asigna>(`${environment.rutaAPI}` + 'deleteAsignacion/'+id, "");
   } 
 
+  ImportarCalificacionesExcel(asignacionId: number, archivo: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', archivo, archivo.name);
+    return this.http.post<any>(`${environment.rutaAPI}importarCalificacionesExcel/${asignacionId}`, formData);
+  }
+
 }
