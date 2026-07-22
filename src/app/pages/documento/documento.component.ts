@@ -31,7 +31,7 @@ export class DocumentoComponent {
   alumnoIns: AlumnoIns = new AlumnoIns();
   resp: any;
   fecCrea: any;
-  fecCert:any;
+  fecCert: any;
   nosemestre: number = null;
   nociclo: number = null;
   tipo: number = null;
@@ -76,8 +76,8 @@ export class DocumentoComponent {
   }
 
   ////Buscar en la tabla
-    // Tus variables y métodos existentes...
-    searchString: string;
+  // Tus variables y métodos existentes...
+  searchString: string;
 
   get filteredUsuarios() {
     return this.filterUsuarios(this.Alumnos, this.searchString);
@@ -159,45 +159,45 @@ export class DocumentoComponent {
       });
   }
 
-  ConsultaDoc(idEstudiante: number, Tipodoc: number, Semestre: number,Ciclo: number) {
-  
+  ConsultaDoc(idEstudiante: number, Tipodoc: number, Semestre: number, Ciclo: number) {
+
 
     this._alumno.GetCountCal(idEstudiante).subscribe(
       al => {
         this.NoCalificaciones = al;
         console.log(this.NoCalificaciones);
-        if(this.NoCalificaciones==0){
+        if (this.NoCalificaciones == 0) {
           swal.fire({
             title: 'Información!!!',
             text: 'El alumno aún no tiene calificaciones',
             icon: 'info'
           });
-        }else{
-          if(Tipodoc==2){
+        } else {
+          if (Tipodoc == 2) {
             console.log('Opción 2 Boleta de Calificaciones');
-            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre);
+            window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/' + Semestre);
 
 /*             window.open(`${environment.rutaAPI}` + 'ReportBoleta/' + idEstudiante + '/'+Semestre+'/'+Ciclo);
  */          }
-          else if(Tipodoc==3){
+          else if (Tipodoc == 3) {
             console.log('Opción 3 Kardex de Calificaciones');
             window.open(`${environment.rutaAPI}` + 'ReportKardex/' + idEstudiante);
           }
-          else{
+          else {
             console.log('Opción 4 Cerfificado');
             window.open(`${environment.rutaAPI}` + 'ReportCertificado/' + idEstudiante);
           }
 
         }
-      
-    
-      
+
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
-    
-  
+
+
   }
 
   Limpiar() {
@@ -206,33 +206,33 @@ export class DocumentoComponent {
   }
 
   //Solo Se obtiene el i del estudiante para meterlo al modelo
-  CrearCertificado(IdEstudiante:number){
-   this.certificado.EstudianteID=IdEstudiante;
+  CrearCertificado(IdEstudiante: number) {
+    this.certificado.EstudianteID = IdEstudiante;
   }
 
-  cargarCertificados(id:number) {
+  cargarCertificados(id: number) {
     console.log(id);
     this._alumno.GetCertificados(id).subscribe(
       al => {
         this.certificadoList = al;
         console.log('Aqui se cargan las actas');
         console.log(this.certificadoList);
-        for(let i=0;i<this.certificadoList.length;i++){
-          this.fecCert =this.datePipe.transform(this.certificadoList[i].fecha,"dd/MM/yyyy");
-          this.certificadoList[i].fecha= this.fecCert;
+        for (let i = 0; i < this.certificadoList.length; i++) {
+          this.fecCert = this.datePipe.transform(this.certificadoList[i].fecha, "dd/MM/yyyy");
+          this.certificadoList[i].fecha = this.fecCert;
         }
-   
-      
-      
+
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
       });
   }
-  
-  GuardarCertificado(){
-    this.blockUI.start('Guardando Acta de Evaluación...');
-  
+
+  GuardarCertificado() {
+    this.blockUI.start('Creando Certificado...');
+
 
     if (!this.certificado.noCertificado) {
       this.blockUI.stop();
@@ -274,43 +274,43 @@ export class DocumentoComponent {
         swal.fire('Guardando Datos', `${this.resp.descripcion}`, 'success');
         console.log(this.certificado.EstudianteID);
         this.cargarCertificados(this.certificado.EstudianteID);
-        this.certificado.certificadoID=null;
-        this.certificado.noCertificado=null;
-        this.certificado.estudianteID=null;
-        this.certificado.EstudianteID=null;
-        this.certificado.folio=null;
-        this.certificado.eliminado=null;
-        this.certificado.fecha=null;
+        this.certificado.certificadoID = null;
+        this.certificado.noCertificado = null;
+        this.certificado.estudianteID = null;
+        this.certificado.EstudianteID = null;
+        this.certificado.folio = null;
+        this.certificado.eliminado = null;
+        this.certificado.fecha = null;
 
       }
-   
+
     }, error => {
       this.blockUI.stop();
       console.log(error);
       swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
       //this.limpiar();
       //this.modalClose2.nativeElement.click();
-      
+
 
     });
   }
 
-  Reporte(id:number){
+  Reporte(id: number) {
     //console.log(id);
-    window.open(`${environment.rutaAPI}` + 'ReportCertificado/'+id);
+    window.open(`${environment.rutaAPI}` + 'ReportCertificado/' + id);
   }
 
-  GetCertificado(idCertificado:number){
+  GetCertificado(idCertificado: number) {
 
     this._alumno.GetCertificado(idCertificado).subscribe(
       al => {
         this.certificado = al;
         console.log('Aqui se Obtiene el certificado');
         console.log(this.certificado);
-        this.fecCert =this.datePipe.transform(this.certificado.fecha,"yyyy-MM-dd");
-        this.certificado.fecha= this.fecCert;
-    
-      
+        this.fecCert = this.datePipe.transform(this.certificado.fecha, "yyyy-MM-dd");
+        this.certificado.fecha = this.fecCert;
+
+
       }, error => {
         //console.log(error);
         swal.fire({ title: 'ERROR!!!', text: error.message, icon: 'error' });
@@ -318,7 +318,7 @@ export class DocumentoComponent {
     console.log(idCertificado);
   }
 
-  EliminarCertificado(idCertificado:number,EstudianteId:number){
+  EliminarCertificado(idCertificado: number, EstudianteId: number) {
     console.log(idCertificado);
     swal.fire({
       title: "Esta seguro de que quiere eliminar este certificado?",
@@ -333,27 +333,27 @@ export class DocumentoComponent {
       if (result.isConfirmed) {
         this.blockUI.start('Eliminando Certificado ...');
         this._alumno.DeleteCertificado(idCertificado).subscribe(datos => {
-          
-            if (datos) {
-              this.blockUI.stop();
-              this.resp = datos;
-              swal.fire('Eliminando Certificado', `${this.resp.descripcion}`, 'success');
-              this.cargarCertificados(EstudianteId);
-            }
-         
-          }, error => {
+
+          if (datos) {
             this.blockUI.stop();
-            console.log(error);
-            swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
-          });
-    
+            this.resp = datos;
+            swal.fire('Eliminando Certificado', `${this.resp.descripcion}`, 'success');
+            this.cargarCertificados(EstudianteId);
+          }
+
+        }, error => {
+          this.blockUI.stop();
+          console.log(error);
+          swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
+        });
+
       }
     });
   }
 
-  ActualizaCertificado(cert:Certificado){
-     console.log(cert);
-     this._alumno.UpdateCertificado(this.certificado).subscribe(datos => {
+  ActualizaCertificado(cert: Certificado) {
+    console.log(cert);
+    this._alumno.UpdateCertificado(this.certificado).subscribe(datos => {
       if (datos) {
 
         this.blockUI.stop();
@@ -361,21 +361,21 @@ export class DocumentoComponent {
         swal.fire('Actualizando Datos', `${this.resp.descripcion}`, 'success');
         console.log(this.certificado.estudianteID);
         this.cargarCertificados(this.certificado.estudianteID);
-        this.certificado.certificadoID=null;
-        this.certificado.noCertificado=null;
-        this.certificado.estudianteID=null;
-        this.certificado.EstudianteID=null;
-        this.certificado.folio=null;
-        this.certificado.eliminado=null;
-        this.certificado.fecha=null;
+        this.certificado.certificadoID = null;
+        this.certificado.noCertificado = null;
+        this.certificado.estudianteID = null;
+        this.certificado.EstudianteID = null;
+        this.certificado.folio = null;
+        this.certificado.eliminado = null;
+        this.certificado.fecha = null;
         this.modalClose3.nativeElement.click();
       }
-   
+
     }, error => {
       this.blockUI.stop();
       console.log(error);
       swal.fire({ title: 'ERROR!!!', text: error.error, icon: 'error' });
- 
+
     });
   }
 

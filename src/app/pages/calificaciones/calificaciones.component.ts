@@ -36,6 +36,7 @@ export class CalificacionesComponent {
   resp: any;
   fecCrea: any;
   valortemporal: number;
+  archivoExcel: File | null = null;
   tiposExamen: { id: number, nombre: string }[] = [
     { id: 2, nombre: 'Ordinario' },
     { id: 3, nombre: 'Extraordinario' },
@@ -261,5 +262,53 @@ export class CalificacionesComponent {
   }
 
 
+
+  onArchivoSeleccionado(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.archivoExcel = input.files[0];
+    }
+  }
+
+  importarExcel(): void {
+    if (!this.archivoExcel) {
+      swal.fire('Aviso', 'Selecciona un archivo Excel antes de importar.', 'warning');
+      return;
+    }
+    if (!this.valortemporal) {
+      swal.fire('Aviso', 'Primero selecciona una materia/asignación.', 'warning');
+      return;
+    }
+    this.blockUI.start('Importando calificaciones...');
+    this._calificacion.ImportarCalificacionesExcel(this.valortemporal, this.archivoExcel).subscribe(
+      (res: any) => {
+        this.blockUI.stop();
+        const detalles = res.detalles?.join('\n') ?? '';
+        swal.fire({
+          title: 'Importación completada',
+          html: `<b>Actualizadas:</b> ${res.actualizadas}<br><b>Errores:</b> ${res.errores}<br><pre style="text-align:left;font-size:12px;max-height:200px;overflow:auto">${detalles}</pre>`,
+          icon: res.errores === 0 ? 'success' : 'warning'
+        });
+        this.archivoExcel = null;
+        // Resetear el input file
+        const inputFile = document.getElementById('inputExcelCalif') as HTMLInputElement;
+        if (inputFile) inputFile.value = '';
+        this.CaragarActualizacion();
+      },
+      error => {
+        this.blockUI.stop();
+
+        console.log(error);
+        console.log(error.error.descripcion);
+        console.log(error.descripcion);
+
+        swal.fire({
+          title: 'ERROR!!!',
+          text: error.error.descripcion,
+          icon: 'error'
+        });
+      }
+    );
+  }
 
 }
